@@ -1,0 +1,10 @@
+.adminbody {
+  background-color: #b5cdd9 !important;
+  height: 100vh;
+}
+
+.cardAlignMiddle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
