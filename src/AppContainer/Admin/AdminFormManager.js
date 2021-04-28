@@ -1,30 +1,42 @@
 import React from "react";
 import { 
   MDBContainer, MDBRow, MDBCol, MDBCard, 
-  MDBCardBody, MDBCardTitle , MDBIcon
+  MDBCardBody, MDBIcon, MDBBtn
 } from 'mdbreact';
 import AdminStyle from '../../AppStyles/AdminStyles.module.css';
 import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
-import LocationManagerTabs from '../../AppComponents/AdminComp/AdminLocationComponents/LocationManagerTabs';
+import FormManagerComponents from '../../AppComponents/AdminComp/AdminFormManagerComponents/FormManagerComponent';
 import { Link, useHistory } from 'react-router-dom';
 
-function AdminLocationManager () {
+function AdminFormManager () {
   const history = useHistory();
   
+  const saveBtnStyle = {
+    fontSize:'12px',
+    borderRadius:'20px'
+  }
 
   return (
-    <MDBContainer fluid className={AdminStyle.adminbody2}>
+    <MDBContainer fluid className={AdminStyle.adminbody}>
       <AdminNavbar />
       <MDBContainer>
         <MDBRow>
           <MDBCol className={AdminStyle.cardAlignMiddle}>
-            <MDBCard style={{ width: "30rem",borderRadius:"20px" }}>
+            <MDBCard style={{ width: "45rem",borderRadius:"20px" }}>
               <MDBCardBody className="text-center mt-5">
-                <MDBCardTitle cascade className='text-center'>Location Manager</MDBCardTitle>
-                    <MDBRow className="mt-5">
-                        <LocationManagerTabs />
-                    </MDBRow>
-                
+               
+                <div>
+                <FormManagerComponents />
+                </div>
+
+                <div>
+                <MDBBtn
+                        type="button"
+                        color="blue"
+                        style={saveBtnStyle}
+                        size="sm"
+                >Save</MDBBtn>
+                </div>
 
                 <p className="mt-5 font-small text-center pb-3">
                     <a href="#!" className="black-text ml-1">
@@ -44,4 +56,4 @@ function AdminLocationManager () {
   
 }
 
-export default AdminLocationManager;
+export default AdminFormManager;

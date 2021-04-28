@@ -6,7 +6,7 @@ import {
 } from 'mdbreact';
 import AdminStyle from '../../AppStyles/AdminStyles.module.css';
 import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
-import Locations from '../../AppComponents/AdminComp/Locations';
+import Locations from '../../AppComponents/AdminComp/AdminLocationComponents/Locations';
 import { Link, useHistory } from 'react-router-dom';
 
 function AdminSetLocation () {

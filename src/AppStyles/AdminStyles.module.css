@@ -1,5 +1,16 @@
 .adminbody {
   background-color: #b5cdd9 !important;
+  height: 100%;
+}
+
+.adminbody2 {
+  background-color: #b5cdd9 !important;
+  height: 100vh;
+}
+
+.adminBrandPagebody {
+  background-color: #ffffff !important;
+  color: black !important;
   height: 100vh;
 }
 

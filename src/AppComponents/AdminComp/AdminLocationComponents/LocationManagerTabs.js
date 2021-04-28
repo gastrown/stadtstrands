@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import LocationManagerTab from './LocationManagerTab';
-import { MDBContainer, MDBRow} from 'mdbreact';
+import { MDBCol, MDBContainer, MDBRow} from 'mdbreact';
 import { Link } from 'react-router-dom';
 
 
@@ -34,11 +34,13 @@ function LocationManagerTabs() {
         
         let locationTabs = tabs.map( locationtab => {
                 return(
-                    <Link to={locationtab.tablink} key={locationtab.id}> 
-                        <LocationManagerTab 
-                            key={locationtab.id}
-                            locationtabtitle={locationtab.locationtabtitle}/>
-                    </Link>
+                    <MDBCol size="6" md="6" className="mt-5">
+                        <Link to={locationtab.tablink} key={locationtab.id}> 
+                            <LocationManagerTab 
+                                key={locationtab.id}
+                                locationtabtitle={locationtab.locationtabtitle}/>
+                        </Link>
+                    </MDBCol>
                     );
                 }
         );
