@@ -1,30 +1,15 @@
 import React from 'react';
+import AdminStyle from '../../../AppStyles/AdminStyles.module.css';
 import { MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 
 
 export default function BrandPageFormDetails() {
-    const imgstyle = {
-        width:"130px",
-        height:"110px",
-        borderRadius:"15px",
-        backgroundColor:'#ffffff', 
-        color:'#000000', 
-        padding:'10px',
-        border:'2px solid #cccccc',
-        fontSize: '14px'
-    }
-
-    const uploadDiv = {
-        textAlign:'center',
-        display: 'none'
-    }
-
+    
     const imageFileStyle = {
         padding:'10px',
         border:'1px dotted #CCCCCC',
         marginLeft: '12px',
         width:'60%',
-        boxShadow:'1px 1px 0.5px 1px #888888',
         borderRadius:"10px",
         textAlign:'center',
         fontSize:'12px',
@@ -46,36 +31,40 @@ export default function BrandPageFormDetails() {
                     </div> 
 
                     <div>
-                        <input type="file" id="file" style={uploadDiv}
+                        <input type="file" id="file" className={AdminStyle.uploadDiv}
                                         onChange={(e) => onChangeFile(e)}/>
-                        <label htmlFor="file" style={imgstyle}>
+                        <label htmlFor="file" className={AdminStyle.imgInputStyle}>
                             
                             <br/>
                             Logo 
                         </label>
                     </div>  
-                    <div className="form-group mt-4">
-                        <input style={{border:'1px dotted black', borderRadius:'10px'}} 
-                        type="text" className="form-control text-center" 
-                        placeholder="Enter welcome text here" />
+                    <div className="form-group row mt-4">
+                        <div className="col-md-8 offset-md-2">
+                            <textarea style={{border:'1px dotted black', borderRadius:'10px'}} className="form-control text-center" >
+                            Enter text here
+                            </textarea>
+                        </div>
                     </div> 
-                    <div>
-                        <input  type="file" 
-                                id="file" 
-                                style={{display: "none"}}
-                                onChange={(e) => onChangeFile(e)}/>
-                        <label htmlFor="file" style={imageFileStyle}>
-                                 Add location image 
-                                <span className='fa fa-download ml-3' 
-                                      style={{backgroundColor:'#39729b', color:'#ffffff', padding:'5px', borderRadius:'10px'}}> 
-                                </span>
-                        </label>
+                    <div className="form-group row mt-4">
+                        <div className="col-md-6 offset-md-3">
+                            <input  type="file" 
+                                    id="file" 
+                                    style={{display: "none"}}
+                                    onChange={(e) => onChangeFile(e)}/>
+                            <label htmlFor="file" style={imageFileStyle}>
+                                    Add location image 
+                                    <span className='fa fa-download ml-3' 
+                                        style={{backgroundColor:'#39729b', color:'#ffffff', padding:'5px', borderRadius:'10px'}}> 
+                                    </span>
+                            </label>
+                        </div>
                     </div>
 
                     <div className="mt-2">
                         <MDBBtn
                           type="button"
-                          color="blue"
+                          color="#39729b"
                           style={{borderRadius:'20px'}}
                           className="waves-effect z-depth-1a"
                           size="sm"

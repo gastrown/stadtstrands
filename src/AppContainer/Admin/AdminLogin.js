@@ -7,7 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 function AdminLogin () {
   const history = useHistory();
   return (
-    <MDBContainer fluid className={AdminStyle.adminbody}>
+    <MDBContainer fluid className={AdminStyle.adminbody2}>
       <AdminNavbar />
       <MDBContainer>
         <MDBRow>
@@ -50,14 +50,11 @@ function AdminLogin () {
                 <Link className="blue-text ml-1" to="/admin/0/signup">Sign up</Link>
               </p>
 
-              <p className="mt-5 font-small text-center pb-3">
-                <a href="#!" className="black-text ml-1">
-                
-                  <a onClick={history.goBack} href="#!" className="black-text">
-                    <MDBIcon icon="chevron-circle-left" /> Back 
-                  </a>
-                </a>
-              </p>
+              <div className="mt-5 font-small text-center pb-3">
+                        <div onClick={history.goBack} className="black-text">
+                            <MDBIcon icon="chevron-circle-left" /> Back 
+                        </div>
+              </div>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

@@ -1,60 +1,31 @@
-import { MDBCol, MDBContainer, MDBRow, MDBIcon } from 'mdbreact';
 import React from 'react';
+import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
+import AdminStyles from '../../../AppStyles/AdminStyles.module.css';
 
-export default function BrandPageIcons() {
-    const circleIcon = {
-        width: '80px',
-        height: '80px',
-        background: '#1976D2',
-        borderRadius: '50%',
-       
-    }
+import BrandIcon from './BrandIcon';
 
-    const textStyle = {
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize:'11px',
-        color:'#ffffff'
-    }
+
+export default function BrandPageIcons(props) {
+    
+
+    let brandPageIcons = props.icons.map( brandicon => {
+        return(
+            <MDBCol size="4" md="2" className="mt-3">
+                <div onClick={brandicon.iconToggle} key={brandicon.id} className={AdminStyles.iconButton}> 
+                    <BrandIcon 
+                        key={brandicon.id}
+                        iconName={brandicon.iconName}
+                        iconTitle={brandicon.iconTitle}/>
+                </div>
+            </MDBCol>
+            );
+        }
+    );
+
     return (
         <MDBContainer>
             <MDBRow>
-                <MDBCol size="4" md="2" className="mt-3 ">
-                    <div style={circleIcon}>
-                        <MDBIcon icon="heart" style={{paddingTop:'15px',fontSize:'30px',color:'#ffffff'}}/>
-                        <p style={textStyle}>Welcome</p>
-                    </div>
-                </MDBCol>
-                <MDBCol size="4" md="2" className="mt-3">
-                    <div style={circleIcon}>
-                        <MDBIcon icon="heart" style={{paddingTop:'15px',fontSize:'30px',color:'#ffffff'}}/>
-                        <p style={textStyle}>Welcome</p>
-                    </div>
-                </MDBCol>
-                <MDBCol size="4" md="2" className="mt-3">
-                    <div style={circleIcon}>
-                        <MDBIcon icon="heart" style={{paddingTop:'15px',fontSize:'30px',color:'#ffffff'}}/>
-                        <p style={textStyle}>Welcome</p>
-                    </div>
-                </MDBCol>
-                <MDBCol size="4" md="2" className="mt-3">
-                    <div style={circleIcon}>
-                        <MDBIcon icon="heart" style={{paddingTop:'15px',fontSize:'30px',color:'#ffffff'}}/>
-                        <p style={textStyle}>Welcome</p>
-                    </div>
-                </MDBCol>
-                <MDBCol size="4" md="2" className="mt-3">
-                    <div style={circleIcon}>
-                        <MDBIcon icon="heart" style={{paddingTop:'15px',fontSize:'30px',color:'#ffffff'}}/>
-                        <p style={textStyle}>Welcome</p>
-                    </div>
-                </MDBCol>
-                <MDBCol size="4" md="2" className="mt-3 ">
-                    <div style={circleIcon}>
-                        <MDBIcon icon="heart" style={{paddingTop:'15px',fontSize:'30px',color:'#ffffff'}}/>
-                        <p style={textStyle}>Welcome</p>
-                    </div>
-                </MDBCol>
+                {brandPageIcons}
             </MDBRow>
         </MDBContainer>
     )

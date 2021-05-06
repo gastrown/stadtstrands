@@ -7,7 +7,7 @@ import {
 import AdminStyle from '../../AppStyles/AdminStyles.module.css';
 import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
 import Locations from '../../AppComponents/AdminComp/AdminLocationComponents/Locations';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function AdminSetLocation () {
   const history = useHistory();
@@ -43,14 +43,14 @@ function AdminSetLocation () {
 }
 
   return (
-    <MDBContainer fluid className={AdminStyle.adminbody}>
+    <MDBContainer fluid className={AdminStyle.adminbody2}>
       <AdminNavbar />
       <MDBContainer>
         <MDBRow>
           <MDBCol className={AdminStyle.cardAlignMiddle}>
             <MDBCard style={{ width: "30rem",borderRadius:"20px" }}>
               <MDBCardBody className="text-center mt-5">
-                <MDBCardTitle cascade className='text-center'>Set your location</MDBCardTitle>
+                <MDBCardTitle className='text-center'>Set your location</MDBCardTitle>
                 <div>
                     <MDBIcon style={iconStyle} icon="map-marker-alt" />
                 </div>
@@ -68,8 +68,8 @@ function AdminSetLocation () {
                     >
                     Add Location
                     </MDBBtn>
-                    <MDBModal isOpen={modal} toggle={toggle} size="sm" centered>
-                     
+
+                    <MDBModal isOpen={modal} toggle={toggle} size="sm" centered rounded-20>
                       <MDBModalBody>
                         <h5 className='text-center'>Add Location</h5>
                         <div>
@@ -97,16 +97,14 @@ function AdminSetLocation () {
                         </div>
                       </MDBModalBody>
                     </MDBModal>
+
                 </div>
 
-              <p className="mt-5 font-small text-center pb-3">
-                <a href="#!" className="black-text ml-1">
-                
-                  <Link onClick={history.goBack} className="black-text">
+              <div className="mt-5 font-small text-center pb-3">
+                  <div onClick={history.goBack} className="black-text">
                     <MDBIcon icon="chevron-circle-left" /> Back 
-                  </Link>
-                </a>
-              </p>
+                  </div>
+              </div>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

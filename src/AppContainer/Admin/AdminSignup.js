@@ -7,7 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 function AdminSignup () {
   const history = useHistory();
   return (
-    <MDBContainer fluid className={AdminStyle.adminbody}>
+    <MDBContainer fluid className={AdminStyle.adminbody2}>
       <AdminNavbar />
       <MDBContainer>
         <MDBRow>

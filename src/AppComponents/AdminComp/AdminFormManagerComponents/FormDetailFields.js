@@ -64,7 +64,7 @@ function FormDetailFields() {
                                     type={field.inputtype}
                                     hint={field.placeholder}
                                     append={
-                                        <i class="fa fa-minus-circle mt-3 ml-3"></i>
+                                        <i className="fa fa-minus-circle mt-3 ml-3"></i>
                                     }
                                 />
                             </MDBCol>
@@ -77,7 +77,7 @@ function FormDetailFields() {
                                     <MDBCol size="8">
                                         <MDBBtn
                                         type="button"
-                                        color="blue"
+                                        color="#39729b"
                                         style={btnStyle}
                                         size="sm"
                                         >Remove Autofill</MDBBtn>

@@ -8,6 +8,8 @@ import AdminSetLocation from './AppContainer/Admin/AdminSetLocation';
 import AdminLocationManager from './AppContainer/Admin/AdminLocationManager';
 import AdminFormManager from './AppContainer/Admin/AdminFormManager';
 import AdminBrandPageManager from './AppContainer/Admin/AdminBrandPageManager';
+import AdminSubMenuManager from './AppContainer/Admin/AdminSubMenuManager';
+import AdminEditSubMenu from './AppContainer/Admin/AdminEditSubMenuItem';
 
 
 
@@ -29,6 +31,12 @@ const allroutes = (props) => {
                     <Route path='/admin/form/manager' exact component={AdminFormManager}/> 
 
                     <Route path='/admin/brand-page/manager' exact component={AdminBrandPageManager}/> 
+
+                    <Route path='/drink/:subdrinktitle' exact component={AdminSubMenuManager}/> 
+
+                    <Route path='/food/:subfoodtitle' exact component={AdminSubMenuManager}/> 
+
+                    <Route path='/edit/:submenutitle' exact component={AdminEditSubMenu}/> 
 
             </Switch>
         </Router>

@@ -6,10 +6,10 @@ function NewsLetterChecker() {
     return(
       <>
       <MDBRow className="mt-2">
-        <MDBCol md={3} sm={12} xs={12} >
+        <MDBCol md={3} sm={6} xs={12} >
           <h5 className="mt-3" style={{textAlign:'left'}}>Newsletter</h5> 
         </MDBCol>
-        <MDBCol md={4} sm={12} xs={12} className="mt-3">
+        <MDBCol md={4} sm={6} xs={12} className="mt-3">
             <div className='custom-control custom-switch' style={{textAlign:'left'}}>
               <input
                 type='checkbox'
@@ -24,10 +24,10 @@ function NewsLetterChecker() {
       </MDBRow>  
 
       <MDBRow className="mt-2">
-        <MDBCol md={3} sm={12} xs={12}>
+        <MDBCol md={3} sm={6} xs={12}>
           <h5 className="mt-3" style={{textAlign:'left'}}>Deactive Page</h5> 
         </MDBCol>
-        <MDBCol md={4} sm={12} xs={12} className="mt-3">
+        <MDBCol md={4} sm={6} xs={12} className="mt-3">
           <div className='custom-control custom-switch' style={{textAlign:'left'}}>
               <input
                 type='checkbox'

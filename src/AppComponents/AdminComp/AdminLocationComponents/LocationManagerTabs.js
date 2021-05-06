@@ -34,7 +34,7 @@ function LocationManagerTabs() {
         
         let locationTabs = tabs.map( locationtab => {
                 return(
-                    <MDBCol size="6" md="6" className="mt-5">
+                    <MDBCol size="5"  className="mt-5 ml-2">
                         <Link to={locationtab.tablink} key={locationtab.id}> 
                             <LocationManagerTab 
                                 key={locationtab.id}
@@ -48,7 +48,7 @@ function LocationManagerTabs() {
 
         return (
             <MDBContainer>
-                <MDBRow style={{alignItems:"center"}}>
+                <MDBRow center>
                      {locationTabs}
                 </MDBRow>
             </MDBContainer>

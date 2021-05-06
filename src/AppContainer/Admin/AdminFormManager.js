@@ -6,7 +6,7 @@ import {
 import AdminStyle from '../../AppStyles/AdminStyles.module.css';
 import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
 import FormManagerComponents from '../../AppComponents/AdminComp/AdminFormManagerComponents/FormManagerComponent';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function AdminFormManager () {
   const history = useHistory();
@@ -38,14 +38,11 @@ function AdminFormManager () {
                 >Save</MDBBtn>
                 </div>
 
-                <p className="mt-5 font-small text-center pb-3">
-                    <a href="#!" className="black-text ml-1">
-                    
-                    <Link onClick={history.goBack} className="black-text">
-                        <MDBIcon icon="chevron-circle-left" /> Back 
-                    </Link>
-                    </a>
-                </p>
+                <div className="mt-5 font-small text-center pb-3">
+                        <div onClick={history.goBack} className="black-text">
+                            <MDBIcon icon="chevron-circle-left" /> Back 
+                        </div>
+                </div>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
