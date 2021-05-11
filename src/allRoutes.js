@@ -11,6 +11,10 @@ import AdminBrandPageManager from './AppContainer/Admin/AdminBrandPageManager';
 import AdminSubMenuManager from './AppContainer/Admin/AdminSubMenuManager';
 import AdminEditSubMenu from './AppContainer/Admin/AdminEditSubMenuItem';
 
+import WaiterLogin from './AppContainer/Waiter/Waiterlogin';
+import WaiterHomePage from './AppContainer/Waiter/WaiterHomePage';
+
+import UserFormPage from './AppContainer/User/UserFormPage';
 
 
 const allroutes = (props) => {
@@ -37,6 +41,14 @@ const allroutes = (props) => {
                     <Route path='/food/:subfoodtitle' exact component={AdminSubMenuManager}/> 
 
                     <Route path='/edit/:submenutitle' exact component={AdminEditSubMenu}/> 
+
+                {/* Waiter Routes */}
+                    <Route path='/waiter/login' exact component={WaiterLogin}/>
+
+                    <Route path='/waiter/dashboard' exact component={WaiterHomePage}/>
+
+                {/* Waiter Routes */}
+                    <Route path='/user/form/:formid' exact component={UserFormPage}/>
 
             </Switch>
         </Router>

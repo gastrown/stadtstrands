@@ -75,12 +75,9 @@ function AdminSignup () {
               </p>
 
               <p className="mt-2 font-small text-center">
-                <a href="#!" className="black-text ml-1">
-                
                   <a onClick={history.goBack} href="#!" className="black-text">
                     <MDBIcon icon="chevron-circle-left" /> Back 
                   </a>
-                </a>
               </p>
               </MDBCardBody>
             </MDBCard>

@@ -36,7 +36,7 @@ render() {
     <Router>
       <MDBNavbar style={{backgroundColor:'#b5cdd9'}} dark expand="md">
         <MDBNavbarBrand>
-            <img src="/images/others/StSt_logo.png" alt="logo" style={{width:'25%'}}/>
+          <img src="/images/others/StSt_logo.png" className="img-fluid" alt="logo" style={{width:'80px'}}/>
         </MDBNavbarBrand>
         <MDBNavbarToggler onClick={this.toggleCollapse} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>

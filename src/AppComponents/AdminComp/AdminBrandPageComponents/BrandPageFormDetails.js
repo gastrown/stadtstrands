@@ -53,7 +53,7 @@ export default function BrandPageFormDetails() {
                                     style={{display: "none"}}
                                     onChange={(e) => onChangeFile(e)}/>
                             <label htmlFor="file" style={imageFileStyle}>
-                                    Add location image 
+                                    Add Brand Page Background image 
                                     <span className='fa fa-download ml-3' 
                                         style={{backgroundColor:'#39729b', color:'#ffffff', padding:'5px', borderRadius:'10px'}}> 
                                     </span>

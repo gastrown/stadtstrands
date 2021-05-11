@@ -2,20 +2,27 @@ import React, {useState} from "react";
 import { 
   MDBContainer, MDBRow, MDBCol, MDBCard, 
   MDBCardBody, MDBCardTitle, MDBBtn, MDBIcon,
-  MDBModal, MDBModalBody, MDBInput
+  MDBModal, MDBModalBody
 } from 'mdbreact';
 import AdminStyle from '../../AppStyles/AdminStyles.module.css';
 import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
 import Locations from '../../AppComponents/AdminComp/AdminLocationComponents/Locations';
 import { useHistory } from 'react-router-dom';
+import { Map, GoogleApiWrapper } from 'google-maps-react';
 
-function AdminSetLocation () {
+function AdminSetLocation (props) {
   const history = useHistory();
   const iconStyle = {
-    fontSize:"100px",
+    fontSize:"70px",
     color:"gray",
-    marginTop:"10px"
+    marginTop:"5px",
+    marginBottom:"5px"
   }
+
+  const mapStyles = {
+    width: '300px',
+    height: '150px',
+  };
 
   function handleNextScreen() {
     history.push("/admin/location/manager");
@@ -49,12 +56,12 @@ function AdminSetLocation () {
         <MDBRow>
           <MDBCol className={AdminStyle.cardAlignMiddle}>
             <MDBCard style={{ width: "30rem",borderRadius:"20px" }}>
-              <MDBCardBody className="text-center mt-5">
+              <MDBCardBody className="text-center mt-2">
                 <MDBCardTitle className='text-center'>Set your location</MDBCardTitle>
                 <div>
                     <MDBIcon style={iconStyle} icon="map-marker-alt" />
                 </div>
-                <div className="mt-5">
+                <div className="mt-2">
                   <Locations/>
                 </div>
                 <div className="text-center mb-3">
@@ -69,20 +76,35 @@ function AdminSetLocation () {
                     Add Location
                     </MDBBtn>
 
-                    <MDBModal isOpen={modal} toggle={toggle} size="sm" centered rounded-20>
+                    <MDBModal isOpen={modal} toggle={toggle} size="lg" centered rounded-20>
                       <MDBModalBody>
                         <h5 className='text-center'>Add Location</h5>
-                        <div>
-                          <MDBInput label="Example label" outline size="sm" />
-                          
+                        <div className="form-group mt-5">
+                          <div className="col-md-6 offset-md-3">
+                            <input type="text" className="form-control" placeholder="Location Name" style={{borderRadius:'15px'}} />
+                          </div>
                         </div>
-                        <div>
-                          <input type="file" id="file" style={{display: "none"}}
+
+                        <div className="mt-2">
+                          <Map
+                            google={props.google}
+                            zoom={8}
+                            style={mapStyles}
+                            initialCenter={{ lat: 47.444, lng: -122.176}}
+                          />
+                        </div>
+                          
+                        
+                        <div className="form-group mt-5">
+                          <div className="col-md-8 offset-md-2">
+                            <input type="file" id="file" style={{display: "none"}}
                                                     onChange={(e) => onChangeFile(e)}/>
                                                 <label htmlFor="file" style={imageFileStyle}>
                                                         Add location image <span className='fa fa-download' style={{backgroundColor:'#39729b', color:'#ffffff', padding:'5px', borderRadius:'10px'}}> </span>
                             </label>
+                          </div>
                         </div>
+
                         <div className="mt-3">
                         <MDBBtn
                           type="button"
@@ -115,4 +137,7 @@ function AdminSetLocation () {
   
 }
 
-export default AdminSetLocation;
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCzEFkhf36FaUK789CPv7PYk5KdoZZpsLA'
+})(AdminSetLocation);
+//export default AdminSetLocation;
