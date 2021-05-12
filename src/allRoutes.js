@@ -15,6 +15,10 @@ import WaiterLogin from './AppContainer/Waiter/Waiterlogin';
 import WaiterHomePage from './AppContainer/Waiter/WaiterHomePage';
 
 import UserFormPage from './AppContainer/User/UserFormPage';
+import UserFoodMenu from './AppContainer/User/UserFoodMenu';
+import UserDrinksMenu from './AppContainer/User/UserDrinksMenu';
+import UserSingleDrinkMenu from './AppContainer/User/UserSingleDrinkMenu';
+import UserCart from './AppContainer/User/UserCart';
 
 
 const allroutes = (props) => {
@@ -47,8 +51,16 @@ const allroutes = (props) => {
 
                     <Route path='/waiter/dashboard' exact component={WaiterHomePage}/>
 
-                {/* Waiter Routes */}
+                {/* User Routes */}
                     <Route path='/user/form/:formid' exact component={UserFormPage}/>
+
+                    <Route path='/menu/food' exact component={UserFoodMenu}/>
+
+                    <Route path='/menu/drinks' exact component={UserDrinksMenu}/>
+
+                    <Route path='/drinks/:subdrinkcat/:subdrinkname' exact component={UserSingleDrinkMenu}/>
+
+                    <Route path='/menu/cart' exact component={UserCart}/>
 
             </Switch>
         </Router>

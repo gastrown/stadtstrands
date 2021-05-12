@@ -70,9 +70,9 @@ button {
 }
 
 #listCard {
-  background-color: #2b2a25;
+  background-color: #f2f2f2;
   border-radius: 20px !important;
-  padding: 10px;
+  padding: 15px;
 }
 
 #listCardImg {
@@ -81,4 +81,27 @@ button {
   height: 80% !important;
   border-radius: 15px !important;
   padding: 10px !important;
+}
+
+#drinkSubList {
+  width: 100%;
+  border-radius: 15px;
+  background-color: #ffffff;
+  padding: 5px;
+}
+
+#imgBoxed {
+  width: 100px;
+  height: 100px;
+  float: left;
+  object-fit: scale-down;
+}
+
+#imgBoxed_lg {
+  width: 400px;
+  height: 400px;
+  float: left;
+  object-fit: scale-down;
+  background-color: #ffffff;
+  border-radius: 10px;
 }

@@ -1,30 +1,24 @@
 import React, { useState } from "react";
-import { MDBModal, MDBModalBody, MDBIcon, MDBInput, MDBBtn, MDBRow, MDBCol} from 'mdbreact';
+import { MDBRow, MDBCol} from 'mdbreact';
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
 import UserBrandPageDetails from "../../AppComponents/UserComp/UserBrandPageDetails";
 import UserBrandPageIcons from '../../AppComponents/UserComp/UserBrandPageIcons';
+import UserFormManagerDetails from "../../AppComponents/UserComp/UserFormManagerDetails";
 
-
-
+import WelcomeUserModal from "../../AppComponents/UserComp/UserIconModels/welcomeUserModel";
+import DrinkUserModal from "../../AppComponents/UserComp/UserIconModels/drinkUserModel";
+import MenuUserModal from "../../AppComponents/UserComp/UserIconModels/menuUserModel";
 
 function UserFormPage () {
-    const [userFormModal, setUserFormModal] = useState(true);
-    const [radio, setRadio] = useState(true);
 
-    const toggleRadio= () => { 
-        setRadio(!setRadio); 
-    }
+    const [modalWelcome, setModalWelcome] = useState(false);
+    const [modalDrink, setModalDrink] = useState(false);
+    const [modalMenu, setModalMenu] = useState(false);
 
-    const toggleForm= () => { 
-        setUserFormModal(!userFormModal); 
-    }
-
-    const formInputStyle = {
-        borderRadius: '20px',
-        border: '1px dotted #000000',
-        fontSize:'12px'
-    }
-
+    const toggleWelcome = () => { setModalWelcome(!modalWelcome); }
+    const toggleDrink = () => { setModalDrink(!modalDrink); }
+    const toggleMenu = () => { setModalMenu(!modalMenu); }
+    
     const brandpagedetail = {
         brandpagename:'Theodor-Heuss-Brucke',
         brandpageimg:'/images/others/beachparty.jpg',
@@ -37,6 +31,12 @@ function UserFormPage () {
                 instagramlink:'https://instagram.com'
             }
         ],
+        brandpagewelcomedetail: [
+            {
+                welcomeimg:'/images/others/dff.png',
+                welcometext:'Welcome to our Page. Please feel free to order and enjoy your self here.'
+            }
+        ]
     }
 
     const [brandPageIcons] = useState(
@@ -45,6 +45,7 @@ function UserFormPage () {
                 id: '1',
                 iconName:"heart",
                 iconTitle:'Welcome',
+                iconToggle: toggleWelcome,
             },
             {
                 id: '2',
@@ -53,8 +54,9 @@ function UserFormPage () {
             },
             {
                 id: '3',
-                iconName:"shopping-cart",
+                iconName:"clipboard-list",
                 iconTitle:'Menu',
+                iconToggle: toggleMenu,
             },
             {
                 id: '4',
@@ -70,6 +72,7 @@ function UserFormPage () {
                 id: '6',
                 iconName:"cocktail",
                 iconTitle:'Drink',
+                iconToggle: toggleDrink,
             },
             {
                 id: '7',
@@ -133,7 +136,7 @@ function UserFormPage () {
                 iconTitle:'Order',
             },
             {
-                id: '18',
+                id: '19',
                 iconName:"cloud-download-alt",
                 iconTitle:'Get Icon',
             },
@@ -145,7 +148,7 @@ function UserFormPage () {
         <>
         <UserNavbar />
         <UserBrandPageDetails 
-        pageDetails={brandpagedetail} 
+            pageDetails={brandpagedetail} 
         />
         <MDBRow>
             <MDBCol className="text-center mt-2">
@@ -153,88 +156,24 @@ function UserFormPage () {
             </MDBCol>
         </MDBRow>
             
-        <MDBModal isOpen={userFormModal} toggle={toggleForm} size="sm">
-            <MDBModalBody>      
-                <h5 className="text-center"><MDBIcon icon="map-marker-alt" /> {brandpagedetail.brandpagename}</h5>   
-                <div className="mt-5">
-                    <form>
-                        <div className="form-group row">
-                           <div className="col-12 col-md-12">
-                                <input type="text" className="form-control" placeholder="Full Name" style={formInputStyle}/>   
-                           </div>
-                        </div>
+       <UserFormManagerDetails 
+            pageDetails={brandpagedetail} />
 
-                        <div className="form-group row">
-                           <div className="col-12 col-md-12">
-                                <input type="text" className="form-control" placeholder="Phone" style={formInputStyle}/>   
-                           </div>
-                        </div>
+        <WelcomeUserModal
+            constName={modalWelcome}
+            functionName={toggleWelcome}
+            pageDetails={brandpagedetail} 
+            />
 
-                        <div className="form-group row">
-                           <div className="col-12 col-md-12">
-                                <input type="email" className="form-control" placeholder="Email" style={formInputStyle}/>   
-                           </div>
-                        </div>
+        <DrinkUserModal
+            constName={modalDrink}
+            functionName={toggleDrink}
+            />  
 
-                        <div className="form-group row">
-                           <div className="col-12 col-md-12">
-                                <input type="password" className="form-control" placeholder="Password" style={formInputStyle}/>   
-                           </div>
-                        </div>
-
-                        <div className="form-group row">
-                           <div className="col-12 col-md-12">
-                                <input type="number" className="form-control" placeholder="Table number" style={formInputStyle}/>   
-                           </div>
-                        </div>
-
-                        <div className="form-group row">
-                           <div className="col-12 col-md-12 text-center">
-                                <span style={{fontSize:'12px'}}>Please enter the persons accompanying you to which you live in a household</span>   
-                           </div>
-                        </div>
-
-                        <div className="form-group row">
-                           <div className="col-9 col-md-9">
-                                <input type="text" className="form-control" placeholder="Add member" style={formInputStyle}/>   
-                           </div>
-                           <div className="col-3 col-md-3 mt-2">
-                           <MDBIcon icon="plus-circle" />
-                           </div>
-                        </div>
-                       
-                        <div className="form-group row mt-4">
-                           <div className="col-2 col-md-2">
-                            <MDBInput onClick={toggleRadio} checked={radio}  type="radio" id="radio2" style={{fontSize:'8px'}} />
-                           </div>
-                           <div className="col-9 col-md-9">
-                            <label style={{fontSize:'11px'}}>By submitting this form, i agree to receive newsletters & updates from stadstrand</label>
-                           </div>
-                        </div>
-
-                        <div className="form-group row text-center mt-3 mb-3">
-                            <div className="col-5 col-md-5 mt-2 text-right">
-                                <a onClick={toggleForm} href="#!" className="black-text">
-                                    <MDBIcon icon="chevron-circle-left" /> Close 
-                                </a>
-                            </div>
-                            <div className="col-6 col-md-6">
-                                <MDBBtn
-                                type="button"
-                                color="blue"
-                                style={{borderRadius:'20px'}}
-                                className="waves-effect z-depth-1a"
-                                size="sm"
-
-                                >
-                                finish
-                                </MDBBtn>
-                            </div>
-                        </div>
-                    </form>
-                </div>         
-            </MDBModalBody>
-        </MDBModal>  
+        <MenuUserModal
+            constName={modalMenu}
+            functionName={toggleMenu}
+            />  
             
         </>
     );

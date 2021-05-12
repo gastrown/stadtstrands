@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 
 
 export default function AdminEditSubMenuItem(props) {
-    console.log(props.location.state.drinkdetail);
+    //console.log(props.location.state.drinkdetail);
     const singleDrink = props.location.state.drinkdetail;
 
     const history = useHistory();

@@ -211,8 +211,7 @@ export const OrderCard = () => {
                     </div>
 
             );
-        }
-    );
+    });
 
     return (
         <div className="col-md-12" >
