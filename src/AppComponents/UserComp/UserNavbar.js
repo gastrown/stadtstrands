@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { useState} from "react";
 import {
     MDBNavbar, MDBNavbarBrand, 
-    MDBNavbarNav, MDBNavItem, 
-    MDBNavLink, MDBNavbarToggler, 
+    MDBNavbarNav, MDBNavItem,  MDBNavbarToggler, 
     MDBCollapse, MDBFormInline, MDBBadge, MDBIcon
 } from "mdbreact";
 
-import { BrowserRouter as Router } from 'react-router-dom';
+//import { Link, BrowserRouter as Router } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const iconStyle = {
@@ -20,41 +20,36 @@ const iconStyle = {
     textAlign: 'center'
 }
 
-class UserNavbar extends Component {
-state = {
-  isOpen: false
-};
+function UserNavbar (props) {
 
-toggleCollapse = () => {
-  this.setState({ isOpen: !this.state.isOpen });
-}
+const [isOpen, setIsOpen] = useState(false);
 
+const toggleCollapse = () => { setIsOpen(!isOpen); }
 
-
-
-render() {
-
-    
+   
   return (
-    <Router>
+    <>
       <MDBNavbar style={{backgroundColor:'#b5cdd9'}} dark expand="md">
         <MDBNavbarBrand>
             <img src="/images/others/StSt_logo.png" className="img-fluid" alt="logo" style={{width:'80px'}}/>
+            
         </MDBNavbarBrand>
-        <MDBNavbarToggler onClick={this.toggleCollapse} />
-        <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
+        
+        <MDBNavbarToggler onClick={toggleCollapse} />
+        
+        <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
         <MDBNavbarNav right>
             <MDBNavItem active className="mt-3 ml-2">
-              <MDBNavLink to="#!" className="text-uppercase" style={{color:'#000000'}}>
+              <Link to={{pathname:'/menu/cart'}} className="text-uppercase" style={{color:'#000000'}}>
                 <MDBBadge color="danger" style={{fontSize:'10px'}}>2</MDBBadge>
                 <MDBIcon icon="shopping-cart" style={{fontSize:'25px'}}/>
-              </MDBNavLink>
+              </Link>
             </MDBNavItem>
             <MDBNavItem className="mt-3 ml-2 mr-3">
-              <MDBNavLink to="#!" className="text-uppercase" style={{color:'#000000'}}>
+              <Link to={{pathname:'/user/orders'}} className="text-uppercase" style={{color:'#000000'}}>
                 <MDBBadge color="danger" style={{fontSize:'10px'}}>0</MDBBadge>
                 <MDBIcon icon="bell" style={{fontSize:'25px'}}/>
-              </MDBNavLink>
+              </Link>
             </MDBNavItem>
             <MDBNavItem>
               <MDBFormInline waves>
@@ -70,9 +65,9 @@ render() {
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBNavbar>
-    </Router>
+    </>
     );
-  }
+  
 }
 
 export default UserNavbar;

@@ -97,6 +97,15 @@ button {
   object-fit: scale-down;
 }
 
+#imgBoxed_md {
+  width: 100px;
+  height: 100px;
+  float: left;
+  object-fit: scale-down;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
 #imgBoxed_lg {
   width: 400px;
   height: 400px;

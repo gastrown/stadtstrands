@@ -8,18 +8,47 @@ import UserFormManagerDetails from "../../AppComponents/UserComp/UserFormManager
 import WelcomeUserModal from "../../AppComponents/UserComp/UserIconModels/welcomeUserModel";
 import DrinkUserModal from "../../AppComponents/UserComp/UserIconModels/drinkUserModel";
 import MenuUserModal from "../../AppComponents/UserComp/UserIconModels/menuUserModel";
+import SocialMediaModal from "../../AppComponents/UserComp/UserIconModels/socialMediaModel";
+import ShopModal from "../../AppComponents/UserComp/UserIconModels/shopModel";
+import TaxiModal from "../../AppComponents/UserComp/UserIconModels/taxiModel";
+import FoodTruckModal from "../../AppComponents/UserComp/UserIconModels/foodTruckModel";
+import StrandorteLocationModal from "../../AppComponents/UserComp/UserIconModels/strandorteLocationModel";
+import FamilyAndFriendsModal from "../../AppComponents/UserComp/UserIconModels/familyAndFriendsModel";
+import ReservationModal from "../../AppComponents/UserComp/UserIconModels/reservationModel";
+import ContactModal from "../../AppComponents/UserComp/UserIconModels/contactModel";
+import LostAndFoundModal from "../../AppComponents/UserComp/UserIconModels/lostAndFoundModel";
 
 function UserFormPage () {
 
     const [modalWelcome, setModalWelcome] = useState(false);
     const [modalDrink, setModalDrink] = useState(false);
     const [modalMenu, setModalMenu] = useState(false);
+    const [modalSocialMedia, setModalSocialMedia] = useState(false);
+    const [modalShop, setModalShop] = useState(false);
+    const [modalTaxi, setModalTaxi] = useState(false);
+    const [modalFoodTruck, setModalFoodTruck] = useState(false); 
+    const [modalStrandorteLocation, setModalStrandorteLocation] = useState(false);
+    const [modalFamilyAndFriends, setModalFamilyAndFriends] = useState(false);
+    const [modalReservation, setModalReservation] = useState(false);
+    const [modalContact, setModalContact] = useState(false);
+    const [modalLostAndFound, setModalLostAndFound] = useState(false);
 
     const toggleWelcome = () => { setModalWelcome(!modalWelcome); }
     const toggleDrink = () => { setModalDrink(!modalDrink); }
     const toggleMenu = () => { setModalMenu(!modalMenu); }
+    const toggleSocialMedia = () => { setModalSocialMedia(!modalSocialMedia); }
+    const toggleShop = () => { setModalShop(!modalShop); }
+    const toggleTaxi = () => { setModalTaxi(!modalTaxi); }
+    const toggleFoodTruck = () => { setModalFoodTruck(!modalFoodTruck); }
+    const toggleStrandorteLocation = () => { setModalStrandorteLocation(!modalStrandorteLocation); }
+    const toggleFamilyAndFriends = () => { setModalFamilyAndFriends(!modalFamilyAndFriends); }
+    const toggleReservation = () => { setModalReservation(!modalReservation); }
+    const toggleContact = () => { setModalContact(!modalContact); }
+    const toggleLostAndFound = () => { setModalLostAndFound (!modalLostAndFound ); }
+   
     
     const brandpagedetail = {
+        brandpageid:'kjfdlgsjfkd-jkbljdslsd-sdlfjdfj',
         brandpagename:'Theodor-Heuss-Brucke',
         brandpageimg:'/images/others/beachparty.jpg',
         brandpagelogo:'/images/others/1674929.png',
@@ -39,6 +68,18 @@ function UserFormPage () {
         ]
     }
 
+    const toggleAbout = () => { 
+        window.location = "/about-brandpage";
+    }
+
+    const toggleFeedBack = () => { 
+        window.location = `/brand-page/feedback/${brandpagedetail.brandpageid}`;
+    }
+
+    const toggleOrders = () => { 
+        window.location = '/user/orders';
+    }
+
     const [brandPageIcons] = useState(
         [
             {
@@ -51,6 +92,7 @@ function UserFormPage () {
                 id: '2',
                 iconName:"comment-alt",
                 iconTitle:'Feedback',
+                iconToggle: toggleFeedBack,
             },
             {
                 id: '3',
@@ -62,11 +104,13 @@ function UserFormPage () {
                 id: '4',
                 iconName:"camera",
                 iconTitle:'Social Media',
+                iconToggle: toggleSocialMedia,
             }, 
             {
                 id: '5',
                 iconName:"box-open",
                 iconTitle:'Lost and Found',
+                iconToggle: toggleLostAndFound
             },
             {
                 id: '6',
@@ -78,11 +122,13 @@ function UserFormPage () {
                 id: '7',
                 iconName:"map-marker-alt",
                 iconTitle:'Strandorte',
+                iconToggle: toggleStrandorteLocation,
             },
             {
                 id: '8',
                 iconName:"phone-alt",
                 iconTitle:'Contact',
+                iconToggle: toggleContact,
             },
             {
                 id: '9',
@@ -93,21 +139,25 @@ function UserFormPage () {
                 id: '10',
                 iconName:"info-circle",
                 iconTitle:'About Us',
+                iconToggle: toggleAbout,
             },
             {
                 id: '11',
-                iconName:"shopping-bag",
+                iconName:"store",
                 iconTitle:'Shop',
+                iconToggle: toggleShop,
             },
             {
                 id: '12',
                 iconName:"users",
                 iconTitle:'Family & Friends',
+                iconToggle: toggleFamilyAndFriends,
             },
             {
                 id: '13',
                 iconName:"taxi",
                 iconTitle:'Taxi',
+                iconToggle: toggleTaxi,
             },
             {
                 id: '14',
@@ -118,12 +168,14 @@ function UserFormPage () {
                 id: '15',
                 iconName:"truck",
                 iconTitle:'Food Truck',
+                iconToggle: toggleFoodTruck,
             },
     
             {
                 id: '16',
                 iconName:"book-open",
                 iconTitle:'Reservation',
+                iconToggle: toggleReservation,
             },
             {
                 id: '17',
@@ -134,6 +186,7 @@ function UserFormPage () {
                 id: '18',
                 iconName:"luggage-cart",
                 iconTitle:'Order',
+                iconToggle: toggleOrders,
             },
             {
                 id: '19',
@@ -146,7 +199,8 @@ function UserFormPage () {
    
     return (
         <>
-        <UserNavbar />
+        <UserNavbar 
+        />
         <UserBrandPageDetails 
             pageDetails={brandpagedetail} 
         />
@@ -174,6 +228,52 @@ function UserFormPage () {
             constName={modalMenu}
             functionName={toggleMenu}
             />  
+
+        <SocialMediaModal
+            constName={modalSocialMedia}
+            functionName={toggleSocialMedia}
+            />  
+
+        <ShopModal
+            constName={modalShop}
+            functionName={toggleShop}
+            />    
+
+        <TaxiModal
+            constName={modalTaxi}
+            functionName={toggleTaxi}
+            />  
+
+        <FoodTruckModal
+            constName={modalFoodTruck}
+            functionName={toggleFoodTruck}
+            />      
+
+        <StrandorteLocationModal
+            constName={modalStrandorteLocation}
+            functionName={toggleStrandorteLocation}
+            /> 
+
+        <FamilyAndFriendsModal
+            constName={modalFamilyAndFriends}
+            functionName={toggleFamilyAndFriends}
+            /> 
+
+        <ReservationModal
+            constName={modalReservation}
+            functionName={toggleReservation}
+            /> 
+
+        <ContactModal
+            constName={modalContact}
+            functionName={toggleContact}
+            /> 
+            
+        <LostAndFoundModal
+            constName={modalLostAndFound}
+            functionName={toggleLostAndFound}
+            /> 
+
             
         </>
     );

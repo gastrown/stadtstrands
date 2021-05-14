@@ -19,9 +19,14 @@ import UserFoodMenu from './AppContainer/User/UserFoodMenu';
 import UserDrinksMenu from './AppContainer/User/UserDrinksMenu';
 import UserSingleDrinkMenu from './AppContainer/User/UserSingleDrinkMenu';
 import UserCart from './AppContainer/User/UserCart';
+import UserCheckout from './AppContainer/User/UserCheckout';
+import UserOrder from './AppContainer/User/UserOrder';
+import AboutBrandPage from './AppContainer/User/AboutBrandPage';  
+import FeedbackBrandPage from './AppContainer/User/BrandPageFeedback';
+import SingleFoodTruck from './AppContainer/User/SingleFoodTruck';  
+import SingleLocation from './AppContainer/User/SingleLocation';
 
-
-const allroutes = (props) => {
+const allroutes = () => {
     return(
         <>
         <Router>
@@ -52,7 +57,7 @@ const allroutes = (props) => {
                     <Route path='/waiter/dashboard' exact component={WaiterHomePage}/>
 
                 {/* User Routes */}
-                    <Route path='/user/form/:formid' exact component={UserFormPage}/>
+                    <Route path='/user/form/:Brandpageid' exact component={UserFormPage}/>
 
                     <Route path='/menu/food' exact component={UserFoodMenu}/>
 
@@ -61,6 +66,18 @@ const allroutes = (props) => {
                     <Route path='/drinks/:subdrinkcat/:subdrinkname' exact component={UserSingleDrinkMenu}/>
 
                     <Route path='/menu/cart' exact component={UserCart}/>
+
+                    <Route path='/menu/checkout' exact component={UserCheckout}/>
+
+                    <Route path='/user/orders' exact component={UserOrder}/>
+
+                    <Route path='/about-brandpage' exact component={AboutBrandPage}/> 
+
+                    <Route path='/brand-page/feedback/:brandpageid' exact component={FeedbackBrandPage}/>
+                 
+                    <Route path='/food-truck/:truckId' exact component={SingleFoodTruck}/>
+
+                    <Route path='/location-details/:locationId' exact component={SingleLocation}/>
 
             </Switch>
         </Router>

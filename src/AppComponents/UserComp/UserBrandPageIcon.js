@@ -18,7 +18,7 @@ export default function UserBrandPageIcon(props) {
 
     const divStyle = {
         width:"120px",
-        height:"120px",
+        height:"110px",
         backgroundColor:'#ffffff',
         color:'#ffffff',
         border:'1px #cccccc solid',
