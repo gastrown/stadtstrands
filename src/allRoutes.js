@@ -25,6 +25,10 @@ import AboutBrandPage from './AppContainer/User/AboutBrandPage';
 import FeedbackBrandPage from './AppContainer/User/BrandPageFeedback';
 import SingleFoodTruck from './AppContainer/User/SingleFoodTruck';  
 import SingleLocation from './AppContainer/User/SingleLocation';
+import BrandPageJob from './AppContainer/User/BrandPageJobs';
+import JobApplication from './AppContainer/User/JobApplicationForm';
+import BrandPageEvent from './AppContainer/User/BrandPageEvents';  
+import EventDetail from './AppContainer/User/EventDetail';
 
 const allroutes = () => {
     return(
@@ -77,7 +81,15 @@ const allroutes = () => {
                  
                     <Route path='/food-truck/:truckId' exact component={SingleFoodTruck}/>
 
-                    <Route path='/location-details/:locationId' exact component={SingleLocation}/>
+                    <Route path='/location-details/:locationId' exact component={SingleLocation}/>  
+
+                    <Route path='/brand-page/jobs' exact component={BrandPageJob}/> 
+
+                    <Route path='/jobs/apply/:jobId' exact component={JobApplication}/>  
+
+                    <Route path='/brand-page/events' exact component={BrandPageEvent}/>  
+
+                    <Route path='/event/details/:eventId' exact component={EventDetail}/>  
 
             </Switch>
         </Router>

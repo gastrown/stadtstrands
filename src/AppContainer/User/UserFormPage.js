@@ -80,6 +80,16 @@ function UserFormPage () {
         window.location = '/user/orders';
     }
 
+    const toggleJobs = () => { 
+        window.location = '/brand-page/jobs';
+    }
+
+    const toggleEvents = () => { 
+        window.location = '/brand-page/events';
+    }
+    
+    
+
     const [brandPageIcons] = useState(
         [
             {
@@ -163,6 +173,7 @@ function UserFormPage () {
                 id: '14',
                 iconName:"calendar-alt",
                 iconTitle:'Events',
+                iconToggle: toggleEvents
             },
             {
                 id: '15',
@@ -181,6 +192,7 @@ function UserFormPage () {
                 id: '17',
                 iconName:"toolbox",
                 iconTitle:'Jobs',
+                iconToggle: toggleJobs,
             },
             {
                 id: '18',
@@ -211,7 +223,9 @@ function UserFormPage () {
         </MDBRow>
             
        <UserFormManagerDetails 
-            pageDetails={brandpagedetail} />
+            pageDetails={brandpagedetail} 
+
+            />
 
         <WelcomeUserModal
             constName={modalWelcome}

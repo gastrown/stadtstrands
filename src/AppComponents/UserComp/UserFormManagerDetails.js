@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MDBModal, MDBModalBody, MDBIcon, MDBInput, MDBBtn} from 'mdbreact';
+import ConfirmationModal from '../../AppComponents/ConfirmationModal';
 
 const UserFormManagerDetails = (props) => {
     const [userFormModal, setUserFormModal] = useState(true);
@@ -20,8 +21,14 @@ const UserFormManagerDetails = (props) => {
         fontSize:'12px'
     }
 
+    const [modalSuccess, setModalSuccess] = useState(false);
+    
+    const submitApplication = () => { 
+        setModalSuccess(!modalSuccess); 
+    }
+
     return (
-        <MDBModal isOpen={userFormModal} toggle={toggleForm} size="sm">
+        <MDBModal isOpen={userFormModal} toggle={toggleForm} size="sm" backdrop={false}>
             <MDBModalBody>      
                 <h5 className="text-center"><MDBIcon icon="map-marker-alt" /> {props.pageDetails.brandpagename}</h5>   
                 <div className="mt-5">
@@ -81,22 +88,25 @@ const UserFormManagerDetails = (props) => {
                         </div>
 
                         <div className="form-group row text-center mt-3 mb-3">
-                            <div className="col-5 col-md-5 mt-2 text-right">
-                                <a onClick={toggleForm} href="#!" className="black-text">
-                                    <MDBIcon icon="chevron-circle-left" /> Close 
-                                </a>
-                            </div>
-                            <div className="col-6 col-md-6">
+                            <div className="col-12">
                                 <MDBBtn
                                 type="button"
                                 color="blue"
                                 style={{borderRadius:'20px'}}
                                 className="waves-effect z-depth-1a"
                                 size="sm"
+                                //onClick={submitApplication}
+                                onClick={toggleForm}
 
                                 >
                                 finish
                                 </MDBBtn>
+
+                                <ConfirmationModal
+                                constName={modalSuccess}
+                                functionName={submitApplication}
+                                successMessage="Great, your form has been submitted successfully."
+                                />
                             </div>
                         </div>
                     </form>

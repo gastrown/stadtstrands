@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
    MDBModal, MDBModalBody, MDBIcon, MDBBtn
   } from 'mdbreact';
+import ConfirmationModal from '../../ConfirmationModal';
 
 export default function FamilyAndFriendsModel(props) {
     
@@ -10,6 +11,10 @@ export default function FamilyAndFriendsModel(props) {
         border:'1px dotted #000000',
         fontSize:'12px'
     }
+
+    const [modalSuccess, setModalSuccess] = useState(false);
+    
+    const submitApplication = () => { setModalSuccess(!modalSuccess); }
     
     return (
         <MDBModal isOpen={props.constName} toggle={props.functionName} size='md' centered>
@@ -59,9 +64,16 @@ export default function FamilyAndFriendsModel(props) {
                                 style={{borderRadius:'20px'}}
                                 className="waves-effect z-depth-1a"
                                 size="sm"
+                                onClick={submitApplication}
                                 >
                                 Send
                                 </MDBBtn>
+
+                                <ConfirmationModal
+                                constName={modalSuccess}
+                                functionName={submitApplication}
+                                successMessage="Your feedback have been submitted. Thanks for yout feedback."
+                                />
                             </div>
                         </div>
 
