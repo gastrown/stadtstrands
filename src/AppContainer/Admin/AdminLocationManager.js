@@ -8,9 +8,10 @@ import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
 import LocationManagerTabs from '../../AppComponents/AdminComp/AdminLocationComponents/LocationManagerTabs';
 import { useHistory } from 'react-router-dom';
 
-function AdminLocationManager () {
+function AdminLocationManager (props) {
   const history = useHistory();
-  
+  const locationId = props.match.params.locationId;
+  console.log(locationId);
 
   return (
     <MDBContainer fluid className={AdminStyle.adminbody2}>
@@ -22,7 +23,9 @@ function AdminLocationManager () {
               <MDBCardBody className="text-center mt-5">
                 <MDBCardTitle cascade className='text-center'>Location Manager</MDBCardTitle>
                     <MDBRow className="mt-5">
-                        <LocationManagerTabs />
+                        <LocationManagerTabs 
+                        locationId={locationId}
+                        />
                     </MDBRow>
                 
 

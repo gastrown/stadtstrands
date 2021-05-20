@@ -1,11 +1,49 @@
-import React from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle, MDBBtn, MDBIcon} from 'mdbreact';
+import React, { useState } from "react";
+import { MDBContainer, MDBRow, MDBCol, 
+         MDBCard, MDBCardBody, MDBCardTitle, 
+         MDBBtn, MDBIcon, MDBAlert 
+        } from 'mdbreact';
 import AdminStyle from '../../AppStyles/AdminStyles.module.css';
 import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
 import { Link, useHistory } from 'react-router-dom';
+import Axios from 'axios';
+
 
 function AdminLogin () {
   const history = useHistory();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loader, setLoader] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const redirectToLocation = (adminid) => {
+    window.location = `/admin/set-location/${adminid}`;
+  }
+
+  const adminLogin = (e) => {
+  
+    e.preventDefault();
+    setLoader(!loader);
+
+    Axios.post('https://stadstrandnodeapi.herokuapp.com/api/v1/admin/login',  {
+      username: username,
+      password: password
+    }, ).then((response) => {
+      const adminid = response.data.data.id;
+      setInterval(redirectToLocation(adminid), 1000);
+      localStorage.setItem("token", response.data.token)
+      
+    }).catch((e) => {
+      console.log(e.response)
+      setLoader(false);
+      setAlertError(true);
+      setErrorMessage(e.response.data.data)
+    });
+  };
+
   return (
     <MDBContainer fluid className={AdminStyle.adminbody2}>
       <AdminNavbar />
@@ -16,36 +54,62 @@ function AdminLogin () {
               <MDBCardBody className="text-center mt-5">
                 <MDBCardTitle cascade className='text-center'>Sign in</MDBCardTitle>
                 <p>to access your brand Page</p>
-                <div className="form-group row">
-                  <div className="col-md-10 offset-md-1">
-                    <input 
-                      type="email" 
-                      placeholder="Email"
-                      style={{borderRadius:'15px'}}
-                      className="form-control mt-3" />
+                <form onSubmit={adminLogin}>
+                <div className="row">
+                        <div className="col-10 offset-1">
+                            {alertError ?  
+                            <MDBAlert color="danger">
+                              {errorMessage}
+                            </MDBAlert> : <div></div>
+                            }
+                        </div>
+                    </div>
+                  <div className="form-group row">
+                    <div className="col-md-10 offset-md-1">
+                      <input 
+                        type="text" 
+                        placeholder="Username"
+                        style={{borderRadius:'15px'}}
+                        className="form-control mt-3"
+                        onChange={(e) => {
+                          setUsername(e.target.value);
+                        }} />
+                    </div>
                   </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-10 offset-md-1">
-                    <input 
-                      type="password" 
-                      placeholder="Password"
-                      style={{borderRadius:'15px'}}
-                      className="form-control mt-3" />
+                  <div className="form-group row">
+                    <div className="col-md-10 offset-md-1">
+                      <input 
+                        type="password" 
+                        placeholder="Password"
+                        style={{borderRadius:'15px'}}
+                        className="form-control mt-3"
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }} />
+                    </div>
                   </div>
-                </div>
-               
-              <div className="text-center mb-3">
-                <MDBBtn
-                  type="button"
-                  color="blue"
-                  style={{borderRadius:'20px'}}
-                  className="waves-effect z-depth-1a"
-                  size="md"
-                >
-                  Log in
-                </MDBBtn>
-              </div>
+                  <div className="form-group row">
+                      <div className="col-md-12 text-center mb-3">
+                        
+                        {loader ? 
+                          <div className="spinner-border fast ml-2" role="status">
+                              <span className="sr-only mt-2">Loading...</span>
+                          </div> : <div></div>}
+                        <div>
+                          <MDBBtn
+                            type="submit"
+                            color="blue"
+                            style={{borderRadius:'20px'}}
+                            className="waves-effect z-depth-1a"
+                            size="md"
+                          >
+                            Log in
+                          </MDBBtn>
+                        </div>
+                        
+                      </div>
+                    </div>
+                </form>
 
               <p className="mt-2 font-medium text-center">
                 Don't have an account?

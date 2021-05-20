@@ -1,5 +1,6 @@
 import React from "react";
 import { MDBFormInline, MDBBadge, MDBIcon } from "mdbreact";
+import AddToHomescreen from 'react-add-to-homescreen';
 
 //import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -17,6 +18,12 @@ const iconStyle = {
 }
 
 function UserNavbar () {
+
+  const handleAddToHomescreenClick = () => {
+    alert(`
+      1. Open Share menu
+      2. Tap on "Add to Home Screen" button`);
+  };
 
   return (
     <div className="container-fluid" style={{backgroundColor:'#b5cdd9'}}>
@@ -45,7 +52,7 @@ function UserNavbar () {
                         <div className="row text-right">
                           <div className="col-12 text-center">
                             <MDBFormInline waves>
-                              <div className="md-form my-0">
+                              <div className="md-form my-0" onAddToHomescreenClick={handleAddToHomescreenClick}>
                                   <span style={iconStyle} href="#contact">
                                       <MDBIcon className="mt-4" icon="cloud-download-alt" />
                                       <br/>
@@ -58,6 +65,7 @@ function UserNavbar () {
                   </div>
             </div>
         </div>
+        <AddToHomescreen onAddToHomescreenClick={handleAddToHomescreenClick} />
     </div>
     );
   

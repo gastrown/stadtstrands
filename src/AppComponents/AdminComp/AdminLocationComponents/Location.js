@@ -1,20 +1,29 @@
 import React from 'react';
-import {MDBCol} from 'mdbreact';
+import {Link} from 'react-router-dom'
 
 const location = (props) => {
     const locationimgstyle = {
         borderRadius:"15px",
     }
+
     return(
-               <MDBCol size="4" >
-                    <div>
-                        <img className="img-fluid" 
-                             style={locationimgstyle} 
-                             src={props.locationimg} 
-                             alt={props.altname} />
-                    </div>
-                    <p style={{fontSize:'11px',marginTop:'4px'}}>{props.locationname}</p>
-               </MDBCol>
+               <div className="col-6 col-md-4" >
+                   <Link to={{
+                                pathname:`/admin/location/manager/${props.location.id}`,
+                            }} 
+                            style={{color:'black'}}>
+                        <div>
+                            <img className="img-fluid" 
+                                style={locationimgstyle} 
+                                src={props.location.locationImagePath} 
+                                alt={props.location.name} 
+                            />
+                        </div>
+                        <p style={{fontSize:'11px',marginTop:'4px'}}>
+                            {props.location.name}
+                        </p>
+                    </Link>
+               </div>
     );
 }
 

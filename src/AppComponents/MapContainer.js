@@ -1,32 +1,25 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const MapContainer = () => {
+const MapContainer = (props) => {
     const mapStyles = {        
-        height: "300px",
+        height: "200px",
         width: "100%"};
       
     const currentLocation = {
-        lat: 41.3954,
-        lng: 2.162 
+        lat: props.lat,
+        lng: props.log 
       }
 
-    const locations = [
-        {
-          name: "Location 1",
-          location: { 
-            lat: 41.3954,
-            lng: 2.162 
-          },
-        },
-        {
-          name: "Location 2",
-          location: { 
-            lat: 41.3917,
-            lng: 2.1649
-          },
-        }
-      ];
+    // const locations = [
+    //     {
+    //       name: props.address,
+    //       location: { 
+    //         lat: props.lat,
+    //         lng: props.log  
+    //       },
+    //     },
+    //   ];
 
     return (
         <LoadScript
@@ -37,11 +30,12 @@ const MapContainer = () => {
             center={currentLocation}
             >
                 {
-                    locations.map(item => {
-                    return (
-                    <Marker key={item.name} position={item.location} />
-                    )
-                    })
+                  <Marker position={currentLocation} />
+                    // locations.map(item => {
+                    // return (
+                    // <Marker key={item.name} position={item.location} />
+                    // )
+                    // })
                 }
             </GoogleMap>
         </LoadScript>

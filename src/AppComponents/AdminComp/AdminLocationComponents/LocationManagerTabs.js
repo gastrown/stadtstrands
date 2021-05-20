@@ -4,18 +4,20 @@ import { MDBCol, MDBContainer, MDBRow} from 'mdbreact';
 import { Link } from 'react-router-dom';
 
 
-function LocationManagerTabs() {
+function LocationManagerTabs(props) {
+    const locationId = props.locationId;
+
     const [tabs] = useState(
         [
             {
                 id: '1',
                 locationtabtitle:"Form Manager",
-                tablink:'/admin/form/manager'
+                tablink:`/admin/form/manager/${locationId}`
             },
             {
                 id: '2',
                 locationtabtitle:"Brand Page Manager",
-                tablink:'/admin/brand-page/manager'
+                tablink:`/admin/brand-page/manager/${locationId}`
             },
             {
                 id: '3',
@@ -32,24 +34,24 @@ function LocationManagerTabs() {
     )
 
         
-        let locationTabs = tabs.map( locationtab => {
-                return(
-                    <MDBCol size="5"  className="mt-5 ml-2">
-                        <Link to={locationtab.tablink} key={locationtab.id}> 
-                            <LocationManagerTab 
-                                key={locationtab.id}
-                                locationtabtitle={locationtab.locationtabtitle}/>
-                        </Link>
-                    </MDBCol>
-                    );
-                }
-        );
         
-
         return (
             <MDBContainer>
                 <MDBRow center>
-                     {locationTabs}
+                     {
+                         tabs.map( locationtab => {
+                            return(
+                                <MDBCol size="5" key={locationtab.id}  className="mt-3 ml-1" attribute={false}>
+                                    <Link to={locationtab.tablink} key={locationtab.id}> 
+                                        <LocationManagerTab 
+                                            key={locationtab.id}
+                                            locationtabtitle={locationtab.locationtabtitle}/>
+                                    </Link>
+                                </MDBCol>
+                                );
+                            }
+                        )
+                     }
                 </MDBRow>
             </MDBContainer>
         );

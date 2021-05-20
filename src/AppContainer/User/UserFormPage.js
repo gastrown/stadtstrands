@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePosition } from 'use-position';
 import { MDBRow, MDBCol} from 'mdbreact';
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
 import UserBrandPageDetails from "../../AppComponents/UserComp/UserBrandPageDetails";
@@ -207,6 +208,24 @@ function UserFormPage () {
             },
         ]
     );
+
+    const watch = true;
+    const settings = {
+        enableHighAccuracy: false,
+        timeout: Infinity,
+        maximumAge: 0,
+    };
+
+    const {
+        latitude,
+        longitude,
+        // speed,
+        // timestamp,
+        // accuracy,
+        // error,
+    } = usePosition(watch, settings );
+
+    console.log("latitude:"+latitude+" longitute:"+longitude);
 
    
     return (

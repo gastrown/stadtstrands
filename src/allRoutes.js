@@ -41,13 +41,13 @@ const allroutes = () => {
 
                     <Route path='/admin/0/signup' exact component={AdminSignup}/>
 
-                    <Route path='/admin/set-location' exact component={AdminSetLocation}/>
+                    <Route path='/admin/set-location/:adminId' exact component={AdminSetLocation}/>
 
-                    <Route path='/admin/location/manager' exact component={AdminLocationManager}/>
+                    <Route path='/admin/location/manager/:locationId' exact component={AdminLocationManager}/>
                     
-                    <Route path='/admin/form/manager' exact component={AdminFormManager}/> 
+                    <Route path='/admin/form/manager/:locationId' exact component={AdminFormManager}/> 
 
-                    <Route path='/admin/brand-page/manager' exact component={AdminBrandPageManager}/> 
+                    <Route path='/admin/brand-page/manager/:locationId' exact component={AdminBrandPageManager}/> 
 
                     <Route path='/drink/:subdrinktitle' exact component={AdminSubMenuManager}/> 
 
