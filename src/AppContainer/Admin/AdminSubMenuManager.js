@@ -79,7 +79,7 @@ export default function AdminMenuDrinkManager(props) {
     );
 
     return (
-        <>
+        <React.Fragment>
         <MDBContainer fluid className={AdminStyle.adminbody}>
             <AdminNavbar />
         </MDBContainer>
@@ -153,6 +153,6 @@ export default function AdminMenuDrinkManager(props) {
             </div>
         </MDBContainer>
         
-        </>
+        </React.Fragment>
     )
 }

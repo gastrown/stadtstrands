@@ -24,10 +24,10 @@ export default function SocialMediaIconModal(props) {
                                         type="text"
                                         hint="Insert social media link"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>

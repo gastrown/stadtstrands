@@ -29,7 +29,7 @@ export default function AdminEditSubMenuItem(props) {
     }
 
     return (
-        <>
+        <React.Fragment>
             <MDBContainer fluid className={AdminStyle.adminbody}>
                 <AdminNavbar />
             </MDBContainer>
@@ -100,6 +100,6 @@ export default function AdminEditSubMenuItem(props) {
                     </div>
                 </div>
             </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

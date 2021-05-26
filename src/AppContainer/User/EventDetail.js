@@ -27,7 +27,7 @@ export default function EventDetail(props) {
     
     return (
         
-        <>
+        <React.Fragment>
         
         <UserNavbar />
         <MDBContainer fluid style={{height:'100%', background:'#b5cdd9'}}>
@@ -150,6 +150,6 @@ export default function EventDetail(props) {
             </div>
             
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

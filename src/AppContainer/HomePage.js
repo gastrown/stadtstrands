@@ -1,23 +1,20 @@
-import React, { Component } from "react";
-import VideoComponent from '../AppComponents/VideoComponent';
-import NavbarComponent from '../AppComponents/NavbarComponent';
-import FeatureComponent from '../AppComponents/FeatureComponent';
-import AboutComponent from '../AppComponents/AboutComponent';
-import FooterComponent from '../AppComponents/FooterComponent';
+import React from "react";
+import VideoComponent from "../AppComponents/VideoComponent";
+import NavbarComponent from "../AppComponents/NavbarComponent";
+import FeatureComponent from "../AppComponents/FeatureComponent";
+import AboutComponent from "../AppComponents/AboutComponent";
+import FooterComponent from "../AppComponents/FooterComponent";
 
-class HomePage extends Component {
-
-render() {
+function HomePage() {
   return (
-    <>
-    <NavbarComponent />
-    <VideoComponent />
-    <FeatureComponent />
-    <AboutComponent />
-    <FooterComponent />
-    </>
-    );
-  }
+    <React.Fragment>
+      <NavbarComponent />
+      <VideoComponent />
+      <FeatureComponent />
+      <AboutComponent />
+      <FooterComponent />
+    </React.Fragment>
+  );
 }
 
 export default HomePage;

@@ -29,7 +29,7 @@ export default function UserCart() {
     ];
    
     return (
-        <>
+        <React.Fragment>
         <UserNavbar />
         <MDBContainer fluid style={{height:'100vh', background:'#b5cdd9'}}>
             <div className="row" >
@@ -46,7 +46,7 @@ export default function UserCart() {
                     {
                         cartList.map( cart => {
                             return(
-                                <>
+                                <div>
                                 <div className="row mt-3" key={cart.id}>
                                 <div className="col-3 col-md-3 offset-md-1" >
                                     <img 
@@ -67,10 +67,10 @@ export default function UserCart() {
                                                     hint={cart.cartproductqty}
                                                     containerClassName="mb-4 mt-0"
                                                     append={
-                                                        <>
+                                                        <div>
                                                        <MDBIcon icon="minus-circle" className="mt-3 ml-3"/>
                                                        <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
-                                                        </>
+                                                        </div>
                                                     }
                                                     />
                                         </div>
@@ -85,7 +85,7 @@ export default function UserCart() {
                                 </div>
                             </div>
                             <hr/>
-                            </>
+                            </div>
                             );
                         })
                     }
@@ -144,6 +144,6 @@ export default function UserCart() {
             </div>
             
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

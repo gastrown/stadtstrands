@@ -1,19 +1,23 @@
-import React from 'react';
-import { MDBCol, MDBContainer, MDBRow} from 'mdbreact';
+import React from "react";
+import { MDBIcon } from "mdbreact";
+import Axios from "axios";
 
 const AdminNavbar = () => {
   return (
-    <MDBContainer fluid style={{ backgroundColor: '#b5cdd9'}}>
-      <MDBContainer>
-        <MDBRow>
-          <MDBCol md="12" className="mt-4 mb-4">
-            <img src="/images/others/StSt_logo.png" alt="logo" style={{width:'100px'}}/>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </MDBContainer>
-      
-  )
-}
+    <div className="container-fluid" style={{ backgroundColor: "#b5cdd9" }}>
+      <div className="container">
+        <div className="row">
+          <div className="col-12 mt-4 mb-4">
+            <img
+              src="/images/others/StSt_logo.png"
+              alt="logo"
+              style={{ width: "100px" }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default AdminNavbar;

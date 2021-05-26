@@ -30,10 +30,10 @@ export default function ContactIconModal(props) {
                                         type="text"
                                         hint="Enter Phone Number"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>
@@ -47,10 +47,10 @@ export default function ContactIconModal(props) {
                                         type="email"
                                         hint="Enter Email"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>
@@ -64,10 +64,10 @@ export default function ContactIconModal(props) {
                                         type="text"
                                         hint="Enter Address"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>

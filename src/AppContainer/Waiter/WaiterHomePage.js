@@ -6,10 +6,10 @@ class WaiterHomePage extends Component {
 
 render() {
   return (
-    <>
+    <React.Fragment>
     <WaiterNavbar  />
     <WaiterOrderList />
-    </>
+    </React.Fragment>
     );
   }
 }

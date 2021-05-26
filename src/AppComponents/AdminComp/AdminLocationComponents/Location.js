@@ -10,6 +10,9 @@ const location = (props) => {
                <div className="col-6 col-md-4" >
                    <Link to={{
                                 pathname:`/admin/location/manager/${props.location.id}`,
+                                state: {
+                                    location:props.location
+                                }
                             }} 
                             style={{color:'black'}}>
                         <div>

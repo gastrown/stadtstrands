@@ -32,7 +32,6 @@ import EventDetail from './AppContainer/User/EventDetail';
 
 const allroutes = () => {
     return(
-        <>
         <Router>
             <Switch>
                 <Route path='/' exact component={HomePage}/>
@@ -93,7 +92,6 @@ const allroutes = () => {
 
             </Switch>
         </Router>
-        </>
     );
 }
 

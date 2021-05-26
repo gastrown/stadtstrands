@@ -5,19 +5,20 @@ import { Link } from 'react-router-dom';
 
 
 function LocationManagerTabs(props) {
-    const locationId = props.locationId;
+    const location = props.location;
+    //console.log(location);
 
     const [tabs] = useState(
         [
             {
                 id: '1',
                 locationtabtitle:"Form Manager",
-                tablink:`/admin/form/manager/${locationId}`
+                tablink:`/admin/form/manager/${location.id}`
             },
             {
                 id: '2',
                 locationtabtitle:"Brand Page Manager",
-                tablink:`/admin/brand-page/manager/${locationId}`
+                tablink:`/admin/brand-page/manager/${location.id}`
             },
             {
                 id: '3',
@@ -42,7 +43,12 @@ function LocationManagerTabs(props) {
                          tabs.map( locationtab => {
                             return(
                                 <MDBCol size="5" key={locationtab.id}  className="mt-3 ml-1" attribute={false}>
-                                    <Link to={locationtab.tablink} key={locationtab.id}> 
+                                    <Link to={{
+                                        pathname:locationtab.tablink,
+                                        state: {
+                                            location: location
+                                        }
+                                    }}   key={locationtab.id}> 
                                         <LocationManagerTab 
                                             key={locationtab.id}
                                             locationtabtitle={locationtab.locationtabtitle}/>

@@ -69,7 +69,7 @@ export default function BrandPageFeedback() {
     ;
    
     return (
-        <>
+        <React.Fragment>
         <UserNavbar />
         <MDBContainer fluid style={{height:'100%', background:'#b5cdd9'}}>
             <div className="row" >
@@ -165,6 +165,6 @@ export default function BrandPageFeedback() {
             </div>
             
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

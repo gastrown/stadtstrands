@@ -139,7 +139,7 @@ export default function UserDrinksMenu() {
     })
 
     return (
-        <>
+        <React.Fragment>
         <UserNavbar />
         <MDBContainer fluid style={{height:'100%', background:'#b5cdd9'}}>
             <div className="row" >
@@ -190,6 +190,6 @@ export default function UserDrinksMenu() {
                 </div>
             </div>
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

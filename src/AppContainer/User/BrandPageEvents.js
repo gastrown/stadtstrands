@@ -7,6 +7,7 @@ import {
 import { Link, useHistory } from 'react-router-dom';
 
 import UserStyles from '../../AppStyles/UserStyles.module.css';
+import { Fragment } from 'react';
 
 export default function BrandPageEvents() {
     const history = useHistory();
@@ -97,7 +98,7 @@ export default function BrandPageEvents() {
     ]
    
     return (
-        <>
+        <React.Fragment>
         <UserNavbar />
         <MDBContainer fluid style={{height:'100%', background:'#b5cdd9'}}>
             <div className="row" >
@@ -193,6 +194,6 @@ export default function BrandPageEvents() {
             </div>
             
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

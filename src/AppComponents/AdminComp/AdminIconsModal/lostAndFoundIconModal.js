@@ -30,10 +30,10 @@ export default function LostAndFoundIconModal(props) {
                                         type="text"
                                         hint="Lost Item"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>
@@ -47,10 +47,10 @@ export default function LostAndFoundIconModal(props) {
                                         type="date"
                                         hint="Date"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>
@@ -64,10 +64,10 @@ export default function LostAndFoundIconModal(props) {
                                         type="email"
                                         hint="Email"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>

@@ -39,7 +39,7 @@ export default function JobApplicationForm(props) {
     
     return (
         
-        <>
+        <React.Fragment>
         
         <UserNavbar />
         <MDBContainer fluid style={{height:'100%', background:'#b5cdd9'}}>
@@ -168,6 +168,6 @@ export default function JobApplicationForm(props) {
             </div>
             
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

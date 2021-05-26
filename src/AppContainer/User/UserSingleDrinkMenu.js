@@ -15,7 +15,7 @@ export default function UserSingleDrinkMenu(props) {
     const singleDrinkDetail = props.location.state.drinkdetail;
     console.log(singleDrinkDetail);
     return (
-        <>
+        <React.Fragment>
         <UserNavbar />
         <MDBContainer fluid style={{height:'100%', background:'#b5cdd9'}}>
             <div className="row" >
@@ -50,10 +50,10 @@ export default function UserSingleDrinkMenu(props) {
                                             hint="1"
                                             containerClassName="mb-4 mt-0"
                                             append={
-                                                <>
+                                                <div>
                                                <MDBIcon icon="minus-circle" className="mt-3 ml-3"/>
                                                <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
-                                                </>
+                                                </div>
                                             }
                                             />
                                         </div>
@@ -112,6 +112,6 @@ export default function UserSingleDrinkMenu(props) {
             </div>
             
         </MDBContainer>
-        </>
+        </React.Fragment>
     )
 }

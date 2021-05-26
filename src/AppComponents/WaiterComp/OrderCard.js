@@ -75,7 +75,7 @@ export const OrderCard = () => {
                                                 <MDBModal isOpen={singleListModal} toggle={toggleList}>
                                                     <MDBModalBody>
                                                      { waiterModal ? 
-                                                        <>
+                                                        <div>
                                                             <div className="row">
                                                                 <div className="col-3 col-md-3 text-left">
                                                                     <div onClick={() => toggleList(null)} className="black-text">
@@ -161,7 +161,7 @@ export const OrderCard = () => {
                                                                 </div>
                                                             </div>
                                                     
-                                                        </>
+                                                        </div>
                                                         
                                                     : null}
                                                          

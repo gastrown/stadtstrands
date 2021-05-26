@@ -19,10 +19,10 @@ export default function FeedbackModal(props) {
                                 type="text"
                                 hint=""
                                 append={
-                                    <>
+                                    <div>
                                         <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                         <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                    </>
+                                    </div>
                                 }
                             />
                         </div>
@@ -36,10 +36,10 @@ export default function FeedbackModal(props) {
                                 type="text"
                                 hint=""
                                 append={
-                                    <>
+                                    <div>
                                         <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                         <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                    </>
+                                    </div>
                                 }
                             />
                         </div>
@@ -53,10 +53,10 @@ export default function FeedbackModal(props) {
                                 type="text"
                                 hint=""
                                 append={
-                                    <>
+                                    <div>
                                         <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
                                         <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                    </>
+                                    </div>
                                 }
                             />
                         </div>

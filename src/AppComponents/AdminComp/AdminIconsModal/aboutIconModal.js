@@ -63,9 +63,9 @@ export default function ContactIconModal(props) {
                                         type="text"
                                         hint="Enter Title"
                                         append={
-                                            <>
+                                            <div>
                                                 <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </>
+                                            </div>
                                         }
                                     />
                                 </div>

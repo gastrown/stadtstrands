@@ -1,20 +1,30 @@
 import React from 'react';
-import { MDBCol } from 'mdbreact';
-import AutoFillChecker from './AutofillChecker';
-import FormDetailUpload from './FormDetailUpload';
-import LogoUpload from './LogoUpload';
+import FormDetailFields from './FormDetailFields';
 
-const formmanagercomponent = (props) => {
-    
+
+function FormManagerComponent (props) {
+    const location = props.location; 
    
     return(
-               <MDBCol size="12">
-                   <LogoUpload />
-                   <AutoFillChecker />
-                   <FormDetailUpload />
+               <div className="col-12">
+                   <div className="row mb-2">
+                        <div className="col-12 text-center">
+                            <h4><span style={{fontSize:'12px'}}>Brand Page Location Name</span>
+                                <br/>{location.name}
+                            </h4>
+                        </div>
+                   </div>
 
-               </MDBCol>
+                    <div className="row">
+                        <div className="col-12">
+                        <FormDetailFields 
+                            location={location}
+                        />
+                        </div>
+                    </div>
+
+               </div>
     );
 }
 
-export default formmanagercomponent;
+export default FormManagerComponent;

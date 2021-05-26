@@ -229,7 +229,7 @@ function UserFormPage () {
 
    
     return (
-        <>
+        <React.Fragment>
         <UserNavbar 
         />
         <UserBrandPageDetails 
@@ -308,7 +308,7 @@ function UserFormPage () {
             /> 
 
             
-        </>
+        </React.Fragment>
     );
   
 }

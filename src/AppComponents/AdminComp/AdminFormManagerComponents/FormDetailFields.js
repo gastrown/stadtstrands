@@ -1,186 +1,564 @@
-import React, { useState} from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBInputGroup, MDBBtn, MDBModal, MDBModalBody} from "mdbreact";
-import NewsLetterChecker from './NewsLetterChecker';
+import React, { useState, useEffect } from "react";
+import {
+  MDBRow,
+  MDBCol,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBAlert,
+} from "mdbreact";
+import Axios from "axios";
 
 // import Toggle from 'react-toggle';
 
-function FormDetailFields() {
+function FormDetailFields(props) {
+  const LocationDetail = props.location;
 
-    const [fields] = useState(
-        [
-            {
-                id: '1',
-                inputtype:"text",
-                placeholder:'Fullname'
-            },
-            {
-                id: '2',
-                inputtype:"text",
-                placeholder:'Phone'
-            },
-            {
-                id: '3',
-                inputtype:"email",
-                placeholder:'Email'
-            },
-            {
-                id: '4',
-                inputtype:"password",
-                placeholder:'Password'
-            },
-            {
-                id: '5',
-                inputtype:"number",
-                placeholder:'Table Number'
-            },
-           
-        ]
-    );
+  const [fields, setFields] = useState([]);
+  const [fieldName, setFieldName] = useState("");
+  const [fieldType, setFieldType] = useState("");
+  const [fieldAutoFill, setFieldAutoFill] = useState(null);
+  const [fieldEnabled] = useState(true);
+  const [fieldRequired, setFieldRequired] = useState(true);
 
- 
+  const brandPageId = LocationDetail.id;
+  const brandPageFormId = LocationDetail.BrandPageForm.id;
+  //console.log(brandPageId);
+  // console.log(brandPageFormId);
+  const [enableAccompanyingPerson, setEnableAccompanyingPerson] =
+    useState(true);
+  const [requireAccompanyingPerson, setRequireAccompanyingPerson] =
+    useState(true);
+  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [enableNewsLetter, setEnableNewsLetter] = useState(true);
+  const [enableGetIcon, setEnableGetIcon] = useState(true);
+  const [loader, setLoader] = useState(false);
+  const [modalAddField, setmodalAddField] = useState(false);
+  //const [modalEditField, setmodalEditField] = useState(false);
 
-    const [modalAddField, setmodalAddField] = useState(false);
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-    const toggleModalAddField = () => {
-        setmodalAddField(!modalAddField);
-    }
+  const toggleModalAddField = () => {
+    setmodalAddField(!modalAddField);
+  };
 
-    const btnStyle = {
-        fontSize:'9px',
-        borderRadius:'20px'
-    }
+  const onSubmitFormPage = () => {
+    setLoader(!loader);
 
+    Axios.put(
+      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpageform/formItems/${brandPageFormId}`,
+      {
+        brandPageId: brandPageId,
+        enableNewsLetter: enableNewsLetter,
+        deactivatePage: deactivatePage,
+        enableGetIcon: enableGetIcon,
+        enableAccompanyingPerson: enableAccompanyingPerson,
+        requireAccompanyingPerson: requireAccompanyingPerson,
+        formItems: fields,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setModalSuccess(!modalSuccess);
+        console.log(response);
+      })
+      .catch((e) => {
+        //console.log(e.response)
+        setLoader(false);
+        setAlertError(!alertError);
+        setErrorMessage(e.response.data.data);
+      });
+  };
 
-    let addfields = fields.map( field => {
-        return(
-           
-                <MDBRow>
-                    <MDBCol md="6" sm="12" xs="12" >
-                        <MDBRow>
-                            <MDBCol size="12" className="mt-2">
-                                <MDBInputGroup
-                                    material
-                                    containerClassName="mb-3 mt-0"
-                                    type={field.inputtype}
-                                    hint={field.placeholder}
-                                    append={
-                                        <i className="fa fa-minus-circle mt-3 ml-3"></i>
-                                    }
-                                />
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCol>
-                    <MDBCol md="6" sm="12" xs="12" >
-                        <MDBRow>
-                            <MDBCol size="10" className="mt-2">
-                                <MDBRow>
-                                    <MDBCol size="8">
-                                        <MDBBtn
-                                        type="button"
-                                        color="#39729b"
-                                        style={btnStyle}
-                                        size="sm"
-                                        >Remove Autofill</MDBBtn>
-                                    </MDBCol>
-                                    <MDBCol size="4">
-                                        <MDBBtn
-                                        type="button"
-                                        outline
-                                        color="blue"
-                                        style={btnStyle}
-                                        size="sm"
-                                        >Required</MDBBtn>
-                                    </MDBCol>
-                                </MDBRow>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCol>
-                </MDBRow>     
-           
-                 
-            );
-        }
-);
+  const saveBtnStyle = {
+    fontSize: "12px",
+    borderRadius: "20px",
+  };
 
+  function handleAdd() {
+    const values = [...fields];
+    let id = Math.random(25).toString(36).substring(6);
+    values.push({
+      id: id,
+      title: fieldName,
+      formType: fieldType,
+      autoFilled: fieldAutoFill,
+      enabled: fieldEnabled,
+      required: fieldRequired,
+    });
+    setFields(values);
+    setmodalAddField(!modalAddField);
+  }
 
-    return(
-        <form className="mt-2">  
-                {addfields}
+  function handleRemove(id) {
+    const values = [...fields];
+    const index = values.findIndex((field) => field.id === id);
+    values.splice(index, 1);
+    setFields(values);
+  }
 
-                <MDBRow className="mt-3 mb-3">
-                    <MDBCol md="12" sm="12" xs="12">
-                        <span style={{fontSize:'22px'}} onClick={toggleModalAddField}>
-                            Add new field <i  class="fa fa-plus-circle"></i>
-                        </span>
-                    </MDBCol>
-                    <MDBModal isOpen={modalAddField} toggle={toggleModalAddField} size="sm" centered>
-                     
-                      <MDBModalBody>
-                       
-                        <div>
-                          <MDBInput label="Field Name" outline size="sm" />
-                        </div>
+  function handleAutoFill(id) {
+    const values = [...fields];
+    const index = values.findIndex((field) => field.id === id);
+    const field = values[index];
+    console.log("Before AutoFIll:", values[index]);
+    //values[index].autoFilled = !values[index].autoFilled;
+    values.forEach((element, index) => {
+      if (element.id === field.id) {
+        field.autoFilled = !field.autoFilled;
+        setFieldAutoFill(field.autoFilled);
+      }
+    });
+    console.log("updated AutoFIll:", values[index]);
+  }
 
+  function ToggleAutoFill() {
+    const values = [...fields];
 
-                        <div>
-                        <select className="browser-default custom-select">
-                            <option>Select Field Type</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
-                        </div>
+    values.forEach((field) => {
+      field.autoFilled = !field.autoFilled;
+      setFieldAutoFill(field.autoFilled);
+    });
+  }
 
-                        <div className="mt-3">
+  // function editSingleField(id) {
+  //     const values = [...fields];
+  //     const index = values.findIndex(field => field.id === id);
+
+  //     // make new object of updated object.
+  //     const singleField = values[index];
+  //     setmodalEditField(!modalEditField);
+  //     //console.log(singleField);
+  // }
+
+  useEffect(() => {
+    Axios.get(
+      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
+    )
+      .then((response) => {
+        const data = response.data.data;
+        setFields(data.FormItems);
+      })
+      .catch((e) => {
+        setFields([]);
+        console.log(e.response);
+      });
+  }, []);
+
+  const btnStyle = {
+    fontSize: "9px",
+    borderRadius: "20px",
+  };
+
+  // const handleDrag = (ev, id) => {
+  //     console.log('dragstart:',id);
+  //     ev.dataTransfer.setData("id", id);
+  // }
+
+  // const handleDrop = (ev, field) => {
+
+  //     let dragId = ev.dataTransfer.getData("id");
+  //     console.log('drop:',dragId);
+
+  //     // const dragId = ev.dataTransfer.getData("id");
+  //     // const data = ev.dataTransfer.getData("application/my-app");
+  //     // ev.target.appendChild(document.getElementById(data));
+  //     // const dragField = fields.find((field) => field.id === dragId);
+  //     // const dropField = fields.find((field) => field.id === ev.currentTarget.dropid);
+
+  //     // const dragFieldOrder = dragField.id;
+  //     // const dropFieldOrder = dropField.id;
+
+  //     // const newFieldState = fields.map((field) => {
+  //     //   if (field.id === dragId) {
+  //     //     field.id = dropFieldOrder;
+  //     //   }
+  //     //   if (field.id === ev.currentTarget.dropid) {
+  //     //     field.id = dragFieldOrder;
+  //     //   }
+  //     //   return field;
+  //     // });
+
+  //     //setFields(newFieldState);
+  //   };
+
+  // const onDrop = (ev) => {
+  //     let id = ev.dataTransfer.getData("id");
+  //     console.log(id);
+
+  //     fields.filter((field) => {
+  //         if (field.id == id){
+  //             console.log(field);
+  //         }
+  //         return field;
+  //     })
+  // }
+
+  return (
+    <form className="mt-2">
+      <MDBRow>
+        <div className="col-12">
+          <div className="text-center mb-2">
+            {fieldAutoFill ? (
+              <MDBBtn
+                type="button"
+                color="blue"
+                style={{ borderRadius: "20px" }}
+                className="waves-effect z-depth-1a"
+                size="sm"
+                onClick={() => ToggleAutoFill()}
+              >
+                Enable Auto Fill
+              </MDBBtn>
+            ) : (
+              <MDBBtn
+                type="button"
+                color="red"
+                style={{ borderRadius: "20px" }}
+                className="waves-effect z-depth-1a"
+                size="sm"
+                onClick={() => ToggleAutoFill()}
+              >
+                Disable Auto Fill
+              </MDBBtn>
+            )}
+          </div>
+        </div>
+      </MDBRow>
+
+      {fields.map((field) => {
+        return (
+          <div className="row" key={field.id}>
+            <div className="col-12 col-md-6">
+              <div className="row mt-1">
+                <div className="col-9 mt-2">
+                  <input
+                    className="form-control mb-3 mt-0"
+                    style={{
+                      border: "inset dotted #000000",
+                      borderRadius: "10px",
+                      fontSize: "12px",
+                    }}
+                    type={field.formType}
+                    defaultValue={field.title}
+                    disabled
+                  />
+                </div>
+                <div className="col-3">
+                  <i
+                    className="fa fa-minus-circle mt-3 ml-1"
+                    onClick={() => handleRemove(field.id)}
+                  ></i>
+                  {/* <i className="fa fa-edit mt-3 ml-3" onClick={() => editSingleField(field.id)}></i> */}
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <div className="row">
+                <div className="col-10 mt-2">
+                  <div className="row">
+                    <div className="col-8">
+                      {fieldAutoFill ? (
                         <MDBBtn
                           type="button"
-                          color="blue"
-                          style={{borderRadius:'20px'}}
-                          className="waves-effect z-depth-1a"
+                          color="#39729b"
+                          style={btnStyle}
                           size="sm"
-                          >
-                          Add
+                          onClick={() => handleAutoFill(field.id)}
+                        >
+                          Add Autofill
                         </MDBBtn>
-                        </div>
-                      </MDBModalBody>
-                    </MDBModal>
-                </MDBRow>
-                
-                <MDBRow className="mt-2">
-                        <MDBCol md={7} sm={12} xs={12} >
-                            <p>Would you like to offer to register accompanying persons?</p>
-                        </MDBCol>
-                        <MDBCol md={5} sm={12} xs={12} >
-                            <MDBRow>
-                                <MDBCol md={4} sm={4} xs={4}>
-                                    <div className='custom-control custom-switch'>
-                                        <input
-                                        type='checkbox'
-                                        className='custom-control-input'
-                                        id='customSwitches'
-                                        readOnly
-                                        />
-                                        <label className='custom-control-label' htmlFor='customSwitches'>
-                                        </label>
-                                    </div>
-                                </MDBCol>
-                               
-                                <MDBCol md={4} sm={4} xs={4}>
-                                    <MDBBtn
-                                    type="button"
-                                    outline
-                                    color="blue"
-                                    style={{borderRadius:'20px'}}
-                                    size="sm"
-                                    >Required</MDBBtn>
-                                </MDBCol>
-                            </MDBRow>
-                        </MDBCol>
-                </MDBRow>    
-                
-                <NewsLetterChecker />
-        </form>    
-    );
+                      ) : (
+                        <MDBBtn
+                          type="button"
+                          color="#39729b"
+                          style={btnStyle}
+                          size="sm"
+                          onClick={() => handleAutoFill(field.id)}
+                        >
+                          Remove Autofill
+                        </MDBBtn>
+                      )}
+                    </div>
+                    <div className="col-4">
+                      <MDBBtn
+                        type="button"
+                        outline
+                        color="blue"
+                        style={btnStyle}
+                        size="sm"
+                      >
+                        Required
+                      </MDBBtn>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      <div className="row">
+        <div className="col-10 offset-1">
+          {modalSuccess ? (
+            <MDBAlert color="success">
+              Brand Form Page Updated Successfully.
+            </MDBAlert>
+          ) : (
+            <div></div>
+          )}
+          {alertError ? (
+            <MDBAlert color="danger" dismiss>
+              {errorMessage}
+            </MDBAlert>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      </div>
+
+      <MDBRow className="mt-3 mb-3">
+        <MDBCol md="12" sm="12" xs="12">
+          <span style={{ fontSize: "22px" }} onClick={toggleModalAddField}>
+            Add new field <i class="fa fa-plus-circle"></i>
+          </span>
+        </MDBCol>
+        <MDBModal
+          isOpen={modalAddField}
+          toggle={toggleModalAddField}
+          size="sm"
+          centered
+        >
+          <MDBModalBody>
+            <form>
+              <div className="form-group row">
+                <div className="col-12">
+                  <input
+                    type="text"
+                    placeholder="Field Name"
+                    className="form-control"
+                    onChange={(e) => {
+                      setFieldName(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <div className="col-12">
+                  <select
+                    className="browser-default custom-select"
+                    onChange={(e) => {
+                      setFieldType(e.target.value);
+                    }}
+                  >
+                    <option>Select Field Type</option>
+                    <option defaultValue="text">Text</option>
+                    <option defaultValue="email">Email</option>
+                    <option defaultValue="number">Number</option>
+                    <option defaultValue="date">Date</option>
+                    <option defaultValue="password">Password</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <div className="col-12">
+                  <select
+                    className="browser-default custom-select"
+                    onChange={(e) => {
+                      setFieldAutoFill(e.target.value);
+                      console.log(e.target.value);
+                    }}
+                  >
+                    <option>Auto fill option</option>
+                    <option defaultValue={true}>true</option>
+                    <option defaultValue={false}>false</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <div className="col-12">
+                  <select
+                    className="browser-default custom-select"
+                    onChange={(e) => {
+                      setFieldRequired(e.target.value);
+                    }}
+                  >
+                    <option>Required Option</option>
+                    <option defaultValue={true}>true</option>
+                    <option defaultValue={false}>false</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <MDBBtn
+                  type="button"
+                  color="blue"
+                  style={{ borderRadius: "20px" }}
+                  className="waves-effect z-depth-1a"
+                  size="sm"
+                  onClick={() => handleAdd()}
+                >
+                  Add
+                </MDBBtn>
+              </div>
+            </form>
+          </MDBModalBody>
+        </MDBModal>
+      </MDBRow>
+
+      <MDBRow className="mt-2">
+        <MDBCol md={7} sm={12} xs={12}>
+          <p>Would you like to offer to register accompanying persons?</p>
+        </MDBCol>
+        <MDBCol md={5} sm={12} xs={12}>
+          <MDBRow>
+            <MDBCol md={4} sm={4} xs={4}>
+              <div className="custom-control custom-switch">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="customSwitches"
+                  readOnly
+                  onChange={() => {
+                    setEnableAccompanyingPerson(!enableAccompanyingPerson);
+                  }}
+                />
+                <label
+                  className="custom-control-label"
+                  htmlFor="customSwitches"
+                ></label>
+              </div>
+            </MDBCol>
+
+            <MDBCol md={4} sm={4} xs={4}>
+              <MDBBtn
+                type="button"
+                outline
+                color="blue"
+                style={{ borderRadius: "20px" }}
+                size="sm"
+                onClick={() => {
+                  setRequireAccompanyingPerson(true);
+                }}
+              >
+                Required
+              </MDBBtn>
+            </MDBCol>
+          </MDBRow>
+        </MDBCol>
+      </MDBRow>
+
+      <MDBRow className="mt-2">
+        <MDBCol md={3} sm={6} xs={12}>
+          <h5 className="mt-3" style={{ textAlign: "left" }}>
+            Newsletter
+          </h5>
+        </MDBCol>
+        <MDBCol md={4} sm={6} xs={12} className="mt-3">
+          <div
+            className="custom-control custom-switch"
+            style={{ textAlign: "left" }}
+          >
+            <input
+              type="checkbox"
+              className="custom-control-input"
+              id="customSwitchesChecked"
+              defaultChecked
+              onChange={() => {
+                setEnableNewsLetter(!enableNewsLetter);
+              }}
+            />
+            <label
+              className="custom-control-label"
+              htmlFor="customSwitchesChecked"
+            ></label>
+          </div>
+        </MDBCol>
+      </MDBRow>
+
+      <MDBRow className="mt-2">
+        <MDBCol md={3} sm={6} xs={12}>
+          <h5 className="mt-3" style={{ textAlign: "left" }}>
+            Deactive Page
+          </h5>
+        </MDBCol>
+        <MDBCol md={4} sm={6} xs={12} className="mt-3">
+          <div
+            className="custom-control custom-switch"
+            style={{ textAlign: "left" }}
+          >
+            <input
+              type="checkbox"
+              className="custom-control-input"
+              id="deactivateSwitchesChecked"
+              defaultChecked
+              onChange={() => {
+                setDeactivatePage(!deactivatePage);
+              }}
+            />
+            <label
+              className="custom-control-label"
+              htmlFor="deactivateSwitchesChecked"
+            ></label>
+          </div>
+        </MDBCol>
+      </MDBRow>
+
+      <MDBRow className="mt-2">
+        <MDBCol md={3} sm={12} xs={12}>
+          <h5 className="mt-3" style={{ textAlign: "left" }}>
+            Get Icon
+          </h5>
+        </MDBCol>
+        <MDBCol md={4} sm={12} xs={12} className="mt-3">
+          <div
+            className="custom-control custom-switch"
+            style={{ textAlign: "left" }}
+          >
+            <input
+              type="checkbox"
+              className="custom-control-input"
+              id="getIconSwitch"
+              defaultChecked
+              onChange={() => {
+                setDeactivatePage(!deactivatePage);
+              }}
+            />
+            <label
+              className="custom-control-label"
+              htmlFor="getIconSwitch"
+            ></label>
+          </div>
+        </MDBCol>
+      </MDBRow>
+
+      <div>
+        <MDBBtn
+          type="button"
+          color="blue"
+          style={saveBtnStyle}
+          size="sm"
+          onClick={onSubmitFormPage}
+        >
+          Save
+          {loader ? (
+            <div className="spinner-grow spinner-grow-sm ml-2" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </MDBBtn>
+      </div>
+    </form>
+  );
 }
 
 export default FormDetailFields;

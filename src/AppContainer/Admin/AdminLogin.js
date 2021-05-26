@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { MDBContainer, MDBRow, MDBCol, 
-         MDBCard, MDBCardBody, MDBCardTitle, 
-         MDBBtn, MDBIcon, MDBAlert 
-        } from 'mdbreact';
-import AdminStyle from '../../AppStyles/AdminStyles.module.css';
-import AdminNavbar from '../../AppComponents/AdminComp/AdminNavbar';
-import { Link, useHistory } from 'react-router-dom';
-import Axios from 'axios';
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBBtn,
+  MDBIcon,
+  MDBAlert,
+} from "mdbreact";
+import AdminStyle from "../../AppStyles/AdminStyles.module.css";
+import AdminNavbar from "../../AppComponents/AdminComp/AdminNavbar";
+import { Link, useHistory } from "react-router-dom";
+import Axios from "axios";
 
-
-function AdminLogin () {
+function AdminLogin() {
   const history = useHistory();
 
   const [username, setUsername] = useState("");
@@ -21,27 +27,27 @@ function AdminLogin () {
 
   const redirectToLocation = (adminid) => {
     window.location = `/admin/set-location/${adminid}`;
-  }
+  };
 
   const adminLogin = (e) => {
-  
     e.preventDefault();
     setLoader(!loader);
 
-    Axios.post('https://stadstrandnodeapi.herokuapp.com/api/v1/admin/login',  {
+    Axios.post("https://stadstrandnodeapi.herokuapp.com/api/v1/admin/login", {
       username: username,
-      password: password
-    }, ).then((response) => {
-      const adminid = response.data.data.id;
-      setInterval(redirectToLocation(adminid), 1000);
-      localStorage.setItem("token", response.data.token)
-      
-    }).catch((e) => {
-      console.log(e.response)
-      setLoader(false);
-      setAlertError(true);
-      setErrorMessage(e.response.data.data)
-    });
+      password: password,
+    })
+      .then((response) => {
+        const adminid = response.data.data.id;
+        setInterval(redirectToLocation(adminid), 1000);
+        localStorage.setItem("token", response.data.token);
+      })
+      .catch((e) => {
+        console.log(e.response);
+        setLoader(false);
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+      });
   };
 
   return (
@@ -50,85 +56,94 @@ function AdminLogin () {
       <MDBContainer>
         <MDBRow>
           <MDBCol className={AdminStyle.cardAlignMiddle}>
-            <MDBCard style={{ width: "30rem",borderRadius:"20px" }}>
+            <MDBCard style={{ width: "30rem", borderRadius: "20px" }}>
               <MDBCardBody className="text-center mt-5">
-                <MDBCardTitle cascade className='text-center'>Sign in</MDBCardTitle>
+                <MDBCardTitle cascade className="text-center">
+                  Sign in
+                </MDBCardTitle>
                 <p>to access your brand Page</p>
                 <form onSubmit={adminLogin}>
-                <div className="row">
-                        <div className="col-10 offset-1">
-                            {alertError ?  
-                            <MDBAlert color="danger">
-                              {errorMessage}
-                            </MDBAlert> : <div></div>
-                            }
-                        </div>
+                  <div className="row">
+                    <div className="col-10 offset-1">
+                      {alertError ? (
+                        <MDBAlert color="danger">{errorMessage}</MDBAlert>
+                      ) : (
+                        <div></div>
+                      )}
                     </div>
+                  </div>
                   <div className="form-group row">
                     <div className="col-md-10 offset-md-1">
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         placeholder="Username"
-                        style={{borderRadius:'15px'}}
+                        style={{ borderRadius: "15px" }}
                         className="form-control mt-3"
                         onChange={(e) => {
                           setUsername(e.target.value);
-                        }} />
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="form-group row">
                     <div className="col-md-10 offset-md-1">
-                      <input 
-                        type="password" 
+                      <input
+                        type="password"
                         placeholder="Password"
-                        style={{borderRadius:'15px'}}
+                        style={{ borderRadius: "15px" }}
                         className="form-control mt-3"
                         onChange={(e) => {
                           setPassword(e.target.value);
-                        }} />
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="form-group row">
-                      <div className="col-md-12 text-center mb-3">
-                        
-                        {loader ? 
-                          <div className="spinner-border fast ml-2" role="status">
-                              <span className="sr-only mt-2">Loading...</span>
-                          </div> : <div></div>}
-                        <div>
-                          <MDBBtn
-                            type="submit"
-                            color="blue"
-                            style={{borderRadius:'20px'}}
-                            className="waves-effect z-depth-1a"
-                            size="md"
-                          >
-                            Log in
-                          </MDBBtn>
-                        </div>
-                        
+                    <div className="col-md-12 text-center mb-3">
+                      <div>
+                        <MDBBtn
+                          type="submit"
+                          color="blue"
+                          style={{ borderRadius: "20px" }}
+                          className="waves-effect z-depth-1a"
+                          size="md"
+                        >
+                          Log in
+                          {loader ? (
+                            <div
+                              className="spinner-grow spinner-grow-sm ml-2"
+                              role="status"
+                            >
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                        </MDBBtn>
                       </div>
                     </div>
+                  </div>
                 </form>
 
-              <p className="mt-2 font-medium text-center">
-                Don't have an account?
-                <Link className="blue-text ml-1" to="/admin/0/signup">Sign up</Link>
-              </p>
+                <p className="mt-2 font-medium text-center">
+                  Don't have an account?
+                  <Link className="blue-text ml-1" to="/admin/0/signup">
+                    Sign up
+                  </Link>
+                </p>
 
-              <div className="mt-2 font-small text-center">
-                        <div onClick={history.goBack} className="black-text">
-                            <MDBIcon icon="chevron-circle-left" /> Back 
-                        </div>
-              </div>
+                <div className="mt-2 font-small text-center">
+                  <div onClick={history.goBack} className="black-text">
+                    <MDBIcon icon="chevron-circle-left" /> Back
+                  </div>
+                </div>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
         </MDBRow>
       </MDBContainer>
     </MDBContainer>
-    );
-  
+  );
 }
 
 export default AdminLogin;

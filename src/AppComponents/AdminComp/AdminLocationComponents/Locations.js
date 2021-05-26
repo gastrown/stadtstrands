@@ -18,7 +18,7 @@ function Locations (props) {
                 setLocations([]);
                 console.log(e.response)
             });
-      }, []);
+      });
 
         
     
