@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminStyle from "../../../AppStyles/AdminStyles.module.css";
 import { MDBBtn, MDBNotification, MDBIcon } from "mdbreact";
 import Axios from "axios";
+import FileDownload from "js-file-download";
 
 export default function BrandPageFormDetails(props) {
   const [brandPageImage, setBrandPageImage] = useState("");
@@ -26,14 +27,18 @@ export default function BrandPageFormDetails(props) {
     display: "inline-block",
     fontSize: "9px",
     textAlign: "center",
+    cursor: "pointer",
   };
 
   const downloadQrCode = () => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpage/qrcode/${brandPageId}`
+      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpage/qrcode/${brandPageId}`,
+      {
+        responseType: "blob",
+      }
     )
       .then((response) => {
-        console.log(response);
+        FileDownload(response.data, `${brandPageId}.png`);
       })
       .catch((e) => {
         console.log(e.response);
@@ -49,7 +54,6 @@ export default function BrandPageFormDetails(props) {
         setLogoPreview(BrandPage.logoPath);
         setDescription(BrandPage.description);
         setImagePreview(BrandPage.locationImagePath);
-        console.log(response.data.data);
       })
       .catch((e) => {
         console.log(e.response);
