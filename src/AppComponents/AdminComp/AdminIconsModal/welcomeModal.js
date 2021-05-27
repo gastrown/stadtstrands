@@ -24,7 +24,7 @@ export default function WelcomeModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, []);
+  }, [brandPageId]);
 
   const imageFileStyle = {
     padding: "10px",

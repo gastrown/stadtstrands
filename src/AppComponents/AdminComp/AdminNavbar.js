@@ -1,6 +1,4 @@
 import React from "react";
-import { MDBIcon } from "mdbreact";
-import Axios from "axios";
 
 const AdminNavbar = () => {
   return (

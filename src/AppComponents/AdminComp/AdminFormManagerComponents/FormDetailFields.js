@@ -31,7 +31,7 @@ function FormDetailFields(props) {
     useState(true);
   const [deactivatePage, setDeactivatePage] = useState(true);
   const [enableNewsLetter, setEnableNewsLetter] = useState(true);
-  const [enableGetIcon, setEnableGetIcon] = useState(true);
+  //const [enableGetIcon, setEnableGetIcon] = useState(true);
   const [loader, setLoader] = useState(false);
   const [modalAddField, setmodalAddField] = useState(false);
   //const [modalEditField, setmodalEditField] = useState(false);
@@ -53,7 +53,7 @@ function FormDetailFields(props) {
         brandPageId: brandPageId,
         enableNewsLetter: enableNewsLetter,
         deactivatePage: deactivatePage,
-        enableGetIcon: enableGetIcon,
+        enableGetIcon: true,
         enableAccompanyingPerson: enableAccompanyingPerson,
         requireAccompanyingPerson: requireAccompanyingPerson,
         formItems: fields,
@@ -103,35 +103,19 @@ function FormDetailFields(props) {
     const values = [...fields];
     const index = values.findIndex((field) => field.id === id);
     const field = values[index];
-    console.log("Before AutoFIll:", values[index]);
-    //values[index].autoFilled = !values[index].autoFilled;
-    values.forEach((element, index) => {
-      if (element.id === field.id) {
-        field.autoFilled = !field.autoFilled;
-        setFieldAutoFill(field.autoFilled);
-      }
-    });
-    console.log("updated AutoFIll:", values[index]);
+    field.autoFilled = !field.autoFilled;
+    values[index] = field;
+    setFields(values);
   }
 
   function ToggleAutoFill() {
     const values = [...fields];
-
     values.forEach((field) => {
       field.autoFilled = !field.autoFilled;
-      setFieldAutoFill(field.autoFilled);
     });
+    setFieldAutoFill(!fieldAutoFill);
+    setFields(values);
   }
-
-  // function editSingleField(id) {
-  //     const values = [...fields];
-  //     const index = values.findIndex(field => field.id === id);
-
-  //     // make new object of updated object.
-  //     const singleField = values[index];
-  //     setmodalEditField(!modalEditField);
-  //     //console.log(singleField);
-  // }
 
   useEffect(() => {
     Axios.get(
@@ -145,56 +129,12 @@ function FormDetailFields(props) {
         setFields([]);
         console.log(e.response);
       });
-  }, []);
+  }, [LocationDetail.BrandPageForm.id]);
 
   const btnStyle = {
     fontSize: "9px",
     borderRadius: "20px",
   };
-
-  // const handleDrag = (ev, id) => {
-  //     console.log('dragstart:',id);
-  //     ev.dataTransfer.setData("id", id);
-  // }
-
-  // const handleDrop = (ev, field) => {
-
-  //     let dragId = ev.dataTransfer.getData("id");
-  //     console.log('drop:',dragId);
-
-  //     // const dragId = ev.dataTransfer.getData("id");
-  //     // const data = ev.dataTransfer.getData("application/my-app");
-  //     // ev.target.appendChild(document.getElementById(data));
-  //     // const dragField = fields.find((field) => field.id === dragId);
-  //     // const dropField = fields.find((field) => field.id === ev.currentTarget.dropid);
-
-  //     // const dragFieldOrder = dragField.id;
-  //     // const dropFieldOrder = dropField.id;
-
-  //     // const newFieldState = fields.map((field) => {
-  //     //   if (field.id === dragId) {
-  //     //     field.id = dropFieldOrder;
-  //     //   }
-  //     //   if (field.id === ev.currentTarget.dropid) {
-  //     //     field.id = dragFieldOrder;
-  //     //   }
-  //     //   return field;
-  //     // });
-
-  //     //setFields(newFieldState);
-  //   };
-
-  // const onDrop = (ev) => {
-  //     let id = ev.dataTransfer.getData("id");
-  //     console.log(id);
-
-  //     fields.filter((field) => {
-  //         if (field.id == id){
-  //             console.log(field);
-  //         }
-  //         return field;
-  //     })
-  // }
 
   return (
     <form className="mt-2">
@@ -208,7 +148,7 @@ function FormDetailFields(props) {
                 style={{ borderRadius: "20px" }}
                 className="waves-effect z-depth-1a"
                 size="sm"
-                onClick={() => ToggleAutoFill()}
+                onClick={ToggleAutoFill}
               >
                 Enable Auto Fill
               </MDBBtn>
@@ -219,7 +159,7 @@ function FormDetailFields(props) {
                 style={{ borderRadius: "20px" }}
                 className="waves-effect z-depth-1a"
                 size="sm"
-                onClick={() => ToggleAutoFill()}
+                onClick={ToggleAutoFill}
               >
                 Disable Auto Fill
               </MDBBtn>
@@ -260,7 +200,7 @@ function FormDetailFields(props) {
                 <div className="col-10 mt-2">
                   <div className="row">
                     <div className="col-8">
-                      {fieldAutoFill ? (
+                      {field.autoFilled ? (
                         <MDBBtn
                           type="button"
                           color="#39729b"

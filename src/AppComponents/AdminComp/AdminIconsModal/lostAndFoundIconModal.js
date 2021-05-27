@@ -1,116 +1,240 @@
-import React from 'react';
-import { 
-    MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBInputGroup
-  } from 'mdbreact';
-import DeactivateButton from '../../DeactivateButton';
-
-
+import React, { useState, useEffect } from "react";
+import { MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBAlert } from "mdbreact";
+import DeactivateButton from "../../DeactivateButton";
+import NotificationStatus from "../AdminNotificationStatus";
+import Axios from "axios";
 
 export default function LostAndFoundIconModal(props) {
+  const brandPageId = props.locationId;
+  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [loader, setLoader] = useState(false);
+  const [lostAndFoundForms, setLostAndFoundForms] = useState([]);
+  const [notificationStatus, setNotificationStatus] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-    return (
-        <MDBModal isOpen={props.constName} toggle={props.functionName}  centered >
-            <MDBModalBody>
-                 <div className="mt-1 font-small text-left pb-3">
-                        <div onClick={props.functionName} className="black-text">
-                            <MDBIcon icon="chevron-circle-left" /> Back 
-                        </div>
-                </div>
-
-                <h6 className="mt-5"><strong>Lost and Found </strong></h6>
-               
-                <div className="row mt-5">
-                    <div className="col-md-12">
-                        <form>
-                            <div className="row form-group">
-                                <div className="col-md-8 offset-md-2">
-                                    <MDBInputGroup
-                                        material
-                                        containerClassName="mt-0"
-                                        type="text"
-                                        hint="Lost Item"
-                                        append={
-                                            <div>
-                                                <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
-                                                <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </div>
-                                        }
-                                    />
-                                </div>
-                            </div>
-                            
-                            <div className="row form-group">
-                                <div className="col-md-8 offset-md-2">
-                                    <MDBInputGroup
-                                        material
-                                        containerClassName="mt-0"
-                                        type="date"
-                                        hint="Date"
-                                        append={
-                                            <div>
-                                                <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
-                                                <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </div>
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="row form-group">
-                                <div className="col-md-8 offset-md-2">
-                                    <MDBInputGroup
-                                        material
-                                        containerClassName="mt-0"
-                                        type="email"
-                                        hint="Email"
-                                        append={
-                                            <div>
-                                                <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
-                                                <MDBIcon icon="minus-circle" className="mt-3 ml-3" />
-                                            </div>
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col-md-12 text-center">
-                                <MDBIcon icon="plus-circle" className="mt-3 ml-3"/>
-                                </div>
-                            </div>
-                                
-                            <div className="row">
-                                <div className="col-md-10 offset-md-2">
-                                <DeactivateButton /> 
-                                </div>
-                            </div>
-                            <div className="form-group row mt-4">
-                                <div className="col-md-12 text-center">
-                                <MDBBtn
-                                    type="button"
-                                    color="#39729b"
-                                    style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff'}}
-                                    className="waves-effect z-depth-1a"
-                                    size="sm"
-                                    >
-                                    Save
-                                </MDBBtn>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                
-                
-
-               <div className="mt-5 font-small text-center pb-3">
-                        <div onClick={props.functionName} className="black-text">
-                            <MDBIcon icon="chevron-circle-left" /> Back 
-                        </div>
-                </div>
-
-            </MDBModalBody>
-        </MDBModal>
+  useEffect(() => {
+    Axios.get(
+      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagelostandfound/${brandPageId}`
     )
+      .then((response) => {
+        const brandPageResponse = response.data.data.lostAndFoundForms;
+        console.log(brandPageResponse);
+        setDeactivatePage(response.data.data.deactivate);
+        setLostAndFoundForms(lostAndFoundForms);
+      })
+      .catch((e) => {
+        console.log(e.response);
+      });
+  }, [brandPageId, lostAndFoundForms]);
+
+  const addNewField = () => {
+    const fields = [...lostAndFoundForms];
+    fields.push({
+      title: "New field",
+      formType: "Select field type",
+    });
+    setLostAndFoundForms(fields);
+  };
+
+  const removeField = (field) => {
+    const fields = [...lostAndFoundForms];
+    const index = fields.findIndex((element) => element === field);
+    fields.splice(index, 1);
+    setLostAndFoundForms(fields);
+  };
+
+  const changefieldTitle = (field, e) => {
+    const fields = [...lostAndFoundForms];
+    const index = fields.findIndex((element) => element === field);
+    fields[index].title = e.target.value;
+    setLostAndFoundForms(fields);
+  };
+
+  const changefieldFormType = (field, e) => {
+    const fields = [...lostAndFoundForms];
+    const index = fields.findIndex((element) => element === field);
+    fields[index].formType = e.target.value;
+    setLostAndFoundForms(fields);
+  };
+
+  const createLostAndFound = (e) => {
+    e.preventDefault();
+    setLoader(!loader);
+    const sendFields = lostAndFoundForms.map((field) => {
+      return { title: field.title, formType: field.formType };
+    });
+
+    console.log(sendFields);
+
+    Axios.post(
+      "https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagelostandfound",
+      {
+        brandPageId: brandPageId,
+        deactivate: deactivatePage,
+        lostAndFoundForms: sendFields,
+      }
+    )
+      .then((response) => {
+        console.log(response);
+        setLoader(false);
+        setAlertError(false);
+        setNotificationStatus(true);
+      })
+      .catch((e) => {
+        console.log(e.response);
+        setLoader(false);
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+      });
+  };
+
+  return (
+    <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
+      {notificationStatus ? (
+        <NotificationStatus
+          notificationIcon="bell"
+          notificationTitle="Admin Notification"
+          notificationMessage="Lost and found details updated successfully"
+        />
+      ) : (
+        <span></span>
+      )}
+      <MDBModalBody>
+        <h6>
+          <strong>Lost and Found </strong>
+        </h6>
+        <p>Select Lost and found fields for user to access</p>
+        <hr />
+        <div className="row mt-2">
+          <div className="col-md-12">
+            <form onSubmit={createLostAndFound}>
+              <div className="row">
+                <div className="col-10 offset-1">
+                  {alertError ? (
+                    <MDBAlert color="danger">{errorMessage}</MDBAlert>
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+              </div>
+              {lostAndFoundForms.length < 1 ? (
+                <div className="row form-group mt-2">
+                  <div className="col-md-10 offset-md-1">
+                    <div className="row mt-1">
+                      <div className="col-12">
+                        Insert field
+                        <i
+                          className="fa fa-plus-circle ml-5 mt-3"
+                          onClick={addNewField}
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                lostAndFoundForms.map((field, index) => {
+                  return (
+                    <div className="row form-group mt-1" key={index}>
+                      <div className="col-md-12">
+                        <div className="row">
+                          <div className="col-4 mt-1">
+                            <select
+                              className="form-control"
+                              style={{
+                                border: "inset dotted #000000",
+                                borderRadius: "10px",
+                                fontSize: "12px",
+                              }}
+                              onChange={(e) => changefieldFormType(field, e)}
+                            >
+                              <option defaultValue={field.formType}>
+                                {field.formType}
+                              </option>
+                              <option defaultValue="text">text</option>
+                              <option defaultValue="number">number</option>
+                              <option defaultValue="email">email</option>
+                              <option defaultValue="date">date</option>
+                              <option defaultValue="textarea">textarea</option>
+                            </select>
+                          </div>
+                          <div className="col-5 mt-1">
+                            <input
+                              className="form-control mb-3 mt-0"
+                              style={{
+                                border: "inset dotted #000000",
+                                borderRadius: "10px",
+                                fontSize: "12px",
+                              }}
+                              type="text"
+                              placeholder={field.title}
+                              //   defaultValue={field.title}
+                              onChange={(e) => changefieldTitle(field, e)}
+                            />
+                          </div>
+                          <div className="col-3">
+                            {lostAndFoundForms.length - 1 === index ? (
+                              <i
+                                className="fa fa-plus-circle mt-3 "
+                                onClick={addNewField}
+                              ></i>
+                            ) : (
+                              <span></span>
+                            )}
+
+                            <i
+                              className="fa fa-minus-circle mt-3 ml-3"
+                              onClick={() => removeField(field)}
+                            ></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+
+              <DeactivateButton
+                toggle={() => {
+                  setDeactivatePage(!deactivatePage);
+                }}
+                deactivatePage={deactivatePage}
+              />
+              <div className="mt-2">
+                <MDBBtn
+                  type="submit"
+                  color="#39729b"
+                  style={{
+                    borderRadius: "20px",
+                    backgroundColor: "#39729b",
+                    color: "#ffffff",
+                  }}
+                  className="waves-effect z-depth-1a"
+                  size="md"
+                >
+                  Save
+                  {loader ? (
+                    <div
+                      className="spinner-border spinner-border-sm ml-3"
+                      role="status"
+                    >
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    <span></span>
+                  )}
+                </MDBBtn>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div className="mt-5 font-small text-center pb-3">
+          <div onClick={props.functionName} className="black-text">
+            <MDBIcon icon="chevron-circle-left" /> Back
+          </div>
+        </div>
+      </MDBModalBody>
+    </MDBModal>
+  );
 }

@@ -41,13 +41,12 @@ function AdminBrandPageManager(props) {
       `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagewelcome/${locationId}`
     )
       .then((response) => {
-        console.log(response.data.data);
         setLocationName(response.data.data.BrandPage.name);
       })
       .catch((e) => {
         console.log(e.response);
       });
-  }, []);
+  }, [locationId]);
 
   const [modalWelcome, setModalWelcome] = useState(false);
   const [modalFeedback, setModalFeedback] = useState(false);
@@ -283,6 +282,7 @@ function AdminBrandPageManager(props) {
               <FeedbackModal
                 constName={modalFeedback}
                 functionName={toggleFeedback}
+                locationId={locationId}
               />
 
               <MenuModal constName={modalMenu} functionName={toggleMenu} />
@@ -300,11 +300,13 @@ function AdminBrandPageManager(props) {
               <SocialMediaIconModal
                 constName={modalSocialMediaIcon}
                 functionName={toggleSocialMediaIcon}
+                locationId={locationId}
               />
 
               <LostAndFoundIconModal
                 constName={modalLostAndFoundIcon}
                 functionName={toggleLostAndFoundIcon}
+                locationId={locationId}
               />
 
               <ContactIconModal
