@@ -38,7 +38,7 @@ function AdminSignup() {
 
     setLoader(!loader);
 
-    Axios.post("https://stadstrandnodeapi.herokuapp.com/api/v1/admin", {
+    Axios.post("https://stadtstrandapp.ecrdeveloper.website/api/v1/admin", {
       name: name,
       email: email,
       username: username,

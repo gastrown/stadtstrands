@@ -33,10 +33,13 @@ function AdminLogin() {
     e.preventDefault();
     setLoader(!loader);
 
-    Axios.post("https://stadstrandnodeapi.herokuapp.com/api/v1/admin/login", {
-      username: username,
-      password: password,
-    })
+    Axios.post(
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/admin/login",
+      {
+        username: username,
+        password: password,
+      }
+    )
       .then((response) => {
         const adminid = response.data.data.id;
         setInterval(redirectToLocation(adminid), 1000);

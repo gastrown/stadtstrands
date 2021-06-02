@@ -15,13 +15,13 @@ export default function LostAndFoundIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagelostandfound/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound/${brandPageId}`
     )
       .then((response) => {
-        const brandPageResponse = response.data.data.lostAndFoundForms;
-        console.log(brandPageResponse);
+        const brandPageResponse = response.data.data.LostAndFounds;
+        //console.log(brandPageResponse);
         setDeactivatePage(response.data.data.deactivate);
-        setLostAndFoundForms(lostAndFoundForms);
+        setLostAndFoundForms(brandPageResponse);
       })
       .catch((e) => {
         console.log(e.response);
@@ -65,10 +65,8 @@ export default function LostAndFoundIconModal(props) {
       return { title: field.title, formType: field.formType };
     });
 
-    console.log(sendFields);
-
     Axios.post(
-      "https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagelostandfound",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -101,9 +99,9 @@ export default function LostAndFoundIconModal(props) {
         <span></span>
       )}
       <MDBModalBody>
-        <h6>
+        <h5>
           <strong>Lost and Found </strong>
-        </h6>
+        </h5>
         <p>Select Lost and found fields for user to access</p>
         <hr />
         <div className="row mt-2">

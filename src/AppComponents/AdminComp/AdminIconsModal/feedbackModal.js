@@ -16,7 +16,7 @@ export default function FeedbackModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagefeedback/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`
     )
       .then((response) => {
         const brandPageResponse = response.data.data.Feedbacks;
@@ -62,7 +62,7 @@ export default function FeedbackModal(props) {
     });
 
     Axios.post(
-      "https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagefeedback",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback",
       {
         brandPageId: brandPageId,
         description: feedBackDescription,

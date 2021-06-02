@@ -17,6 +17,8 @@ export default function BrandPageFormDetails(props) {
   const [notification, setNotification] = useState(false);
   const brandPageId = props.locationId;
   const brandPageName = props.locationName;
+  const [logoUrl, setLogoUrl] = useState("");
+  const [brandPageImageUrl, setBrandPageImageUrl] = useState("");
 
   const iconStyle = {
     paddingTop: "0px",
@@ -33,7 +35,7 @@ export default function BrandPageFormDetails(props) {
 
   const downloadQrCode = () => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpage/qrcode/${brandPageId}`,
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/qrcode/${brandPageId}`,
       {
         responseType: "blob",
       }
@@ -48,7 +50,7 @@ export default function BrandPageFormDetails(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagewelcome/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${brandPageId}`
     )
       .then((response) => {
         const BrandPage = response.data.data.BrandPage;
@@ -88,9 +90,6 @@ export default function BrandPageFormDetails(props) {
     setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  const [logoUrl, setLogoUrl] = useState("");
-  const [brandPageImageUrl, setBrandPageImageUrl] = useState("");
-
   const uploadLogo = () => {
     setLoader(!loader);
 
@@ -110,7 +109,6 @@ export default function BrandPageFormDetails(props) {
     )
       .then((response) => {
         setLogoUrl(response.data.url);
-        console.log(logoUrl);
         setLoader(false);
         setShowLogoBtn(false);
         setNotification(!notification);
@@ -122,7 +120,6 @@ export default function BrandPageFormDetails(props) {
   };
 
   const createBrandPage = () => {
-    console.log(logoUrl);
     setLoaderSave(!loaderSave);
 
     const dataBPImage = new FormData();
@@ -144,7 +141,7 @@ export default function BrandPageFormDetails(props) {
         setBrandPageImageUrl(response.data.url);
 
         Axios.put(
-          `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpage/manager/${brandPageId}`,
+          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/manager/${brandPageId}`,
           {
             description: description,
             logoPath: logoUrl,
@@ -152,7 +149,6 @@ export default function BrandPageFormDetails(props) {
           }
         )
           .then((response) => {
-            console.log(response);
             setLoaderSave(false);
           })
           .catch((e) => {
@@ -344,16 +340,29 @@ export default function BrandPageFormDetails(props) {
             </div>
           </form>
         ) : (
-          <MDBBtn
-            type="button"
-            color="black"
-            style={{ borderRadius: "20px" }}
-            className="waves-effect z-depth-1a"
-            size="sm"
-            onClick={viewBrandPage}
-          >
-            Edit Brand Page Details
-          </MDBBtn>
+          <div>
+            <div className="text-center">
+              <div className="md-form my-0">
+                <span style={iconStyle} onClick={downloadQrCode}>
+                  <MDBIcon icon="cloud-download-alt" className="mt-4" />
+                  <br />
+                  Download
+                  <br />
+                  QR Code
+                </span>
+              </div>
+            </div>
+            <MDBBtn
+              type="button"
+              color="black"
+              style={{ borderRadius: "20px" }}
+              className="waves-effect z-depth-1a mt-3"
+              size="sm"
+              onClick={viewBrandPage}
+            >
+              Edit Brand Page Details
+            </MDBBtn>
+          </div>
         )}
       </div>
     </div>

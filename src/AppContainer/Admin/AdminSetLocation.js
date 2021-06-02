@@ -76,7 +76,7 @@ function AdminSetLocation(props) {
         const url = response.data.url;
 
         Axios.post(
-          "https://stadstrandnodeapi.herokuapp.com/api/v1/brandpage",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage",
           {
             name: locationName,
             address: locationAddress,

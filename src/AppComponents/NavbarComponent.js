@@ -4,7 +4,7 @@ import {
   MDBNavbarBrand,
   MDBNavbarNav,
   MDBNavItem,
-  MDBNavLink,
+  // MDBNavLink,
   MDBNavbarToggler,
   MDBCollapse,
   MDBFormInline,
@@ -45,7 +45,7 @@ function NavbarComponent() {
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={toggleCollapse} />
           <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
-            <MDBNavbarNav left>
+            {/* <MDBNavbarNav center>
               <MDBNavItem active>
                 <MDBNavLink
                   to="#!"
@@ -64,7 +64,7 @@ function NavbarComponent() {
                   CONTACT
                 </MDBNavLink>
               </MDBNavItem>
-            </MDBNavbarNav>
+            </MDBNavbarNav> */}
             <MDBNavbarNav right>
               <MDBNavItem>
                 <MDBFormInline waves>

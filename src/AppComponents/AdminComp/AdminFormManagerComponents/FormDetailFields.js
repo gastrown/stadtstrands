@@ -48,7 +48,7 @@ function FormDetailFields(props) {
     setLoader(!loader);
 
     Axios.put(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpageform/formItems/${brandPageFormId}`,
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/formItems/${brandPageFormId}`,
       {
         brandPageId: brandPageId,
         enableNewsLetter: enableNewsLetter,
@@ -119,7 +119,7 @@ function FormDetailFields(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
     )
       .then((response) => {
         const data = response.data.data;

@@ -15,7 +15,7 @@ export default function SocialMediaIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagesocialmedia/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagesocialmedia/${brandPageId}`
     )
       .then((response) => {
         const brandPageResponse = response.data.data.SocialMedias;
@@ -67,7 +67,7 @@ export default function SocialMediaIconModal(props) {
     console.log(sendFields);
 
     Axios.post(
-      "https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagesocialmedia",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagesocialmedia",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,

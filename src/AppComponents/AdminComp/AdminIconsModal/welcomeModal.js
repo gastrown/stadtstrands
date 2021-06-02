@@ -14,7 +14,7 @@ export default function WelcomeModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagewelcome/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${brandPageId}`
     )
       .then((response) => {
         const welcomeFile = response.data.data;
@@ -65,7 +65,7 @@ export default function WelcomeModal(props) {
         const url = response.data.url;
 
         Axios.post(
-          "https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagewelcome",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome",
           {
             brandPageId: brandPageId,
             welcomeText: welcomeText,

@@ -38,7 +38,7 @@ function AdminBrandPageManager(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadstrandnodeapi.herokuapp.com/api/v1/brandpagewelcome/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${locationId}`
     )
       .then((response) => {
         setLocationName(response.data.data.BrandPage.name);
@@ -295,6 +295,7 @@ function AdminBrandPageManager(props) {
               <DrinkIconModal
                 constName={modalDrinkIcon}
                 functionName={toggleDrinkIcon}
+                locationId={locationId}
               />
 
               <SocialMediaIconModal
@@ -317,6 +318,7 @@ function AdminBrandPageManager(props) {
               <StrandorteIconModal
                 constName={modalStrandorteIcon}
                 functionName={toggleStrandorteIcon}
+                locationId={locationId}
               />
 
               <AboutIconModal
