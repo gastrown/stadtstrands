@@ -93,6 +93,13 @@ button {
   object-fit: scale-down;
 }
 
+#imgBoxed2 {
+  width: 200px;
+  height: 200px;
+  float: center;
+  object-fit: scale-down;
+}
+
 #imgPreviewBox {
   width: 250px;
   height: 250px;

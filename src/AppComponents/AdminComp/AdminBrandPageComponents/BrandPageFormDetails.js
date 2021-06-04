@@ -59,7 +59,7 @@ export default function BrandPageFormDetails(props) {
         setImagePreview(BrandPage.locationImagePath);
       })
       .catch((e) => {
-        console.log(e.response);
+        //console.log(e.response);
       });
   });
   // console.log(brandPageName);

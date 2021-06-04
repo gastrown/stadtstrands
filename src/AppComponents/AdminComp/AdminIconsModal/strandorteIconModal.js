@@ -105,12 +105,17 @@ export default function ContactIconModal(props) {
   };
 
   return (
-    <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
+    <MDBModal
+      isOpen={props.constName}
+      toggle={props.functionName}
+      centered
+      backdrop={false}
+    >
       {notificationStatus ? (
         <NotificationStatus
           notificationIcon="bell"
           notificationTitle="Admin Notification"
-          notificationMessage="Lost and found details updated successfully"
+          notificationMessage="Strandorte details updated successfully"
         />
       ) : (
         <span></span>

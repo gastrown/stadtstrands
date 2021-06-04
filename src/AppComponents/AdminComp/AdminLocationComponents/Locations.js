@@ -5,6 +5,7 @@ import Axios from "axios";
 
 function Locations(props) {
   const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Axios.get(
@@ -16,14 +17,18 @@ function Locations(props) {
       })
       .catch((e) => {
         setLocations([]);
-        console.log(e.response);
       });
+    setLoading(false);
   });
 
   return (
     <MDBContainer>
       <MDBRow style={{ alignItems: "center" }}>
         {locations < 1 ? (
+          <div className="col-12 mt-2 mb-2">
+            <h2>No Location found</h2>
+          </div>
+        ) : loading ? (
           <div className="col-12 mt-2 mb-2">
             <div className="spinner-border fast ml-2" role="status">
               <span className="sr-only mt-2">Loading...</span>

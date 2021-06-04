@@ -290,6 +290,7 @@ function AdminBrandPageManager(props) {
               <FreeIconModal
                 constName={modalFreeIcon}
                 functionName={toggleFreeIcon}
+                locationId={locationId}
               />
 
               <DrinkIconModal
@@ -313,6 +314,7 @@ function AdminBrandPageManager(props) {
               <ContactIconModal
                 constName={modalContactIcon}
                 functionName={toggleContactIcon}
+                locationId={locationId}
               />
 
               <StrandorteIconModal
@@ -324,11 +326,13 @@ function AdminBrandPageManager(props) {
               <AboutIconModal
                 constName={modalAboutIcon}
                 functionName={toggleAboutIcon}
+                locationId={locationId}
               />
 
               <ShopIconModal
                 constName={modalShopIcon}
                 functionName={toggleShopIcon}
+                locationId={locationId}
               />
 
               <FamilyAndFriendIconModal
@@ -339,6 +343,7 @@ function AdminBrandPageManager(props) {
               <TaxiIconModal
                 constName={modalTaxiIcon}
                 functionName={toggleTaxiIcon}
+                locationId={locationId}
               />
 
               <EventIconModal

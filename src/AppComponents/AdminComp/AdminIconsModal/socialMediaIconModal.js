@@ -64,8 +64,6 @@ export default function SocialMediaIconModal(props) {
       return { title: field.title, url: field.url };
     });
 
-    console.log(sendFields);
-
     Axios.post(
       "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagesocialmedia",
       {

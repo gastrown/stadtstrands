@@ -26,7 +26,7 @@ export default function LostAndFoundIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [brandPageId, lostAndFoundForms]);
+  }, []);
 
   const addNewField = () => {
     const fields = [...lostAndFoundForms];

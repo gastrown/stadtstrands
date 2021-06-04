@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MDBModal, MDBModalBody, MDBBtn, MDBIcon } from "mdbreact";
 import AdminStyle from "../../../AppStyles/AdminStyles.module.css";
+import NotificationStatus from "../AdminNotificationStatus";
 import Axios from "axios";
 
 export default function WelcomeModal(props) {
@@ -11,6 +12,7 @@ export default function WelcomeModal(props) {
   const [welcomeText, setWelcomeText] = useState("");
   const [loader, setLoader] = useState(false);
   const brandPageId = props.locationId;
+  const [notificationStatus, setNotificationStatus] = useState(false);
 
   useEffect(() => {
     Axios.get(
@@ -73,7 +75,14 @@ export default function WelcomeModal(props) {
           }
         )
           .then((response) => {
-            console.log(response);
+            Axios.get(
+              `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${brandPageId}`
+            ).then((response) => {
+              const welcomeFile = response.data.data;
+              setImageWelcomePreview(welcomeFile.imagePath);
+              setWelcomeText(welcomeFile.welcomeText);
+            });
+            setNotificationStatus(true);
             //setModal(!modal);
             // window.location.reload();
             setLoader(false);
@@ -83,11 +92,23 @@ export default function WelcomeModal(props) {
             setLoader(false);
           });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoader(false);
+      });
   };
 
   return (
     <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
+      {notificationStatus ? (
+        <NotificationStatus
+          notificationIcon="bell"
+          notificationTitle="Admin Notification"
+          notificationMessage="Welcome page updated successfully"
+        />
+      ) : (
+        <span></span>
+      )}
       <MDBModalBody>
         <h3>Welcome</h3>
         <form onSubmit={createWelcomePage}>

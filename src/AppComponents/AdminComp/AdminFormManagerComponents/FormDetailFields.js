@@ -23,8 +23,6 @@ function FormDetailFields(props) {
 
   const brandPageId = LocationDetail.id;
   const brandPageFormId = LocationDetail.BrandPageForm.id;
-  //console.log(brandPageId);
-  // console.log(brandPageFormId);
   const [enableAccompanyingPerson, setEnableAccompanyingPerson] =
     useState(true);
   const [requireAccompanyingPerson, setRequireAccompanyingPerson] =
@@ -62,7 +60,6 @@ function FormDetailFields(props) {
       .then((response) => {
         setLoader(false);
         setModalSuccess(!modalSuccess);
-        console.log(response);
       })
       .catch((e) => {
         //console.log(e.response)

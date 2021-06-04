@@ -25,8 +25,6 @@ export default function DrinkIconModal(props) {
       .then((response) => {
         const drinkResponse = response.data.data;
         setDrinkComponents(drinkResponse);
-        //console.log(response);
-        //setDeactivatePage(response.data.data.deactivate);
       })
       .catch((e) => {
         console.log(e.response);
@@ -71,8 +69,6 @@ export default function DrinkIconModal(props) {
             ).then((response) => {
               const drinkResponse = response.data.data;
               setDrinkComponents(drinkResponse);
-              //console.log(response);
-              //setDeactivatePage(response.data.data.deactivate);
             });
             setLoader(false);
             setNotificationStatus(true);
@@ -99,8 +95,6 @@ export default function DrinkIconModal(props) {
         ).then((response) => {
           const drinkResponse = response.data.data;
           setDrinkComponents(drinkResponse);
-          //console.log(response);
-          //setDeactivatePage(response.data.data.deactivate);
         });
         setAlertSuccess(true);
         setSuccessMessage("Drink Menu Deleted Successfully");

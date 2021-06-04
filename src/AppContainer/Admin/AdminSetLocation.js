@@ -71,36 +71,34 @@ function AdminSetLocation(props) {
         },
       }
     )
+    .then((response) => {
+      const url = response.data.url;
 
-      .then((response) => {
-        const url = response.data.url;
-
-        Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage",
-          {
-            name: locationName,
-            address: locationAddress,
-            latitude: latitude,
-            longitude: longitude,
-            adminId: adminId,
-            locationImagePath: url,
+      Axios.post(
+        "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage",
+        {
+          name: locationName,
+          address: locationAddress,
+          latitude: latitude,
+          longitude: longitude,
+          adminId: adminId,
+          locationImagePath: url,
+        },
+        {
+          headers: {
+            auth: token,
           },
-          {
-            headers: {
-              auth: token,
-            },
-          }
-        )
-          .then((response) => {
-            setModal(!modal);
-            window.location.reload();
-          })
-          .catch((e) => {
-            console.log(e.response);
-            setLoader(false);
-          });
-      })
-      .catch((err) => console.log(err));
+        }
+      )
+        .then((response) => {
+          setModal(!modal);
+          window.location.reload();
+        })
+        .catch((e) => {
+          setLoader(false);
+        });
+    });
+    // .catch((err) => console.log(err));
   };
 
   const logout = () => {

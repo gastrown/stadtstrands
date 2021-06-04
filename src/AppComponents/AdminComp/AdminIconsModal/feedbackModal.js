@@ -25,7 +25,7 @@ export default function FeedbackModal(props) {
         setFeedBackDescription(response.data.data.description);
       })
       .catch((e) => {
-        console.log(e.response);
+        //console.log(e.response);
       });
   }, [brandPageId]);
 
@@ -35,7 +35,6 @@ export default function FeedbackModal(props) {
       question: "Enter Question",
     });
     setFeedBackQuestions(questions);
-    console.log(questions);
   };
 
   const removeQuestion = (question) => {
