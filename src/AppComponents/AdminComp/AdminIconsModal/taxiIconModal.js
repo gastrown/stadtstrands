@@ -19,11 +19,9 @@ export default function ContactIconModal(props) {
     )
       .then((response) => {
         const brandPageResponse = response.data.data.Taxis;
-        console.log(response);
-        // if (response.status === 200) {
-        //   setDeactivatePage(response.data.data.deactivate);
-        //   setTaxis(brandPageResponse);
-        // }
+        setDeactivatePage(response.data.data.deactivate);
+        const getTaxis = brandPageResponse.map((element) => element.url);
+        setTaxis(getTaxis);
       })
       .catch((e) => {
         console.log(e.response);
@@ -54,11 +52,12 @@ export default function ContactIconModal(props) {
     e.preventDefault();
     setLoader(!loader);
     const sendTaxis = taxis.map((field) => {
+      //console.log(field);
       return field;
     });
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagetaxi",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagetaxi/taxi",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -83,7 +82,7 @@ export default function ContactIconModal(props) {
         <NotificationStatus
           notificationIcon="bell"
           notificationTitle="Admin Notification"
-          notificationMessage="Social media links updated successfully"
+          notificationMessage="Taxi link updated successfully"
         />
       ) : (
         <span></span>

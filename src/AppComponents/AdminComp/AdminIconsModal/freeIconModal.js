@@ -39,7 +39,7 @@ export default function FreeIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, []);
+  }, [brandPageId]);
 
   const imageFileStyle = {
     padding: "10px",

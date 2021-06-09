@@ -29,7 +29,7 @@ export default function ShopIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, []);
+  }, [brandPageId]);
 
   const createShopUrl = (e) => {
     e.preventDefault();
@@ -44,13 +44,12 @@ export default function ShopIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
+        setEditButton(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
         setLoader(false);

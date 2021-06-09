@@ -23,6 +23,7 @@ function FormDetailFields(props) {
 
   const brandPageId = LocationDetail.id;
   const brandPageFormId = LocationDetail.BrandPageForm.id;
+  //console.log(brandPageFormId);
   const [enableAccompanyingPerson, setEnableAccompanyingPerson] =
     useState(true);
   const [requireAccompanyingPerson, setRequireAccompanyingPerson] =

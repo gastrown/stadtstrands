@@ -1,148 +1,360 @@
-import React, { useState } from 'react';
-import { 
-    MDBModal, MDBModalBody, MDBBtn, MDBIcon
-  } from 'mdbreact';
-
-import DeactivateButton from '../../DeactivateButton';
-import DrinkSubMenu from '../../AdminComp/AdminIconsModal/DrinkSubMenu';
-import FoodSubMenu from '../../AdminComp/AdminIconsModal/FoodSubMenu';
+import React, { useState, useEffect } from "react";
+import { MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBAlert } from "mdbreact";
+import DeactivateButton from "../../DeactivateButton";
+import AdminStyle from "../../../AppStyles/AdminStyles.module.css";
+import SubMenu from "../../AdminComp/AdminIconsModal/SubMenu";
+import Axios from "axios";
+//import NotificationStatus from "../AdminNotificationStatus";
 
 export default function MenuModal(props) {
-    const [modalDrinkSubMenu, setModalDrinkSubMenu] = useState(false);
-    const [modalFoodSubMenu, setModalFoodSubMenu] = useState(false);
+  const brandPageId = props.locationId;
+  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [checkMenuStatus, setCheckMenuStatus] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [menus, setMenus] = useState([]);
+  const [brandPageMenuId, setBrandPageMenuId] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [menuName, setMenuName] = useState("");
+  const [menuImg, setMenuImg] = useState("");
+  const [menuImgPreview, setMenuImgPreview] = useState("");
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [modalSubMenu, setModalSubMenu] = useState(false);
+  const [menuId, setMenuId] = useState("");
 
-    const toogleDrinkSubMenu = () => {
-        setModalDrinkSubMenu(!modalDrinkSubMenu);
-    }
-
-    const toogleFoodSubMenu = () => {
-        setModalFoodSubMenu(!modalFoodSubMenu);
-    }
-
-
-    const tabStyle = {
-        width:"100px",
-        height:"100px",
-        backgroundColor:'#39729b',
-        color:'#ffffff',
-        borderTopLeftRadius:'10px',
-        borderTopRightRadius:'10px',
-        borderBottomLeftRadius:'10px',
-        transform: 'skew(185deg)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position:'relative',
-    }
-
-    const imageFileStyle = {
-        padding:'10px',
-        border:'1px dotted #CCCCCC',
-        marginLeft: '12px',
-        width:'90%',
-        borderRadius:"10px",
-        textAlign:'center',
-        fontSize:'12px'
-    }
-
-    const onChangeFile = (event) => {
-        console.log('event.target.files[0]', event.target)
-      }
-
-    return (
-        <MDBModal isOpen={props.constName} toggle={props.functionName}  centered >
-            <MDBModalBody>
-                <h5><strong>Customize Menu</strong></h5>
-                <div className="row mt-5">
-                    <div className="col-5 ml-5">
-                        <div style={tabStyle} onClick={toogleDrinkSubMenu}>
-                                <h6 style={{textAlign:'center',padding:'35px 0px 5px 0px',transform:'skew(170deg)'}}>
-                                    Drink Menu
-                                </h6>
-                        </div>
-                    </div>
-
-                    <div className="col-4 ml-3" onClick={toogleFoodSubMenu}>
-                        <div style={tabStyle}>
-                            <h6 style={{textAlign:'center',padding:'35px 0px 5px 0px',transform:'skew(170deg)'}}>
-                                Food Menu
-                            </h6>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row mt-5">
-                    <div className="col-md-12">
-                        <form>
-                            <div className="form-group row">
-                                <div className="col-md-12 text-center">
-                                    <h6><b>Create New Menu</b></h6>
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <div className="col-md-10 offset-md-1 text-center">
-                                    <input 
-                                        type="text" 
-                                        className="form-control text-center" 
-                                        placeholder="Enter menu name"
-                                        style={{borderRadius:'20px',border:'1px dotted black'}}/>
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <div className="col-md-8 offset-md-2 text-center">
-                                <input type="file" id="file" style={{display: "none"}}
-                                                    onChange={(e) => onChangeFile(e)}/>
-                                    <label htmlFor="file" style={imageFileStyle}>
-                                                        Upload menu image <span className='fa fa-download' style={{backgroundColor:'#39729b', color:'#ffffff', padding:'5px', borderRadius:'10px'}}> </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <div className="col-md-8 offset-md-2 text-center">
-                                <MDBBtn
-                                    type="button"
-                                    color="#39729b"
-                                    style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff'}}
-                                    className="waves-effect z-depth-1a"
-                                    size="sm"
-                                    >
-                                    Create menu
-                                </MDBBtn>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                {/* <div className="row mt-3">
-                    <div className="col-3 col-md-3 mt-4">
-                        <div style={menuList}>
-                            Menu 1
-                        </div>
-                    </div>
-                    <div className="col-3 col-md-3 mt-4">
-                        <div style={menuListNew}>
-                            
-                        </div>
-                    </div>
-                </div> */}
-
-               <DeactivateButton /> 
-
-               <div className="mt-5 font-small text-center pb-3">
-                        <div onClick={props.functionName} className="black-text">
-                            <MDBIcon icon="chevron-circle-left" /> Back 
-                        </div>
-                </div>
-
-                <DrinkSubMenu
-                            constName={modalDrinkSubMenu}
-                            functionName={toogleDrinkSubMenu}/>
-                
-                <FoodSubMenu
-                            constName={modalFoodSubMenu}
-                            functionName={toogleFoodSubMenu}/>
-
-            </MDBModalBody>
-        </MDBModal>
+  useEffect(() => {
+    Axios.get(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/${brandPageId}`
     )
+      .then((response) => {
+        console.log(response);
+        setAlert(null);
+        setCheckMenuStatus(true);
+        setMenus(response.data.data.Menus);
+        setDeactivatePage(response.data.data.deactivate);
+        setBrandPageMenuId(response.data.data.id);
+      })
+      .catch((e) => {
+        console.log(e.response);
+      });
+  }, [brandPageId]);
+
+  const tabStyle = {
+    width: "100px",
+    height: "100px",
+    backgroundColor: "#39729b",
+    color: "#ffffff",
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+    borderBottomLeftRadius: "10px",
+    transform: "skew(185deg)",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  };
+
+  const imageFileStyle = {
+    padding: "10px",
+    border: "1px dotted #CCCCCC",
+    marginLeft: "12px",
+    width: "90%",
+    borderRadius: "10px",
+    textAlign: "center",
+    fontSize: "12px",
+  };
+
+  const onChangeFile = (e) => {
+    setMenuImg(e.target.files[0]);
+    setMenuImgPreview(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const createBrandPageMenu = () => {
+    setLoader(!loader);
+    Axios.post(
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu",
+      {
+        brandPageId: brandPageId,
+        deactivate: deactivatePage,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setCheckMenuStatus(true);
+        setAlert(true);
+      })
+      .catch((e) => {
+        setLoader(false);
+      });
+  };
+
+  const createSingleMenu = () => {
+    setLoader(!loader);
+
+    const dataImage = new FormData();
+    dataImage.append("file", menuImg);
+    dataImage.append("upload_preset", "ecrtech");
+    dataImage.append("cloud_name", "ecrtechdev");
+
+    Axios.post(
+      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      dataImage,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+
+      .then((response) => {
+        Axios.post(
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/menu",
+          {
+            brandPageMenuId: brandPageMenuId,
+            name: menuName,
+            imageUrl: response.data.url,
+          }
+        )
+          .then((response) => {
+            Axios.get(
+              `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/${brandPageId}`
+            ).then((response) => {
+              setMenus(response.data.data.Menus);
+            });
+            setAlertError(false);
+            setLoader(false);
+
+            setMenuImgPreview("");
+            setMenuName("");
+          })
+          .catch((e) => {
+            setAlertError(true);
+            setErrorMessage(e.response.data.data);
+            setLoader(false);
+            setAlert(false);
+          });
+      })
+      .catch((err) => {
+        // setAlertError(true);
+        // setErrorMessage("Please select an Image");
+        setLoader(false);
+        console.log(err.response);
+      });
+  };
+
+  const toogleSubMenu = (id) => {
+    setModalSubMenu(!modalSubMenu);
+    setMenuId(id);
+  };
+
+  return (
+    <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
+      <MDBModalBody>
+        <h5>
+          <strong>Customize Menu</strong>
+        </h5>
+        <hr />
+        <div className="row mt-3">
+          {menus.length < 1 ? (
+            <span></span>
+          ) : (
+            menus.map((menu, index) => {
+              return (
+                <div className="col-4 ml-5" key={menu.id}>
+                  <div style={tabStyle} onClick={() => toogleSubMenu(menu.id)}>
+                    <h6
+                      style={{
+                        textAlign: "center",
+                        padding: "35px 0px 5px 0px",
+                        transform: "skew(170deg)",
+                      }}
+                    >
+                      {menu.name}
+                    </h6>
+                  </div>
+
+                  <SubMenu
+                    constName={modalSubMenu}
+                    functionName={toogleSubMenu}
+                    menuId={menuId}
+                    menuName={menu.name}
+                  />
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {checkMenuStatus ? (
+          <form>
+            <div className="form-group row">
+              <div className="col-10 offset-1">
+                {alert ? (
+                  <MDBAlert color="success">
+                    <strong>Congratulation!</strong> your brand page menu has
+                    been created successfully. Let's get started with creating
+                    menus and adding menu items.
+                  </MDBAlert>
+                ) : (
+                  <span></span>
+                )}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-10 offset-1">
+                {alertError ? (
+                  <MDBAlert color="danger">{errorMessage}</MDBAlert>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+            </div>
+            <div className="form-group row mt-2">
+              <div className="col-md-8 offset-md-2 text-center">
+                <input
+                  type="text"
+                  className="form-control text-center"
+                  placeholder="Enter menu name"
+                  style={{ borderRadius: "20px", border: "1px dotted black" }}
+                  onChange={(e) => setMenuName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col-md-6 offset-md-3 text-center">
+                <input
+                  type="file"
+                  id="file"
+                  style={{ display: "none" }}
+                  onChange={(e) => onChangeFile(e)}
+                />
+                <label htmlFor="file" style={imageFileStyle}>
+                  Upload menu image{" "}
+                  <span
+                    className="fa fa-download"
+                    style={{
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                      padding: "5px",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    {" "}
+                  </span>
+                </label>
+              </div>
+            </div>
+            {menuImgPreview ? (
+              <div className="row">
+                <div className="col-md-6 offset-md-3 text-center">
+                  <img
+                    src={menuImgPreview}
+                    alt="img preview"
+                    id={AdminStyle.imgBoxed2}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
+
+            <div className="mt-2">
+              <MDBBtn
+                type="button"
+                color="#39729b"
+                style={{
+                  borderRadius: "20px",
+                  backgroundColor: "#39729b",
+                  color: "#ffffff",
+                }}
+                className="waves-effect z-depth-1a"
+                size="md"
+                onClick={createSingleMenu}
+              >
+                Save menu
+                {loader ? (
+                  <div
+                    className="spinner-border spinner-border-sm ml-3"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+              </MDBBtn>
+            </div>
+
+            <DeactivateButton
+              toggle={() => {
+                setDeactivatePage(!deactivatePage);
+              }}
+              deactivatePage={deactivatePage}
+            />
+          </form>
+        ) : (
+          <div className="row mt-3">
+            <div className="col-md-12">
+              <form>
+                <div className="form-group row mt-2">
+                  <div className="col-10 offset-1 text-center">
+                    <h6>
+                      <b>
+                        Welcome to the Brand Page menu customizer. Please click
+                        on the button below to start your set up.
+                      </b>
+                    </h6>
+                    <div>
+                      {loader ? (
+                        <MDBBtn
+                          type="button"
+                          color="#39729b"
+                          style={{
+                            borderRadius: "20px",
+                            backgroundColor: "#39729b",
+                            color: "#ffffff",
+                          }}
+                          className="waves-effect z-depth-1a mt-4"
+                          size="md"
+                          disabled
+                        >
+                          Your Menu Page will be ready in a seconds
+                          <div
+                            className="spinner-grow spinner-grow-sm ml-3"
+                            role="status"
+                          >
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        </MDBBtn>
+                      ) : (
+                        <MDBBtn
+                          type="button"
+                          color="#39729b"
+                          style={{
+                            borderRadius: "20px",
+                            backgroundColor: "#39729b",
+                            color: "#ffffff",
+                          }}
+                          className="waves-effect z-depth-1a mt-4"
+                          size="md"
+                          onClick={createBrandPageMenu}
+                        >
+                          Start Menu customization
+                        </MDBBtn>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-5 font-small text-center pb-3">
+          <div onClick={props.functionName} className="black-text">
+            <MDBIcon icon="chevron-circle-left" /> Back
+          </div>
+        </div>
+      </MDBModalBody>
+    </MDBModal>
+  );
 }

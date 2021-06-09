@@ -59,12 +59,12 @@ button {
 }
 
 .imgInputStyle {
-  width: 130px;
-  height: 110px;
+  width: 250px;
+  height: 250px;
   border-radius: 15px;
   background-color: #ffffff;
   color: #000000;
-  padding: 30px 10px 10px 10px;
+  padding: 60px 10px 10px 10px;
   border: 2px solid #cccccc;
   font-size: 14px;
 }

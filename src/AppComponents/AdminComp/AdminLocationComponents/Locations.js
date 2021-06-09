@@ -13,26 +13,26 @@ function Locations(props) {
     )
       .then((response) => {
         const data = response.data.data;
+        setLoading(false);
         setLocations(data);
       })
       .catch((e) => {
         setLocations([]);
       });
-    setLoading(false);
   });
 
   return (
     <MDBContainer>
       <MDBRow style={{ alignItems: "center" }}>
-        {locations < 1 ? (
-          <div className="col-12 mt-2 mb-2">
-            <h2>No Location found</h2>
-          </div>
-        ) : loading ? (
+        {loading ? (
           <div className="col-12 mt-2 mb-2">
             <div className="spinner-border fast ml-2" role="status">
               <span className="sr-only mt-2">Loading...</span>
             </div>
+          </div>
+        ) : locations < 1 ? (
+          <div className="col-12 mt-2 mb-2">
+            <h2>No Location found</h2>
           </div>
         ) : (
           locations.map((location) => {

@@ -8,7 +8,7 @@ export default function BrandPageFormDetails(props) {
   const [brandPageImage, setBrandPageImage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [logo, setLogo] = useState("");
-  const [logoPreview, setLogoPreview] = useState("");
+  const [logoPreview, setLogoPreview] = useState();
   const [description, setDescription] = useState("");
   const [showLogoBtn, setShowLogoBtn] = useState(false);
   const [showEditFormBtn, setShowEditFormBtn] = useState(false);
@@ -19,6 +19,7 @@ export default function BrandPageFormDetails(props) {
   const brandPageName = props.locationName;
   const [logoUrl, setLogoUrl] = useState("");
   const [brandPageImageUrl, setBrandPageImageUrl] = useState("");
+  const [editButton, setEditButton] = useState(false);
 
   const iconStyle = {
     paddingTop: "0px",
@@ -54,14 +55,25 @@ export default function BrandPageFormDetails(props) {
     )
       .then((response) => {
         const BrandPage = response.data.data.BrandPage;
-        setLogoPreview(BrandPage.logoPath);
-        setDescription(BrandPage.description);
-        setImagePreview(BrandPage.locationImagePath);
+        if (response.status === 200) {
+          setEditButton(true);
+        }
+        if (BrandPage.logoPath !== null) {
+          setLogoPreview(BrandPage.logoPath);
+        }
+
+        if (BrandPage.description !== null) {
+          setDescription(BrandPage.description);
+        }
+
+        if (BrandPage.locationImagePath !== null) {
+          setImagePreview(BrandPage.locationImagePath);
+        }
       })
       .catch((e) => {
         //console.log(e.response);
       });
-  });
+  }, [brandPageId]);
   // console.log(brandPageName);
 
   const imageFileStyle = {
@@ -78,7 +90,7 @@ export default function BrandPageFormDetails(props) {
   const onChangeLogoFile = (e) => {
     setLogo(e.target.files[0]);
     setLogoPreview(URL.createObjectURL(e.target.files[0]));
-    setShowLogoBtn(!showLogoBtn);
+    setShowLogoBtn(true);
   };
 
   const viewBrandPage = () => {
@@ -157,6 +169,53 @@ export default function BrandPageFormDetails(props) {
           });
       })
       .catch((err) => console.log(err));
+  };
+
+  const updateBrandPage = async (e) => {
+    e.preventDefault();
+    setLoaderSave(true);
+    console.log(description);
+    let response;
+
+    const dataImage = new FormData();
+
+    if (brandPageImage) {
+      dataImage.append("file", brandPageImage);
+      dataImage.append("upload_preset", "ecrtech");
+      dataImage.append("cloud_name", "ecrtechdev");
+
+      try {
+        response = await Axios.post(
+          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          dataImage,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } catch (e) {
+        console.log(e.response);
+      }
+    }
+
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/manager/${brandPageId}`,
+      {
+        description: description,
+        logoPath: logoUrl,
+        brandPageImagePath: response ? response.data.url : null,
+      }
+    )
+
+      .then((response) => {
+        setLoaderSave(false);
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e.response);
+        setLoaderSave(false);
+      });
   };
 
   return (
@@ -291,26 +350,53 @@ export default function BrandPageFormDetails(props) {
 
             <div className="row mt-4 mb-4">
               <div className="col-6 mt-3 ml-5 text-right">
-                <MDBBtn
-                  type="button"
-                  color="blue"
-                  style={{ borderRadius: "20px" }}
-                  className="waves-effect z-depth-1a"
-                  size="sm"
-                  onClick={createBrandPage}
-                >
-                  Save Brand Page
-                  {loaderSave ? (
-                    <div
-                      className="spinner-grow spinner-grow-sm ml-2"
-                      role="status"
-                    >
-                      <span className="sr-only">Loading...</span>
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
-                </MDBBtn>
+                {editButton ? (
+                  <MDBBtn
+                    type="button"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                    onClick={updateBrandPage}
+                  >
+                    Update Brand Page
+                    {loaderSave ? (
+                      <div
+                        className="spinner-grow spinner-grow-sm ml-2"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
+                ) : (
+                  <MDBBtn
+                    type="button"
+                    color="blue"
+                    style={{ borderRadius: "20px" }}
+                    className="waves-effect z-depth-1a"
+                    size="sm"
+                    onClick={createBrandPage}
+                  >
+                    Save Brand Page
+                    {loaderSave ? (
+                      <div
+                        className="spinner-grow spinner-grow-sm ml-2"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                  </MDBBtn>
+                )}
               </div>
               <div className="col-4 text-left">
                 <div className="md-form my-0">

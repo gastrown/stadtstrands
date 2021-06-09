@@ -26,7 +26,7 @@ export default function LostAndFoundIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, []);
+  }, [brandPageId]);
 
   const addNewField = () => {
     const fields = [...lostAndFoundForms];
@@ -74,13 +74,11 @@ export default function LostAndFoundIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);

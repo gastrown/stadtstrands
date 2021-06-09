@@ -285,7 +285,11 @@ function AdminBrandPageManager(props) {
                 locationId={locationId}
               />
 
-              <MenuModal constName={modalMenu} functionName={toggleMenu} />
+              <MenuModal
+                constName={modalMenu}
+                functionName={toggleMenu}
+                locationId={locationId}
+              />
 
               <FreeIconModal
                 constName={modalFreeIcon}
@@ -338,6 +342,7 @@ function AdminBrandPageManager(props) {
               <FamilyAndFriendIconModal
                 constName={modalFamilyAndFriendIcon}
                 functionName={toggleFamilyAndFriendIcon}
+                locationId={locationId}
               />
 
               <TaxiIconModal
@@ -359,6 +364,7 @@ function AdminBrandPageManager(props) {
               <ReservationIconModal
                 constName={modalReservationIcon}
                 functionName={toggleReservationIcon}
+                locationId={locationId}
               />
 
               <JobIconModal
@@ -369,6 +375,7 @@ function AdminBrandPageManager(props) {
               <DeliveryBoxIconModal
                 constName={modalDeliveryBoxIcon}
                 functionName={toggleDeliveryBoxIcon}
+                locationId={locationId}
               />
             </MDBCol>
           </MDBRow>
