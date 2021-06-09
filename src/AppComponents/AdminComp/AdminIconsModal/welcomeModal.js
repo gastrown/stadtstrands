@@ -147,17 +147,16 @@ export default function WelcomeModal(props) {
             </label>
           </div>
           <div className="row form-group mt-4">
-            <div className="col-md-8 offset-md-2 mt-4">
-              <input
-                placeholder="Enter welcome text here"
-                defaultValue={welcomeText}
-                type="text"
+            <div className="col-md-10 offset-md-1 mt-4">
+              <textarea
                 className="form-control text-center"
-                style={{ border: "1px dotted black" }}
+                style={{ border: "1px dotted black", borderRadius: "10px" }}
                 onChange={(e) => {
                   setWelcomeText(e.target.value);
                 }}
-              />
+                defaultValue={welcomeText}
+                rows="5"
+              ></textarea>
             </div>
           </div>
 
@@ -177,7 +176,7 @@ export default function WelcomeModal(props) {
                 save
               </MDBBtn>
               <MDBBtn
-                type="submit"
+                type="button"
                 color="white"
                 style={{ borderRadius: "20px" }}
                 className="waves-effect z-depth-1a"

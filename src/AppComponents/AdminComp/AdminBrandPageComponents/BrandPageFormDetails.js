@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AdminStyle from "../../../AppStyles/AdminStyles.module.css";
-import { MDBBtn, MDBNotification, MDBIcon } from "mdbreact";
+import { MDBBtn, MDBNotification, MDBIcon, MDBAlert } from "mdbreact";
 import Axios from "axios";
 import FileDownload from "js-file-download";
 
@@ -20,6 +20,10 @@ export default function BrandPageFormDetails(props) {
   const [logoUrl, setLogoUrl] = useState("");
   const [brandPageImageUrl, setBrandPageImageUrl] = useState("");
   const [editButton, setEditButton] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const iconStyle = {
     paddingTop: "0px",
@@ -51,10 +55,10 @@ export default function BrandPageFormDetails(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/${brandPageId}`
     )
       .then((response) => {
-        const BrandPage = response.data.data.BrandPage;
+        const BrandPage = response.data.data;
         if (response.status === 200) {
           setEditButton(true);
         }
@@ -162,10 +166,15 @@ export default function BrandPageFormDetails(props) {
         )
           .then((response) => {
             setLoaderSave(false);
+            setAlertError(false);
+            setAlertSuccess(true);
+            setSuccessMessage("Brand Page details saved successfully");
           })
           .catch((e) => {
             console.log(e.response);
             setLoaderSave(false);
+            setAlertError(true);
+            setErrorMessage(e.response.data.data);
           });
       })
       .catch((err) => console.log(err));
@@ -257,13 +266,12 @@ export default function BrandPageFormDetails(props) {
               />
               <label
                 htmlFor="file1"
-                className={AdminStyle.imgInputStyle}
+                className={AdminStyle.imgInputStyle2}
                 style={{
                   backgroundImage: `url(${logoPreview})`,
                   boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.1)",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "100% 100%",
-                  height: "110px",
                   borderRadius: "15px",
                   border: "2px solid #cccccc",
                 }}
@@ -345,6 +353,21 @@ export default function BrandPageFormDetails(props) {
                     }}
                   ></span>
                 </label>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-10 offset-1">
+                {alertError ? (
+                  <MDBAlert color="danger">{errorMessage}</MDBAlert>
+                ) : (
+                  <div></div>
+                )}
+                {alertSuccess ? (
+                  <MDBAlert color="info">{successMessage}</MDBAlert>
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { usePosition } from "use-position";
-import { MDBRow, MDBCol, MDBBtn } from "mdbreact";
+//import { usePosition } from "use-position";
+import { MDBRow, MDBCol } from "mdbreact";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
 import UserBrandPageDetails from "../../AppComponents/UserComp/UserBrandPageDetails";
 import UserBrandPageIcons from "../../AppComponents/UserComp/UserBrandPageIcons";
@@ -36,25 +36,21 @@ function UserFormPage(props) {
   const [modalContact, setModalContact] = useState(false);
   const [modalLostAndFound, setModalLostAndFound] = useState(false);
   const [brandPageDetail, setBrandPageDetail] = useState();
-  const [showbutton, setShowButton] = useState(false);
+  const [screenLoader, setScreenLoader] = useState(true);
 
   useEffect(() => {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
+        setScreenLoader(false);
         setBrandPageDetail(response.data.data);
         //setBrandPageDetail(null);
       })
       .catch((e) => {
-        console.log(e.response);
+        setScreenLoader(false);
       });
   }, [brandPageId]);
-
-  const redirect = () => {
-    setInterval(setShowButton(true), 10000);
-    //window.location = `/`;
-  };
 
   const toggleWelcome = () => {
     setModalWelcome(!modalWelcome);
@@ -229,23 +225,23 @@ function UserFormPage(props) {
     },
   ]);
 
-  const watch = true;
-  const settings = {
-    enableHighAccuracy: false,
-    timeout: Infinity,
-    maximumAge: 0,
-  };
+  // const watch = true;
+  // const settings = {
+  //   enableHighAccuracy: false,
+  //   timeout: Infinity,
+  //   maximumAge: 0,
+  // };
 
-  const {
-    latitude,
-    longitude,
-    // speed,
-    // timestamp,
-    // accuracy,
-    // error,
-  } = usePosition(watch, settings);
+  // const {
+  //   latitude,
+  //   longitude,
+  //   // speed,
+  //   // timestamp,
+  //   // accuracy,
+  //   // error,
+  // } = usePosition(watch, settings);
 
-  console.log("latitude:" + latitude + " longitute:" + longitude);
+  // // console.log("latitude:" + latitude + " longitute:" + longitude);
 
   if (brandPageDetail) {
     return (
@@ -295,31 +291,41 @@ function UserFormPage(props) {
       </React.Fragment>
     );
   } else {
-    return (
-      <div className="row text-center" style={{ marginTop: "250px" }}>
-        <div className="col-12">
-          <div
-            className="spinner-grow spinner-grow-md text-primary"
-            role="status"
-          >
-            <span className="sr-only">Loading...</span>
+    if (screenLoader) {
+      return (
+        <div className="row text-center" style={{ marginTop: "250px" }}>
+          <div className="col-12">
+            <div
+              className="spinner-grow spinner-grow-md text-primary"
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
         </div>
-        {showbutton ? (
-          <MDBBtn
-            type="submit"
-            color="blue"
-            style={{ borderRadius: "20px" }}
-            className="waves-effect z-depth-1a"
-            size="md"
-          >
-            Log in
-          </MDBBtn>
-        ) : (
-          <span></span>
-        )}
-      </div>
-    );
+      );
+    } else
+      return (
+        <div className="row text-center" style={{ marginTop: "150px" }}>
+          <div className="col-12">
+            <img
+              src="/images/others/StSt_logo.png"
+              className="img-fluid"
+              alt="logo"
+              style={{ width: "80px" }}
+            />
+            <br />
+            <img
+              src="/images/others/oops_images.jpeg"
+              className="img-fluid"
+              alt="logo"
+              style={{ width: "350px" }}
+            />
+            <h3 className="mt-3">Brand Page not found</h3>
+          </div>
+        </div>
+        //redirect();
+      );
   }
 }
 

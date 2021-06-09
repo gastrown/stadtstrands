@@ -27,7 +27,7 @@ export default function MenuModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setAlert(null);
         setCheckMenuStatus(true);
         setMenus(response.data.data.Menus);

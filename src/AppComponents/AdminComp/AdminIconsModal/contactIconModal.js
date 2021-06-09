@@ -76,13 +76,11 @@ export default function ContactIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
@@ -140,7 +138,7 @@ export default function ContactIconModal(props) {
               ) : (
                 contactForms.map((field, index) => {
                   return (
-                    <div className="row form-group mt-1" key={index}>
+                    <div className="row form-group mt-1" key={field}>
                       <div className="col-md-12">
                         <div className="row">
                           <div className="col-4 mt-1">

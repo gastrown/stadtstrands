@@ -30,7 +30,7 @@ export default function SocialMediaIconModal(props) {
   const addNewField = () => {
     const fields = [...socialMedias];
     fields.push({
-      title: "facebook",
+      title: "Facebook",
       url: "http://",
     });
     setSocialMedias(fields);

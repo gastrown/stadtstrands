@@ -354,6 +354,7 @@ function AdminBrandPageManager(props) {
               <EventIconModal
                 constName={modalEventIcon}
                 functionName={toggleEventIcon}
+                locationId={locationId}
               />
 
               <FoodTruckIconModal
