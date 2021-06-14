@@ -38,6 +38,8 @@ function UserFormPage(props) {
   const [brandPageDetail, setBrandPageDetail] = useState();
   const [screenLoader, setScreenLoader] = useState(true);
 
+  const getStatus = localStorage.getItem("formStatus");
+
   useEffect(() => {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/user/${brandPageId}`
@@ -45,12 +47,11 @@ function UserFormPage(props) {
       .then((response) => {
         setScreenLoader(false);
         setBrandPageDetail(response.data.data);
-        //setBrandPageDetail(null);
       })
       .catch((e) => {
         setScreenLoader(false);
       });
-  }, [brandPageId]);
+  }, [brandPageId, getStatus]);
 
   const toggleWelcome = () => {
     setModalWelcome(!modalWelcome);
@@ -94,7 +95,7 @@ function UserFormPage(props) {
   };
 
   const toggleFeedBack = () => {
-    window.location = `/brand-page/feedback/${brandPageDetail.brandpageid}`;
+    window.location = `/brand-page/feedback/${brandPageId}`;
   };
 
   const toggleOrders = () => {
@@ -225,24 +226,6 @@ function UserFormPage(props) {
     },
   ]);
 
-  // const watch = true;
-  // const settings = {
-  //   enableHighAccuracy: false,
-  //   timeout: Infinity,
-  //   maximumAge: 0,
-  // };
-
-  // const {
-  //   latitude,
-  //   longitude,
-  //   // speed,
-  //   // timestamp,
-  //   // accuracy,
-  //   // error,
-  // } = usePosition(watch, settings);
-
-  // // console.log("latitude:" + latitude + " longitute:" + longitude);
-
   if (brandPageDetail) {
     return (
       <React.Fragment>
@@ -253,40 +236,73 @@ function UserFormPage(props) {
             <UserBrandPageIcons icons={brandPageIcons} />
           </MDBCol>
         </MDBRow>
-        <UserFormManagerDetails pageDetails={brandPageDetail} />
+
+        {getStatus === "true" ? (
+          <span></span>
+        ) : (
+          <UserFormManagerDetails pageDetails={brandPageDetail} />
+        )}
+
         <WelcomeUserModal
           constName={modalWelcome}
           functionName={toggleWelcome}
           pageDetails={brandPageDetail}
         />
-        <DrinkUserModal constName={modalDrink} functionName={toggleDrink} />
-        <MenuUserModal constName={modalMenu} functionName={toggleMenu} />
+        <DrinkUserModal
+          constName={modalDrink}
+          functionName={toggleDrink}
+          pageDetails={brandPageDetail}
+        />
+
+        <MenuUserModal
+          constName={modalMenu}
+          functionName={toggleMenu}
+          pageDetails={brandPageDetail}
+        />
         <SocialMediaModal
           constName={modalSocialMedia}
           functionName={toggleSocialMedia}
+          pageDetails={brandPageDetail}
         />
-        <ShopModal constName={modalShop} functionName={toggleShop} />
-        <TaxiModal constName={modalTaxi} functionName={toggleTaxi} />
+        <ShopModal
+          constName={modalShop}
+          functionName={toggleShop}
+          pageDetails={brandPageDetail}
+        />
+        <TaxiModal
+          constName={modalTaxi}
+          functionName={toggleTaxi}
+          pageDetails={brandPageDetail}
+        />
         <FoodTruckModal
           constName={modalFoodTruck}
           functionName={toggleFoodTruck}
+          pageDetails={brandPageDetail}
         />
         <StrandorteLocationModal
           constName={modalStrandorteLocation}
           functionName={toggleStrandorteLocation}
+          pageDetails={brandPageDetail}
         />
         <FamilyAndFriendsModal
           constName={modalFamilyAndFriends}
           functionName={toggleFamilyAndFriends}
+          pageDetails={brandPageDetail}
         />
         <ReservationModal
           constName={modalReservation}
           functionName={toggleReservation}
+          pageDetails={brandPageDetail}
         />
-        <ContactModal constName={modalContact} functionName={toggleContact} />
+        <ContactModal
+          constName={modalContact}
+          functionName={toggleContact}
+          pageDetails={brandPageDetail}
+        />
         <LostAndFoundModal
           constName={modalLostAndFound}
           functionName={toggleLostAndFound}
+          pageDetails={brandPageDetail}
         />
       </React.Fragment>
     );

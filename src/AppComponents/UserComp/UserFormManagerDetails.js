@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { MDBModal, MDBModalBody, MDBIcon, MDBInput, MDBBtn } from "mdbreact";
-import ConfirmationModal from "../../AppComponents/ConfirmationModal";
 import Axios from "axios";
 
 const UserFormManagerDetails = (props) => {
   const brandPageDetails = props.pageDetails;
-  const brandPageId = brandPageDetails.BrandPageForm.id;
+  const brandPageId = brandPageDetails.id;
+  const brandPageFormId = brandPageDetails.BrandPageForm.id;
   const [userFormModal, setUserFormModal] = useState(true);
-  const [radio, setRadio] = useState(true);
+  const [radio, setRadio] = useState(false);
   const [brandPageFormFields, setBrandPageFormFields] = useState();
+  const [formItems, setFormItems] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/${brandPageId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/${brandPageFormId}`
     )
       .then((response) => {
         setBrandPageFormFields(response.data.data.FormItems);
@@ -21,10 +24,11 @@ const UserFormManagerDetails = (props) => {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [brandPageId]);
+  }, [brandPageFormId]);
 
   const toggleRadio = () => {
-    setRadio(!setRadio);
+    setRadio(!radio);
+    setShowButton(!showButton);
   };
 
   const toggleForm = () => {
@@ -39,8 +43,48 @@ const UserFormManagerDetails = (props) => {
 
   const [modalSuccess, setModalSuccess] = useState(false);
 
-  const submitApplication = () => {
-    setModalSuccess(!modalSuccess);
+  const changefield = (field, e) => {
+    const fields = [...formItems];
+    const index = fields.findIndex((element) => element.title === field.title);
+    if (index === -1) {
+      fields.push({
+        title: e.target.placeholder,
+        value: e.target.value,
+      });
+    } else {
+      fields[index].title = e.target.placeholder;
+      fields[index].value = e.target.value;
+    }
+
+    setFormItems(fields);
+  };
+
+  const registerClientSession = () => {
+    const formStatus = true;
+    localStorage.setItem("formStatus", formStatus);
+  };
+  const redirect = () => {
+    setUserFormModal(false);
+  };
+
+  const saveForm = (e) => {
+    e.preventDefault();
+    setLoader(!loader);
+
+    Axios.post("https://stadtstrandapp.ecrdeveloper.website/api/v1/client", {
+      brandPageId: brandPageId,
+      formItems: formItems,
+    })
+      .then((response) => {
+        setLoader(false);
+        setModalSuccess(true);
+        registerClientSession();
+      })
+      .catch((e) => {
+        setLoader(false);
+        // setAlertError(true);
+        // setErrorMessage(e.response.data.data);
+      });
   };
 
   return (
@@ -54,10 +98,35 @@ const UserFormManagerDetails = (props) => {
         <h5 className="text-center">
           <MDBIcon icon="map-marker-alt" /> {brandPageDetails.name}
         </h5>
-        {brandPageFormFields ? (
+        <hr />
+        {modalSuccess ? (
+          <div className="text-center">
+            <p>
+              <MDBIcon
+                far
+                icon="check-circle"
+                style={{ fontSize: "40px", color: "green" }}
+              />
+            </p>
+            <p style={{ fontWeight: "400" }}>Form submitted successfully</p>
+            <MDBBtn
+              type="button"
+              color="#39729b"
+              style={{
+                borderRadius: "20px",
+                backgroundColor: "#39729b",
+                color: "#ffffff",
+              }}
+              className="waves-effect z-depth-1a"
+              size="md"
+              onClick={redirect}
+            >
+              Continue
+            </MDBBtn>
+          </div>
+        ) : brandPageFormFields ? (
           <div className="mt-3">
-            {console.log(brandPageFormFields)}
-            <form>
+            <form onSubmit={saveForm}>
               {brandPageFormFields.map((field) => {
                 return (
                   <div className="form-group row" key={field.id}>
@@ -68,6 +137,7 @@ const UserFormManagerDetails = (props) => {
                         placeholder={field.title}
                         style={formInputStyle}
                         required={field.required}
+                        onChange={(e) => changefield(field, e)}
                       />
                     </div>
                   </div>
@@ -94,23 +164,33 @@ const UserFormManagerDetails = (props) => {
 
               <div className="form-group row text-center mt-3 mb-3">
                 <div className="col-12">
-                  <MDBBtn
-                    type="button"
-                    color="blue"
-                    style={{ borderRadius: "20px" }}
-                    className="waves-effect z-depth-1a"
-                    size="sm"
-                    //onClick={submitApplication}
-                    onClick={toggleForm}
-                  >
-                    finish
-                  </MDBBtn>
-
-                  <ConfirmationModal
-                    constName={modalSuccess}
-                    functionName={submitApplication}
-                    successMessage="Great, your form has been submitted successfully."
-                  />
+                  {showButton ? (
+                    <MDBBtn
+                      type="submit"
+                      color="#39729b"
+                      style={{
+                        borderRadius: "20px",
+                        backgroundColor: "#39729b",
+                        color: "#ffffff",
+                      }}
+                      className="waves-effect z-depth-1a"
+                      size="md"
+                    >
+                      FINISH
+                      {loader ? (
+                        <div
+                          className="spinner-grow spinner-grow-sm ml-3"
+                          role="status"
+                        >
+                          <span className="sr-only">Loading...</span>
+                        </div>
+                      ) : (
+                        <span></span>
+                      )}
+                    </MDBBtn>
+                  ) : (
+                    <span></span>
+                  )}
                 </div>
               </div>
             </form>

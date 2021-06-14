@@ -11,6 +11,8 @@ export default function EventIconModal(props) {
   const [modalCreateEvent, setModalCreateEvent] = useState(false);
   const [loader, setLoader] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [brandPageEventId, setBrandPageEventId] = useState("");
 
   const toogleCreateEvent = () => {
     setModalCreateEvent(!modalCreateEvent);
@@ -21,12 +23,11 @@ export default function EventIconModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
-        //setAlert(null);
-        //setCheckEventStatus(true);
-        // setMenus(response.data.data.Menus);
-        // setDeactivatePage(response.data.data.deactivate);
-        // setBrandPageMenuId(response.data.data.id);
+        setAlert(null);
+        setCheckEventStatus(true);
+        setEvents(response.data.data.Events);
+        setDeactivatePage(response.data.data.deactivate);
+        setBrandPageEventId(response.data.data.id);
       })
       .catch((e) => {
         console.log(e.response);
@@ -43,13 +44,11 @@ export default function EventIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setCheckEventStatus(true);
         setAlert(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setLoader(false);
       });
   };
@@ -78,7 +77,7 @@ export default function EventIconModal(props) {
                   )}
                 </div>
               </div>
-              <div className="form-group row mt-5">
+              <div className="form-group row mt-2">
                 <div className="col-md-12 text-center">
                   <MDBBtn
                     type="button"
@@ -161,101 +160,65 @@ export default function EventIconModal(props) {
             </div>
           </div>
         )}
-
-        {/* <div className="row mt-5">
-          <div
-            className="col-md-3 ml-2"
-            style={{
-              width: "120px",
-              height: "120px",
-              borderRadius: "20px",
-              background:
-                'url("/images/others/stadtstrandFeature3.jpeg") no-repeat fixed center',
-              opacity: "12",
-            }}
-          >
-            <div className="row mt-3" style={{ color: "#ffffff" }}>
-              <div className="col-md-12">
-                <MDBBtn
-                  type="button"
-                  color="#39729b"
+        <div className="row mt-3">
+          {events.length < 1 ? (
+            <span></span>
+          ) : (
+            events.map((event, index) => {
+              return (
+                <div
+                  className="col-md-3 ml-2"
                   style={{
+                    width: "120px",
+                    height: "120px",
                     borderRadius: "20px",
-                    backgroundColor: "#39729b",
-                    color: "#ffffff",
-                    padding: "5px",
+                    background: `url(${event.headerImage}) no-repeat fixed center`,
+                    opacity: "12",
                   }}
-                  className="waves-effect z-depth-1a"
-                  size="sm"
+                  key={event}
                 >
-                  Edit
-                </MDBBtn>
-                <MDBBtn
-                  type="button"
-                  color="#39729b"
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "#39729b",
-                    color: "#ffffff",
-                    padding: "5px",
-                  }}
-                  className="waves-effect z-depth-1a"
-                  size="sm"
-                >
-                  Delete
-                </MDBBtn>
-              </div>
-            </div>
-          </div>
-          <div
-            className="col-md-3 ml-2"
-            style={{
-              width: "120px",
-              height: "120px",
-              borderRadius: "20px",
-              background:
-                'url("/images/others/stadtstrandFeature1.jpeg") no-repeat fixed center',
-              opacity: "12",
-            }}
-          >
-            <div className="row mt-3" style={{ color: "#ffffff" }}>
-              <div className="col-md-12">
-                <MDBBtn
-                  type="button"
-                  color="#39729b"
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "#39729b",
-                    color: "#ffffff",
-                    padding: "5px",
-                  }}
-                  className="waves-effect z-depth-1a"
-                  size="sm"
-                >
-                  Edit
-                </MDBBtn>
-                <MDBBtn
-                  type="button"
-                  color="#39729b"
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "#39729b",
-                    color: "#ffffff",
-                    padding: "5px",
-                  }}
-                  className="waves-effect z-depth-1a"
-                  size="sm"
-                >
-                  Delete
-                </MDBBtn>
-              </div>
-            </div>
-          </div>
-        </div> */}
+                  <div className="row mt-3" style={{ color: "#ffffff" }}>
+                    <div className="col-md-12">
+                      <MDBBtn
+                        type="button"
+                        color="#39729b"
+                        style={{
+                          borderRadius: "20px",
+                          backgroundColor: "#39729b",
+                          color: "#ffffff",
+                          padding: "5px",
+                        }}
+                        className="waves-effect z-depth-1a"
+                        size="sm"
+                      >
+                        Edit
+                      </MDBBtn>
+                      <MDBBtn
+                        type="button"
+                        color="#39729b"
+                        style={{
+                          borderRadius: "20px",
+                          backgroundColor: "#39729b",
+                          color: "#ffffff",
+                          padding: "5px",
+                        }}
+                        className="waves-effect z-depth-1a"
+                        size="sm"
+                      >
+                        Delete
+                      </MDBBtn>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
 
         <CreateEvent
           constName={modalCreateEvent}
           functionName={toogleCreateEvent}
+          brandPageEventId={brandPageEventId}
         />
 
         <div className="mt-5 font-small text-center pb-3">

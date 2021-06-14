@@ -15,16 +15,19 @@ import AdminStyle from "../../AppStyles/AdminStyles.module.css";
 import AdminNavbar from "../../AppComponents/AdminComp/AdminNavbar";
 import Locations from "../../AppComponents/AdminComp/AdminLocationComponents/Locations";
 import { useHistory } from "react-router-dom";
-import MapContainer from "../../AppComponents/MapContainer";
-import Geocode from "react-geocode";
+//import MapContainer from "../../AppComponents/MapContainer";
 import Axios from "axios";
-
-Geocode.setApiKey("AIzaSyCzEFkhf36FaUK789CPv7PYk5KdoZZpsLA");
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 
 function AdminSetLocation(props) {
   const history = useHistory();
   const adminId = props.match.params.adminId;
   const token = localStorage.getItem("token");
+  const [locationStatus, setLocationStatus] = useState(false);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [locationName, setlocationName] = useState("");
@@ -34,6 +37,16 @@ function AdminSetLocation(props) {
   const [imagePreview, setImagePreview] = useState("");
   const [loader, setLoader] = useState(false);
   const [modal, setModal] = useState(false);
+
+  const mapStyles = {
+    height: "200px",
+    width: "100%",
+  };
+
+  const currentLocation = {
+    lat: latitude,
+    lng: longitude,
+  };
 
   const toggle = () => {
     setModal(!modal);
@@ -70,15 +83,14 @@ function AdminSetLocation(props) {
           "Content-Type": "multipart/form-data",
         },
       }
-    )
-    .then((response) => {
+    ).then((response) => {
       const url = response.data.url;
 
       Axios.post(
         "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage",
         {
           name: locationName,
-          address: locationAddress,
+          address: formattedAddress,
           latitude: latitude,
           longitude: longitude,
           adminId: adminId,
@@ -95,10 +107,32 @@ function AdminSetLocation(props) {
           window.location.reload();
         })
         .catch((e) => {
+          console.log(e.response);
           setLoader(false);
         });
     });
     // .catch((err) => console.log(err));
+  };
+
+  const handleChange = (address) => {
+    setLocationAddress(address);
+  };
+
+  const handleSelect = (address) => {
+    geocodeByAddress(address)
+      .then((results) => {
+        //console.log(results);
+        const formatedAddress = results[0].formatted_address;
+        setFormattedAddress(formatedAddress);
+        return getLatLng(results[0]);
+      })
+      .then((latLng) => {
+        // console.log(latLng);
+        setLongitude(latLng.lng);
+        setLatitude(latLng.lat);
+        setLocationStatus(true);
+      })
+      .catch((error) => console.error("Error", error));
   };
 
   const logout = () => {
@@ -113,20 +147,20 @@ function AdminSetLocation(props) {
     marginBottom: "5px",
   };
 
-  const findLonLatfromAddress = (address) => {
-    // Get latitude & longitude from address.
-    Geocode.fromAddress(address).then(
-      (response) => {
-        setLocationAddress(address);
-        setLatitude(response.results[0].geometry.location.lat);
-        setLongitude(response.results[0].geometry.location.lng);
-        setFormattedAddress(response.results[0].formatted_address);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  };
+  // const findLonLatfromAddress = (address) => {
+  //   Geocode.fromAddress(address).then(
+  //     (response) => {
+  //       console.log(response.results[0]);
+  //       setLocationAddress(address);
+  //       setLatitude(response.results[0].geometry.location.lat);
+  //       setLongitude(response.results[0].geometry.location.lng);
+  //       setFormattedAddress(response.results[0].formatted_address);
+  //     },
+  //     (error) => {
+  //       console.error(error);
+  //     }
+  //   );
+  // };
 
   return (
     <MDBContainer fluid className={AdminStyle.adminbody}>
@@ -177,26 +211,99 @@ function AdminSetLocation(props) {
 
                         <div className="form-group row mt-2">
                           <div className="col-md-8 offset-md-2">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Location Address"
-                              style={{ borderRadius: "15px" }}
-                              onMouseOut={(e) => {
-                                findLonLatfromAddress(e.target.value);
-                              }}
-                            />
+                            <PlacesAutocomplete
+                              value={locationAddress}
+                              onChange={handleChange}
+                              onSelect={handleSelect}
+                            >
+                              {({
+                                getInputProps,
+                                suggestions,
+                                getSuggestionItemProps,
+                                loading,
+                              }) => (
+                                <div>
+                                  <input
+                                    {...getInputProps({
+                                      placeholder: "Search Places ...",
+                                      className: "location-search-input",
+                                    })}
+                                    className="form-control"
+                                  />
+                                  <div className="autocomplete-dropdown-container">
+                                    {loading && (
+                                      <div
+                                        className="spinner-grow text-primary"
+                                        role="status"
+                                      >
+                                        <span className="sr-only">
+                                          Loading...
+                                        </span>
+                                      </div>
+                                    )}
+
+                                    {suggestions.map((suggestion) => {
+                                      const className = suggestion.active
+                                        ? "suggestion-item--active"
+                                        : "suggestion-item";
+                                      // inline style for demonstration purpose
+                                      const style = suggestion.active
+                                        ? {
+                                            backgroundColor: "#fafafa",
+                                            cursor: "pointer",
+                                          }
+                                        : {
+                                            backgroundColor: "#ffffff",
+                                            cursor: "pointer",
+                                          };
+                                      return (
+                                        <div
+                                          {...getSuggestionItemProps(
+                                            suggestion,
+                                            {
+                                              className,
+                                              style,
+                                            }
+                                          )}
+                                          key={suggestion}
+                                        >
+                                          <span
+                                            style={{
+                                              border: "1px solid #c2c2c2",
+                                            }}
+                                          >
+                                            {suggestion.description}
+                                          </span>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                            </PlacesAutocomplete>
                           </div>
                         </div>
 
                         <div className="orm-group row mt-2">
                           <div className="col-md-8 offset-md-2">
-                            {latitude ? (
-                              <MapContainer
-                                lat={latitude}
-                                log={longitude}
-                                address={formattedAddress}
-                              />
+                            {locationStatus ? (
+                              <div>
+                                <h6>{formattedAddress}</h6>
+                                <GoogleMap
+                                  mapContainerStyle={mapStyles}
+                                  zoom={15}
+                                  center={currentLocation}
+                                >
+                                  {
+                                    <Marker position={currentLocation} />
+                                    // locations.map(item => {
+                                    // return (
+                                    // <Marker key={item.name} position={item.location} />
+                                    // )
+                                    // })
+                                  }
+                                </GoogleMap>
+                              </div>
                             ) : (
                               <div></div>
                             )}

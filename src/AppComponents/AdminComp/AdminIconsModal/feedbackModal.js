@@ -172,10 +172,9 @@ export default function FeedbackModal(props) {
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="5"
+                defaultValue={feedBackDescription}
                 onChange={(e) => setFeedBackDescription(e.target.value)}
-              >
-                {feedBackDescription}
-              </textarea>
+              ></textarea>
             </div>
           </div>
 

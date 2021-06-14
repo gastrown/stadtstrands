@@ -26,7 +26,7 @@ function Locations(props) {
       <MDBRow style={{ alignItems: "center" }}>
         {loading ? (
           <div className="col-12 mt-2 mb-2">
-            <div className="spinner-border fast ml-2" role="status">
+            <div className="spinner-grow text-primary fast ml-2" role="status">
               <span className="sr-only mt-2">Loading...</span>
             </div>
           </div>

@@ -57,17 +57,27 @@ const UserBrandPageDetails = (props) => {
           </div>
         </div>
         <div className="row mt-5 mb-5">
-          <div className="col-12 col-md-12 text-center">
+          <div className="col-10 col-md-10 text-center">
             {props.pageDetails.BrandPageSocialMedium.SocialMedias.map(
               (medialink) => {
                 return (
-                  <span>
+                  <span key={medialink.id}>
                     {medialink.title === "Facebook" ? (
-                      <a href={medialink.url} target="_blank" rel="noreferrer">
+                      <a
+                        href={medialink.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-3"
+                      >
                         <MDBIcon fab icon="facebook" style={socialStyle} />
                       </a>
                     ) : medialink.title === "Twitter" ? (
-                      <a href={medialink.url} target="_blank" rel="noreferrer">
+                      <a
+                        href={medialink.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-3"
+                      >
                         <MDBIcon
                           className="ml-5"
                           fab
@@ -76,7 +86,12 @@ const UserBrandPageDetails = (props) => {
                         />
                       </a>
                     ) : medialink.title === "Instagram" ? (
-                      <a href={medialink.url} target="_blank" rel="noreferrer">
+                      <a
+                        href={medialink.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-3"
+                      >
                         <MDBIcon
                           className="ml-5"
                           fab
