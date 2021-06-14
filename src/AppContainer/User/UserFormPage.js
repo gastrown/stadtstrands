@@ -91,7 +91,7 @@ function UserFormPage(props) {
   };
 
   const toggleAbout = () => {
-    window.location = "/about-brandpage";
+    window.location = `/about-brandpage/${brandPageId}`;
   };
 
   const toggleFeedBack = () => {

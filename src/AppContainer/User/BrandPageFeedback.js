@@ -50,11 +50,8 @@ export default function BrandPageFeedback(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
         setFeedbackQuestion(response.data.data.Feedbacks);
         setLoading(false);
-        // setScreenLoader(false);
-        // setBrandPageDetail(response.data.data);
       })
       .catch((e) => {});
   }, [brandPageId]);

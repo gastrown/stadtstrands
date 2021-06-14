@@ -100,7 +100,11 @@ const allroutes = () => {
 
         <Route path="/user/orders" exact component={UserOrder} />
 
-        <Route path="/about-brandpage" exact component={AboutBrandPage} />
+        <Route
+          path="/about-brandpage/:brandpageid"
+          exact
+          component={AboutBrandPage}
+        />
 
         <Route
           path="/brand-page/feedback/:brandpageid"

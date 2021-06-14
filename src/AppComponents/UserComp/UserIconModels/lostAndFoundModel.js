@@ -13,7 +13,6 @@ export default function LostAndFoundModel(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
         setFields(response.data.data.LostAndFounds);
         setLoading(false);
       })
@@ -71,11 +70,13 @@ export default function LostAndFoundModel(props) {
                       {fields.map((field) => {
                         return field.formType === "textarea" ? (
                           <textarea
+                            key={field.id}
                             className="form-control mt-3"
                             defaultValue={field.title}
                           ></textarea>
                         ) : (
                           <input
+                            key={field.id}
                             type={field.formType}
                             className="form-control mt-3"
                             placeholder={field.title}
