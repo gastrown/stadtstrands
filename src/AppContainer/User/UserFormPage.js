@@ -19,9 +19,11 @@ import ReservationModal from "../../AppComponents/UserComp/UserIconModels/reserv
 import ContactModal from "../../AppComponents/UserComp/UserIconModels/contactModel";
 import LostAndFoundModal from "../../AppComponents/UserComp/UserIconModels/lostAndFoundModel";
 import Axios from "axios";
+import { UserErrorPage } from "../../AppComponents/UserComp/UserErrorPage";
 
 function UserFormPage(props) {
   const brandPageId = props.match.params.Brandpageid;
+
   //console.log(brandPageId);
   const [modalWelcome, setModalWelcome] = useState(false);
   const [modalDrink, setModalDrink] = useState(false);
@@ -52,6 +54,18 @@ function UserFormPage(props) {
         setScreenLoader(false);
       });
   }, [brandPageId, getStatus]);
+
+  useEffect(() => {
+    /////Check Form Time Status///////
+    const currentDate = new Date();
+    let saveDate = localStorage.getItem("saveDate");
+    saveDate = new Date(saveDate);
+    const fourHoursAgo = currentDate.getHours() - saveDate.getHours();
+    if (fourHoursAgo > 4) {
+      // localStorage.setItem("formStatus", false);
+      localStorage.clear();
+    }
+  });
 
   const toggleWelcome = () => {
     setModalWelcome(!modalWelcome);
@@ -320,28 +334,7 @@ function UserFormPage(props) {
           </div>
         </div>
       );
-    } else
-      return (
-        <div className="row text-center" style={{ marginTop: "150px" }}>
-          <div className="col-12">
-            <img
-              src="/images/others/StSt_logo.png"
-              className="img-fluid"
-              alt="logo"
-              style={{ width: "80px" }}
-            />
-            <br />
-            <img
-              src="/images/others/oops_images.jpeg"
-              className="img-fluid"
-              alt="logo"
-              style={{ width: "350px" }}
-            />
-            <h3 className="mt-3">Brand Page not found</h3>
-          </div>
-        </div>
-        //redirect();
-      );
+    } else return <UserErrorPage errorText="Brand page not found" />;
   }
 }
 

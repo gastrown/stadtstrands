@@ -209,12 +209,6 @@ export default function ContactIconModal(props) {
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-md-12 text-center">
-                  <MDBIcon icon="plus-circle" className="mt-3 ml-3" />
-                </div>
-              </div>
-
               <DeactivateButton
                 toggle={() => {
                   setDeactivatePage(!deactivatePage);

@@ -19,7 +19,14 @@ const UserFormManagerDetails = (props) => {
     )
       .then((response) => {
         setBrandPageFormFields(response.data.data.FormItems);
-        //setBrandPageFormFields(null);
+        /////Check Form Time Status///////
+        const currentDate = new Date();
+        const saveDate = localStorage.getItem("saveDate");
+        const fourHoursAgo = currentDate.getHours() - saveDate.getHours();
+        console.log(fourHoursAgo);
+        if (fourHoursAgo < 4) {
+          localStorage.setItem("formStatus", false);
+        }
       })
       .catch((e) => {
         console.log(e.response);
@@ -61,8 +68,12 @@ const UserFormManagerDetails = (props) => {
 
   const registerClientSession = () => {
     const formStatus = true;
+    const saveDate = new Date();
+
+    localStorage.setItem("saveDate", saveDate);
     localStorage.setItem("formStatus", formStatus);
   };
+
   const redirect = () => {
     setUserFormModal(false);
   };
@@ -76,6 +87,7 @@ const UserFormManagerDetails = (props) => {
       formItems: formItems,
     })
       .then((response) => {
+        localStorage.setItem("clientId", response.data.data.id);
         setLoader(false);
         setModalSuccess(true);
         registerClientSession();

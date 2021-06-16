@@ -88,7 +88,7 @@ export default function MenuUserModal(props) {
                         to={{
                           pathname: `/menu/${list.name}`,
                           state: {
-                            menulist: list,
+                            listState: list,
                           },
                         }}
                       >

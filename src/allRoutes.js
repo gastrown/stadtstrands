@@ -15,9 +15,8 @@ import WaiterLogin from "./AppContainer/Waiter/Waiterlogin";
 import WaiterHomePage from "./AppContainer/Waiter/WaiterHomePage";
 
 import UserFormPage from "./AppContainer/User/UserFormPage";
-import UserFoodMenu from "./AppContainer/User/UserFoodMenu";
-import UserDrinksMenu from "./AppContainer/User/UserDrinksMenu";
-import UserSingleDrinkMenu from "./AppContainer/User/UserSingleDrinkMenu";
+import UserMenu from "./AppContainer/User/UserMenu";
+import UserSingleMenu from "./AppContainer/User/UserSingleMenu";
 import UserCart from "./AppContainer/User/UserCart";
 import UserCheckout from "./AppContainer/User/UserCheckout";
 import UserOrder from "./AppContainer/User/UserOrder";
@@ -84,14 +83,12 @@ const allroutes = () => {
         {/* User Routes */}
         <Route path="/user/form/:Brandpageid" exact component={UserFormPage} />
 
-        <Route path="/menu/food" exact component={UserFoodMenu} />
-
-        <Route path="/menu/drinks" exact component={UserDrinksMenu} />
+        <Route path="/menu/:menulist" exact component={UserMenu} />
 
         <Route
-          path="/drinks/:subdrinkcat/:subdrinkname"
+          path="/menu/:submenucat/:submenuname"
           exact
-          component={UserSingleDrinkMenu}
+          component={UserSingleMenu}
         />
 
         <Route path="/menu/cart" exact component={UserCart} />

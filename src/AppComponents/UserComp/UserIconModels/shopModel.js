@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBModal, MDBModalBody, MDBIcon } from "mdbreact";
 import Axios from "axios";
+import { UserErrorPage } from "../UserErrorPage";
 
 export default function ShopModel(props) {
   const brandPageId = props.pageDetails.id;
@@ -75,7 +76,7 @@ export default function ShopModel(props) {
             </div>
           </div>
         ) : (
-          <span>You can not view page</span>
+          <UserErrorPage errorText="Icon deactivated by admin." />
         )}
       </MDBModalBody>
     </MDBModal>
