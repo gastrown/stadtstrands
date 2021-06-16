@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MDBFormInline, MDBBadge, MDBIcon } from "mdbreact";
+import Axios from "axios";
 //import AddToHomescreen from "react-add-to-homescreen";
 
 //import { Link, BrowserRouter as Router } from 'react-router-dom';
@@ -17,6 +18,19 @@ const iconStyle = {
 };
 
 function UserNavbar() {
+  const clientId = localStorage.getItem("clientId");
+  const [cartCount, setCartCount] = useState("");
+
+  useEffect(() => {
+    Axios.get(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/carts/count/${clientId}`
+    )
+      .then((response) => {
+        setCartCount(response.data.data.count);
+      })
+      .catch((e) => {});
+  }, [clientId]);
+
   // const handleAddToHomescreenClick = () => {
   //   alert(`
   //     1. Open Share menu
@@ -44,10 +58,10 @@ function UserNavbar() {
                   className="text-uppercase"
                   style={{ color: "#000000" }}
                 >
-                  <MDBBadge color="danger" style={{ fontSize: "8px" }}>
-                    0
+                  <MDBBadge color="danger" style={{ fontSize: "10px" }}>
+                    {cartCount}
                   </MDBBadge>
-                  <MDBIcon icon="shopping-cart" style={{ fontSize: "20px" }} />
+                  <MDBIcon icon="shopping-cart" style={{ fontSize: "18px" }} />
                 </Link>
               </div>
               <div className="col-3 text-center mt-4">
@@ -56,10 +70,10 @@ function UserNavbar() {
                   className="text-uppercase"
                   style={{ color: "#000000" }}
                 >
-                  <MDBBadge color="danger" style={{ fontSize: "8px" }}>
+                  <MDBBadge color="danger" style={{ fontSize: "10px" }}>
                     0
                   </MDBBadge>
-                  <MDBIcon icon="bell" style={{ fontSize: "20px" }} />
+                  <MDBIcon icon="bell" style={{ fontSize: "18px" }} />
                 </Link>
               </div>
               <div className="col-6 text-center">

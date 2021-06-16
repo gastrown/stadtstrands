@@ -18,8 +18,6 @@ export default function UserSingleMenu(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-
-  console.log(singleMenuDetail);
   const [counter, setCounter] = useState(1);
   const incrementCounter = () => setCounter(counter + 1);
   let decrementCounter = () => setCounter(counter - 1);
