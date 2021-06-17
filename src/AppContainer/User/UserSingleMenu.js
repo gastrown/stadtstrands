@@ -76,25 +76,34 @@ export default function UserSingleMenu(props) {
                 ) : alertSuccess ? (
                   <MDBAlert color="info" className="text-center">
                     {successMessage}
-                    <MDBBtn
-                      type="button"
-                      color="blue"
-                      style={{ borderRadius: "20px" }}
-                      className="waves-effect z-depth-1a"
-                      size="sm"
+                    <Link
+                      to={{
+                        pathname: "/cart",
+                        state: {
+                          brandPageId: props.location.state.brandPageId,
+                        },
+                      }}
                     >
-                      Checkout
-                      {loader ? (
-                        <div
-                          className="spinner-grow spinner-grow-sm ml-3"
-                          role="status"
-                        >
-                          <span className="sr-only">Loading...</span>
-                        </div>
-                      ) : (
-                        <span></span>
-                      )}
-                    </MDBBtn>
+                      <MDBBtn
+                        type="button"
+                        color="blue"
+                        style={{ borderRadius: "20px" }}
+                        className="waves-effect z-depth-1a"
+                        size="sm"
+                      >
+                        View Cart
+                        {loader ? (
+                          <div
+                            className="spinner-grow spinner-grow-sm ml-3"
+                            role="status"
+                          >
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        ) : (
+                          <span></span>
+                        )}
+                      </MDBBtn>
+                    </Link>
                   </MDBAlert>
                 ) : (
                   <div></div>
@@ -159,7 +168,7 @@ export default function UserSingleMenu(props) {
                         <h5>
                           <b>Total:</b>
                           <span className="ml-2" style={{ color: "red" }}>
-                            €{singleMenuDetail.price * counter}
+                            €{(singleMenuDetail.price * counter).toFixed(2)}
                           </span>
                         </h5>
                       </div>
@@ -214,7 +223,7 @@ export default function UserSingleMenu(props) {
               </div>
 
               <div className="col-6 col-md-6 mt-2 font-small text-left">
-                <Link to={{ pathname: "/menu/cart" }}>
+                <Link to={{ pathname: "/cart" }}>
                   <div className="black-text" style={{ fontSize: "15px" }}>
                     <span className="mr-2" style={{ fontSize: "15px" }}>
                       Goto Cart

@@ -18,6 +18,7 @@ const iconStyle = {
 };
 
 function UserNavbar() {
+  const brandPageId = localStorage.getItem("brandPageId");
   const clientId = localStorage.getItem("clientId");
   const [cartCount, setCartCount] = useState("");
 
@@ -42,19 +43,29 @@ function UserNavbar() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-3  mt-3">
-            <img
-              src="/images/others/StSt_logo.png"
-              className="img-fluid"
-              alt="logo"
-              style={{ width: "80px" }}
-            />
+            <Link
+              to={{
+                pathname: `/user/form/${brandPageId}`,
+              }}
+              className="text-uppercase"
+              style={{ color: "#000000" }}
+            >
+              <img
+                src="/images/others/StSt_logo.png"
+                className="img-fluid"
+                alt="logo"
+                style={{ width: "80px" }}
+              />
+            </Link>
           </div>
 
           <div className="col-8 offset-1 mt-2 mb-2">
             <div className="row text-center">
               <div className="col-3 text-center mt-4">
                 <Link
-                  to={{ pathname: "/menu/cart" }}
+                  to={{
+                    pathname: "/cart",
+                  }}
                   className="text-uppercase"
                   style={{ color: "#000000" }}
                 >

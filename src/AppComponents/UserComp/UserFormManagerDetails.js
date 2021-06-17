@@ -88,6 +88,7 @@ const UserFormManagerDetails = (props) => {
     })
       .then((response) => {
         localStorage.setItem("clientId", response.data.data.id);
+        localStorage.setItem("brandPageId", brandPageId);
         setLoader(false);
         setModalSuccess(true);
         registerClientSession();

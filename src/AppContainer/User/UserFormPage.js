@@ -60,10 +60,12 @@ function UserFormPage(props) {
     const currentDate = new Date();
     let saveDate = localStorage.getItem("saveDate");
     saveDate = new Date(saveDate);
-    const fourHoursAgo = currentDate.getHours() - saveDate.getHours();
+    const fourHoursAgo = Math.floor(
+      (currentDate.getTime() / 1000 - saveDate.getTime() / 1000) / 3600
+    );
+
     if (fourHoursAgo > 4) {
-      // localStorage.setItem("formStatus", false);
-      localStorage.clear();
+      localStorage.setItem("formStatus", false);
     }
   });
 

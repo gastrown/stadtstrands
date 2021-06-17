@@ -91,9 +91,9 @@ const allroutes = () => {
           component={UserSingleMenu}
         />
 
-        <Route path="/menu/cart" exact component={UserCart} />
+        <Route path="/cart" exact component={UserCart} />
 
-        <Route path="/menu/checkout" exact component={UserCheckout} />
+        <Route path="/checkout" exact component={UserCheckout} />
 
         <Route path="/user/orders" exact component={UserOrder} />
 
