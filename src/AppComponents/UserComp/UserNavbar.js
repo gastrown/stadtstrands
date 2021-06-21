@@ -20,7 +20,7 @@ const iconStyle = {
 function UserNavbar() {
   const brandPageId = localStorage.getItem("brandPageId");
   const clientId = localStorage.getItem("clientId");
-  const [cartCount, setCartCount] = useState("");
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     Axios.get(
@@ -59,9 +59,9 @@ function UserNavbar() {
             </Link>
           </div>
 
-          <div className="col-8 offset-1 mt-2 mb-2">
+          <div className="col-9 mt-2 mb-2">
             <div className="row text-center">
-              <div className="col-3 text-center mt-4">
+              <div className="col-4 text-center mt-4">
                 <Link
                   to={{
                     pathname: "/cart",
@@ -69,10 +69,10 @@ function UserNavbar() {
                   className="text-uppercase"
                   style={{ color: "#000000" }}
                 >
-                  <MDBBadge color="danger" style={{ fontSize: "10px" }}>
+                  <MDBBadge color="danger" style={{ fontSize: "8px" }}>
                     {cartCount}
                   </MDBBadge>
-                  <MDBIcon icon="shopping-cart" style={{ fontSize: "18px" }} />
+                  <MDBIcon icon="shopping-cart" style={{ fontSize: "16px" }} />
                 </Link>
               </div>
               <div className="col-3 text-center mt-4">
@@ -81,13 +81,13 @@ function UserNavbar() {
                   className="text-uppercase"
                   style={{ color: "#000000" }}
                 >
-                  <MDBBadge color="danger" style={{ fontSize: "10px" }}>
+                  <MDBBadge color="danger" style={{ fontSize: "8px" }}>
                     0
                   </MDBBadge>
-                  <MDBIcon icon="bell" style={{ fontSize: "18px" }} />
+                  <MDBIcon icon="bell" style={{ fontSize: "16px" }} />
                 </Link>
               </div>
-              <div className="col-6 text-center">
+              <div className="col-5 text-center">
                 <MDBFormInline waves>
                   <div
                     className="md-form my-0"

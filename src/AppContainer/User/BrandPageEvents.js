@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
 import { MDBContainer, MDBIcon, MDBBtn } from "mdbreact";
-
+import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-
 import UserStyles from "../../AppStyles/UserStyles.module.css";
 
-export default function BrandPageEvents() {
+export default function BrandPageEvents(props) {
+  const brandPageId = props.match.params.brandpageid;
+  const [eventsList, setEventsList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
+
+  useEffect(() => {
+    Axios.get(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${brandPageId}`
+    )
+      .then((response) => {
+        console.log(response);
+        setEventsList(response.data.data.Events);
+        setLoading(false);
+      })
+      .catch((e) => {});
+  }, [brandPageId]);
 
   const cardStyle = {
     borderRadius: "15px",
@@ -23,77 +37,11 @@ export default function BrandPageEvents() {
     return days;
   };
 
-  const eventsList = [
-    {
-      id: "1",
-      eventId: "shfhsdsgaa",
-      eventTitle: "Stadt Laundry",
-      eventDescription: `
-            A event description is an internal document 
-            that specifies the event requirements, event duties, event responsibilities, and skills required to perform a role.
-            `,
-      eventLocation: "Corner ZYIAN, FL 33176",
-      eventDate: "2021-06-01T10:49:04.000Z",
-      eventImg: [
-        {
-          id: "1",
-          eventImgpath:
-            "https://mdbootstrap.com/img/Photos/Others/images/86.jpg",
-        },
-        {
-          id: "2",
-          eventImgpath:
-            "https://mdbootstrap.com/img/Photos/Others/images/44.jpg",
-        },
-      ],
-    },
-    {
-      id: "2",
-      eventId: "hhdjhduteg",
-      eventTitle: "Theodor-Heuss-Brucke Waiter",
-      eventDescription: `
-            A event description is an internal document 
-            that specifies the event requirements, event duties, event responsibilities, and skills required to perform a role.
-            `,
-      eventLocation: "Corner ZYIAN, FL 33176",
-      eventDate: "2021-04-27T10:49:04.000Z",
-      eventImg: [
-        {
-          id: "1",
-          eventImgpath:
-            "https://mdbootstrap.com/img/Photos/Others/images/54.jpg",
-        },
-      ],
-    },
-    {
-      id: "3",
-      eventId: "aedasds342",
-      eventTitle: "Stadt Cleaner",
-      eventDescription: `
-            A event description is an internal document 
-            that specifies the event requirements, event duties, event responsibilities, and skills required to perform a role.
-            `,
-      eventLocation: "Corner ZYIAN, FL 33176",
-      eventDate: "2021-04-27T10:49:04.000Z",
-      eventImg: [
-        {
-          id: "1",
-          eventImgpath:
-            "https://mdbootstrap.com/img/Photos/Others/images/32.jpg",
-        },
-        {
-          id: "2",
-          eventImgpath:
-            "https://mdbootstrap.com/img/Photos/Others/images/09.jpg",
-        },
-        {
-          id: "3",
-          eventImgpath:
-            "https://mdbootstrap.com/img/Photos/Others/images/97.jpg",
-        },
-      ],
-    },
-  ];
+  const dateFormat = (createdDate) => {
+    const dateObj = new Date(createdDate);
+    const newdate = dateObj.toDateString();
+    return newdate;
+  };
 
   return (
     <React.Fragment>
@@ -101,7 +49,7 @@ export default function BrandPageEvents() {
       <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
         <div className="row">
           <div
-            className="col-10 offset-1 col-md-5 offset-md-3 mt-3 mb-5"
+            className="col-10 offset-1 col-md-7 offset-md-3 mt-3 mb-5"
             id={UserStyles.listCard}
           >
             <div className="row mt-3">
@@ -115,99 +63,213 @@ export default function BrandPageEvents() {
                 </div>
               </div>
               <div className="col-10 text-left mt-1">
-                <h3>
+                <h2>
                   <b>Events</b>
-                </h3>
+                </h2>
               </div>
             </div>
+            <hr />
 
             <div className="row">
-              {eventsList.map((event) => {
-                return (
-                  <div
-                    className="col-10 offset-1 mt-4 mt-3 font-small text-left"
-                    key={event.id}
-                    style={cardStyle}
-                  >
-                    <div className="row">
-                      <div className="col-5">
-                        <img
-                          className="img-fluid"
-                          src={event.eventImg[0].eventImgpath}
-                          alt={event.eventTitle}
-                          style={{ borderRadius: "10px" }}
-                        />
-                      </div>
-                      <div className="col-7">
-                        <div>
-                          <p>
-                            <span
-                              style={{
-                                fontSize: "20px",
-                                fontWeight: "500",
-                                backgroundColor: "green",
-                                color: "#ffffff",
-                                paddingRight: "10px",
-                                paddingLeft: "10px",
-                                borderRadius: "10px",
-                              }}
-                            >
-                              {" "}
-                              {daysLeft(event.eventDate)}{" "}
-                            </span>
-                            <span
-                              style={{
-                                fontSize: "20px",
-                                fontWeight: "500",
-                                marginLeft: "5px",
-                              }}
-                            >
-                              Days to go
-                            </span>
-                          </p>
-                          <p>
-                            <span style={{ fontSize: "10px" }}>
-                              Posted {event.eventDate}
-                            </span>{" "}
-                            <br />
-                            <span
-                              style={{ fontSize: "20px", fontWeight: "500" }}
-                            >
-                              {event.eventTitle}
-                            </span>{" "}
-                            <br />
-                            <span className="mr-2" style={{ fontSize: "12px" }}>
-                              <MDBIcon icon="map-marker-alt" />
-                            </span>
-                            <span style={{ fontSize: "12px" }}>
-                              {event.eventLocation}
-                            </span>{" "}
-                            <br />
-                            <Link
-                              to={{
-                                pathname: `/event/details/${event.eventId}`,
-                                state: {
-                                  eventDetail: event,
-                                },
-                              }}
-                            >
-                              <MDBBtn
-                                type="button"
-                                color="black"
-                                style={{ borderRadius: "20px" }}
-                                className="waves-effect z-depth-1a"
-                                size="sm"
-                              >
-                                i'am interested
-                              </MDBBtn>
-                            </Link>
-                          </p>
-                        </div>
-                      </div>
+              <div className="col-12">
+                <div className="row">
+                  <div className="col-10 offset-1 mt-3">
+                    <h4>
+                      <b>Upcoming Events</b>
+                    </h4>
+                  </div>
+                </div>
+
+                {loading ? (
+                  <div className="col-12 mt-2 mb-2 text-center">
+                    <div
+                      className="spinner-grow text-primary fast ml-2"
+                      role="status"
+                    >
+                      <span className="sr-only mt-2">Loading...</span>
                     </div>
                   </div>
-                );
-              })}
+                ) : (
+                  eventsList.slice(0, 4).map((event) => {
+                    return (
+                      <div className="row">
+                        {daysLeft(event.date) < 0 ? (
+                          <span></span>
+                        ) : (
+                          <div
+                            className="col-10 offset-1 mt-2 mt-2 font-small text-left"
+                            key={event.id}
+                            style={cardStyle}
+                          >
+                            <div className="row">
+                              <div className="col-12">
+                                <img
+                                  className="img-fluid"
+                                  src={event.headerImage}
+                                  alt={event.title}
+                                  style={{ borderRadius: "10px" }}
+                                />
+                              </div>
+                            </div>
+                            <div className="row mt-1">
+                              <div className="col-12 text-center">
+                                <div>
+                                  {daysLeft(event.date) < 0 ? (
+                                    <span>Event Completed</span>
+                                  ) : (
+                                    <p>
+                                      <span
+                                        style={{
+                                          fontSize: "18px",
+                                          fontWeight: "500",
+                                          backgroundColor: "green",
+                                          color: "#ffffff",
+                                          paddingRight: "10px",
+                                          paddingLeft: "10px",
+                                          borderRadius: "10px",
+                                        }}
+                                      >
+                                        {daysLeft(event.date)}
+                                      </span>
+                                      <span
+                                        style={{
+                                          fontSize: "16px",
+                                          fontWeight: "500",
+                                          marginLeft: "5px",
+                                        }}
+                                      >
+                                        Days to go
+                                      </span>
+                                    </p>
+                                  )}
+
+                                  <p>
+                                    <span style={{ fontSize: "12px" }}>
+                                      Posted {dateFormat(event.createdAt)}
+                                    </span>{" "}
+                                    <br />
+                                    <span
+                                      style={{
+                                        fontSize: "20px",
+                                        fontWeight: "500",
+                                      }}
+                                    >
+                                      {event.title}
+                                    </span>{" "}
+                                    <br />
+                                    <span
+                                      className="mr-2"
+                                      style={{ fontSize: "12px" }}
+                                    >
+                                      <MDBIcon icon="map-marker-alt" />
+                                    </span>
+                                    <span style={{ fontSize: "12px" }}>
+                                      {event.address}
+                                    </span>{" "}
+                                    <br />
+                                    <Link
+                                      to={{
+                                        pathname: `/event/details/${event.id}`,
+                                        state: {
+                                          eventDetail: event,
+                                        },
+                                      }}
+                                    >
+                                      <MDBBtn
+                                        type="button"
+                                        color="black"
+                                        style={{ borderRadius: "20px" }}
+                                        className="waves-effect z-depth-1a"
+                                        size="sm"
+                                      >
+                                        i'am interested
+                                      </MDBBtn>
+                                    </Link>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+            <hr />
+
+            <div className="row">
+              <div className="col-12">
+                <div className="row">
+                  <div className="col-10 offset-1 mt-4">
+                    <h4>
+                      <b>Completed Events</b>
+                    </h4>
+                  </div>
+                </div>
+
+                {eventsList.slice(0, 4).map((event) => {
+                  return (
+                    <div className="row">
+                      {daysLeft(event.date) < 0 ? (
+                        <div
+                          className="col-10 offset-1 mt-2 mt-2 font-small text-left"
+                          key={event.id}
+                          style={cardStyle}
+                        >
+                          <div className="row">
+                            <div className="col-12">
+                              <img
+                                className="img-fluid"
+                                src={event.headerImage}
+                                alt={event.title}
+                                style={{ borderRadius: "10px" }}
+                              />
+                            </div>
+                          </div>
+                          <div className="row mt-1">
+                            <div className="col-12 text-center">
+                              <div>
+                                <p>
+                                  <span>Event Completed</span>
+                                </p>
+
+                                <p>
+                                  <span style={{ fontSize: "12px" }}>
+                                    Event Date: {dateFormat(event.date)}
+                                  </span>{" "}
+                                  <br />
+                                  <span
+                                    style={{
+                                      fontSize: "20px",
+                                      fontWeight: "500",
+                                    }}
+                                  >
+                                    {event.title}
+                                  </span>{" "}
+                                  <br />
+                                  <span
+                                    className="mr-2"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    <MDBIcon icon="map-marker-alt" />
+                                  </span>
+                                  <span style={{ fontSize: "12px" }}>
+                                    {event.address}
+                                  </span>{" "}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <span></span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="row mt-3">

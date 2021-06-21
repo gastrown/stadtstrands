@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBModal, MDBModalBody, MDBIcon } from "mdbreact";
 import Axios from "axios";
+import { UserErrorPage } from "../UserErrorPage";
 
 export default function TaxiModel(props) {
   const brandPageId = props.pageDetails.id;
@@ -76,7 +77,7 @@ export default function TaxiModel(props) {
             </div>
           </div>
         ) : (
-          <span>You can not view page</span>
+          <UserErrorPage errorText="Icon deactivated by admin." />
         )}
       </MDBModalBody>
     </MDBModal>

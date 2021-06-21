@@ -147,21 +147,6 @@ function AdminSetLocation(props) {
     marginBottom: "5px",
   };
 
-  // const findLonLatfromAddress = (address) => {
-  //   Geocode.fromAddress(address).then(
-  //     (response) => {
-  //       console.log(response.results[0]);
-  //       setLocationAddress(address);
-  //       setLatitude(response.results[0].geometry.location.lat);
-  //       setLongitude(response.results[0].geometry.location.lng);
-  //       setFormattedAddress(response.results[0].formatted_address);
-  //     },
-  //     (error) => {
-  //       console.error(error);
-  //     }
-  //   );
-  // };
-
   return (
     <MDBContainer fluid className={AdminStyle.adminbody}>
       <AdminNavbar />

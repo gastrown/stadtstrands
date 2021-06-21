@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBAlert } from "mdbreact";
 import DeactivateButton from "../../DeactivateButton";
 import CreateEvent from "../../AdminComp/AdminIconsModal/createEventIconModal";
+import EditModal from "../../AdminComp/AdminIconsModal/EditEventModal";
 import Axios from "axios";
 
 export default function EventIconModal(props) {
@@ -13,6 +14,9 @@ export default function EventIconModal(props) {
   const [alert, setAlert] = useState(false);
   const [events, setEvents] = useState([]);
   const [brandPageEventId, setBrandPageEventId] = useState("");
+  const [checkloading, setCheckLoading] = useState(true);
+  const [singleEvent, setSingleEvent] = useState();
+  const [modalEditEvent, setModalEditEvent] = useState(false);
 
   const toogleCreateEvent = () => {
     setModalCreateEvent(!modalCreateEvent);
@@ -23,11 +27,16 @@ export default function EventIconModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${brandPageId}`
     )
       .then((response) => {
-        setAlert(null);
-        setCheckEventStatus(true);
-        setEvents(response.data.data.Events);
-        setDeactivatePage(response.data.data.deactivate);
-        setBrandPageEventId(response.data.data.id);
+        setCheckLoading(false);
+        if (response.data.data == null) {
+          setCheckEventStatus(false);
+        } else {
+          setAlert(null);
+          setCheckEventStatus(true);
+          setEvents(response.data.data.Events);
+          setDeactivatePage(response.data.data.deactivate);
+          setBrandPageEventId(response.data.data.id);
+        }
       })
       .catch((e) => {
         console.log(e.response);
@@ -53,6 +62,11 @@ export default function EventIconModal(props) {
       });
   };
 
+  const toogleEditEvent = (singleEvent) => {
+    setModalEditEvent(!modalEditEvent);
+    setSingleEvent(singleEvent);
+  };
+
   return (
     <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
       <MDBModalBody>
@@ -61,7 +75,13 @@ export default function EventIconModal(props) {
         </h5>
         <hr />
 
-        {checkEventStatus ? (
+        {checkloading ? (
+          <div className="col-12 mt-2 mb-2">
+            <div className="spinner-grow fast ml-2" role="status">
+              <span className="sr-only mt-2">Loading...</span>
+            </div>
+          </div>
+        ) : checkEventStatus ? (
           <div className="row">
             <div className="col-12">
               <div className="form-group row">
@@ -175,7 +195,7 @@ export default function EventIconModal(props) {
                     background: `url(${event.headerImage}) no-repeat fixed center`,
                     opacity: "12",
                   }}
-                  key={event}
+                  key={event.id}
                 >
                   <div className="row mt-3" style={{ color: "#ffffff" }}>
                     <div className="col-md-12">
@@ -190,6 +210,7 @@ export default function EventIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
+                        onClick={() => toogleEditEvent(event)}
                       >
                         Edit
                       </MDBBtn>
@@ -215,10 +236,29 @@ export default function EventIconModal(props) {
           )}
         </div>
 
+        {events ? (
+          <div>
+            {/* <DelModal
+                    constName={modalDeleteItem}
+                    functionName={toogleDeleteMenuItem}
+                    event={menuItem}
+                  /> */}
+
+            <EditModal
+              constName={modalEditEvent}
+              functionName={toogleEditEvent}
+              event={singleEvent}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
+
         <CreateEvent
           constName={modalCreateEvent}
           functionName={toogleCreateEvent}
           brandPageEventId={brandPageEventId}
+          brandPageId={brandPageId}
         />
 
         <div className="mt-5 font-small text-center pb-3">

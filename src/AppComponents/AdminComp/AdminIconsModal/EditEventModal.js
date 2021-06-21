@@ -3,140 +3,146 @@ import { MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBAlert } from "mdbreact";
 import Axios from "axios";
 import MultiImageInput from "react-multiple-image-input";
 
-export default function CreateEventIconModal(props) {
-  const brandPageEventId = props.brandPageEventId;
-  const brandPageId = props.brandPageId;
-  const [loader, setLoader] = useState(false);
-  const [headerImage, setHeaderImage] = useState("");
-  const [headerImagePreview, setHeaderImagePreview] = useState("");
-  const [title, setTitle] = useState("");
-  const [address, setAddress] = useState("");
-  const [date, setDate] = useState("");
-  const [information, setInformation] = useState("");
-  const [eventLink, setEventLink] = useState("");
-  const [eventImagesLinks, setEventImagesLinks] = useState([]);
-  const [eventImages, setEventImages] = useState({});
-  const [activateCountDown, setActivateCountDown] = useState(false);
-  const [alertError, setAlertError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [alertSuccess, setAlertSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+export default function EditEventModal(props) {
+  console.log(props);
+  //   const event = props.event;
+  //   const brandPageEventId = props.brandPageEventId;
+  //   const brandPageId = props.brandPageId;
+  //   const [loader, setLoader] = useState(false);
+  //   const [headerImage, setHeaderImage] = useState("");
+  //   const [headerImagePreview, setHeaderImagePreview] = useState(
+  //     event.headerImage
+  //   );
+  //   const [title, setTitle] = useState(event.title);
+  //   const [address, setAddress] = useState(event.address);
+  //   const [date, setDate] = useState(event.date);
+  //   const [information, setInformation] = useState(event.information);
+  //   const [eventLink, setEventLink] = useState(event.eventLink);
+  //   const [eventImagesLinks, setEventImagesLinks] = useState([]);
+  //   const [eventImages, setEventImages] = useState({});
+  //   const [activateCountDown, setActivateCountDown] = useState(
+  //     event.activateCountDown
+  //   );
+  //   const [alertError, setAlertError] = useState(false);
+  //   const [errorMessage, setErrorMessage] = useState("");
+  //   const [alertSuccess, setAlertSuccess] = useState(false);
+  //   const [successMessage, setSuccessMessage] = useState("");
 
-  const imageFileStyle = {
-    padding: "10px",
-    border: "1px solid #ffffff",
-    marginLeft: "12px",
-    width: "90%",
-    borderRadius: "10px",
-    textAlign: "center",
-    fontSize: "12px",
-    color: "#ffffff",
-  };
+  //   const imageFileStyle = {
+  //     padding: "10px",
+  //     border: "1px solid #ffffff",
+  //     marginLeft: "12px",
+  //     width: "90%",
+  //     borderRadius: "10px",
+  //     textAlign: "center",
+  //     fontSize: "12px",
+  //     color: "#ffffff",
+  //   };
 
-  const onChangeFile = (e) => {
-    setHeaderImage(e.target.files[0]);
-    setHeaderImagePreview(URL.createObjectURL(e.target.files[0]));
-  };
+  //   const onChangeFile = (e) => {
+  //     setHeaderImage(e.target.files[0]);
+  //     setHeaderImagePreview(URL.createObjectURL(e.target.files[0]));
+  //   };
 
-  const createEvent = async (e) => {
-    e.preventDefault();
-    setLoader(true);
+  //   const createEvent = async (e) => {
+  //     e.preventDefault();
+  //     setLoader(true);
 
-    const eventImgs = [];
-    for (let image in eventImages) {
-      let url = await uploadToCloudinary(eventImages[image]);
-      eventImgs.push(url);
-      setEventImagesLinks(eventImgs);
-    }
+  //     const eventImgs = [];
+  //     for (let image in eventImages) {
+  //       let url = await uploadToCloudinary(eventImages[image]);
+  //       eventImgs.push(url);
+  //     }
 
-    const dataImage = new FormData();
-    dataImage.append("file", headerImage);
-    dataImage.append("upload_preset", "ecrtech");
-    dataImage.append("cloud_name", "ecrtechdev");
+  //     setEventImagesLinks(eventImgs);
 
-    Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
-      dataImage,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
+  //     const dataImage = new FormData();
+  //     dataImage.append("file", headerImage);
+  //     dataImage.append("upload_preset", "ecrtech");
+  //     dataImage.append("cloud_name", "ecrtechdev");
 
-      .then((response) => {
-        Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/event",
-          {
-            brandPageEventId: brandPageEventId,
-            headerImage: response.data.url,
-            title: title,
-            address: address,
-            date: date,
-            information: information,
-            eventLink: eventLink,
-            activateCountDown: activateCountDown,
-            eventImages: eventImagesLinks,
-          }
-        )
-          .then(() => {
-            setLoader(false);
-            setAlertError(false);
-            setAlertSuccess(true);
-            setSuccessMessage("Event created successfully");
-            setInterval(function reload() {
-              window.location = `/admin/brand-page/manager/${brandPageId}`;
-            }, 3000);
-          })
-          .catch((e) => {
-            setAlertError(true);
-            setErrorMessage(e.response.data.data);
-            setLoader(false);
-          });
-      })
-      .catch((e) => {
-        setAlertError(true);
-        setErrorMessage(e.response.data.data);
-        setLoader(false);
-      });
-  };
+  //     Axios.post(
+  //       "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+  //       dataImage,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     )
 
-  const setImage = (value) => {
-    setEventImages(value);
-    console.log(value);
-  };
+  //       .then((response) => {
+  //         Axios.put(
+  //           `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${brandPageEventId}`,
+  //           {
+  //             headerImage: response.data.url,
+  //             title: title,
+  //             address: address,
+  //             date: date,
+  //             information: information,
+  //             eventLink: eventLink,
+  //             activateCountDown: activateCountDown,
+  //             eventImages: eventImagesLinks,
+  //           }
+  //         )
+  //           .then(() => {
+  //             setLoader(false);
+  //             setAlertError(false);
+  //             setAlertSuccess(true);
+  //             setSuccessMessage("Event updated successfully");
+  //             setInterval(function reload() {
+  //               window.location = `/admin/brand-page/manager/${brandPageId}`;
+  //             }, 3000);
+  //           })
+  //           .catch((e) => {
+  //             setAlertError(true);
+  //             setErrorMessage(e.response.data.data);
+  //             setLoader(false);
+  //           });
+  //       })
+  //       .catch((e) => {
+  //         setAlertError(true);
+  //         setErrorMessage(e.response.data.data);
+  //         setLoader(false);
+  //       });
+  //   };
 
-  const crop = {
-    unit: "%",
-    aspect: 4 / 3,
-    width: "100",
-  };
+  //   const setImage = (value) => {
+  //     setEventImages(value);
+  //     console.log(value);
+  //   };
 
-  const uploadToCloudinary = async (file) => {
-    let returnedImgUrl = "";
-    const dataImage = new FormData();
-    dataImage.append("file", file);
-    dataImage.append("upload_preset", "ecrtech");
-    dataImage.append("cloud_name", "ecrtechdev");
+  //   const crop = {
+  //     unit: "%",
+  //     aspect: 4 / 3,
+  //     width: "100",
+  //   };
 
-    try {
-      const response = await Axios.post(
-        "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
-        dataImage,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log(response);
-      returnedImgUrl = response.data.url;
-    } catch (err) {
-      console.log(err);
-    }
+  //   const uploadToCloudinary = async (file) => {
+  //     let returnedImgUrl = "";
+  //     const dataImage = new FormData();
+  //     dataImage.append("file", file);
+  //     dataImage.append("upload_preset", "ecrtech");
+  //     dataImage.append("cloud_name", "ecrtechdev");
 
-    return returnedImgUrl;
-  };
+  //     try {
+  //       const response = await Axios.post(
+  //         "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+  //         dataImage,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+  //       console.log(response);
+  //       returnedImgUrl = response.data.url;
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+
+  //     return returnedImgUrl;
+  //   };
 
   return (
     <MDBModal
@@ -147,10 +153,11 @@ export default function CreateEventIconModal(props) {
     >
       <MDBModalBody>
         <h6 className="mt-2">
-          <strong>Create Event</strong>
+          <strong>Edit Event</strong>
         </h6>
         <hr />
-        <form onSubmit={createEvent}>
+
+        {/* <form onSubmit={createEvent}>
           <div className="row">
             <div className="col-10 offset-1">
               {alertError ? (
@@ -210,7 +217,7 @@ export default function CreateEventIconModal(props) {
                 <div className="col-md-12">
                   <input
                     type="text"
-                    placeholder="Upload event title"
+                    placeholder={title}
                     className="form-control text-center"
                     style={{ borderRadius: "20px", fontSize: "10px" }}
                     onChange={(e) => setTitle(e.target.value)}
@@ -222,7 +229,7 @@ export default function CreateEventIconModal(props) {
                   <input
                     type="text"
                     name=""
-                    placeholder="Upload Event location"
+                    placeholder={address}
                     className="form-control text-center"
                     style={{ borderRadius: "20px", fontSize: "12px" }}
                     onChange={(e) => setAddress(e.target.value)}
@@ -231,9 +238,9 @@ export default function CreateEventIconModal(props) {
               </div>
               <div className="row">
                 <div className="col-md-12 mt-2">
+                  <label>{date}</label>
                   <input
                     type="date"
-                    placeholder="Date"
                     className="form-control text-center"
                     style={{ borderRadius: "20px", fontSize: "12px" }}
                     onChange={(e) => setDate(e.target.value)}
@@ -249,7 +256,7 @@ export default function CreateEventIconModal(props) {
                     className="form-control text-left"
                     style={{ borderRadius: "10px", fontSize: "12px" }}
                     rows="3"
-                    placeholder="Upload event information"
+                    placeholder={information}
                     onChange={(e) => setInformation(e.target.value)}
                   ></textarea>
                 </div>
@@ -260,7 +267,7 @@ export default function CreateEventIconModal(props) {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="enter link"
+                    placeholder={eventLink}
                     style={{ borderRadius: "20px", fontSize: "12px" }}
                     onChange={(e) => setEventLink(e.target.value)}
                   />
@@ -273,7 +280,7 @@ export default function CreateEventIconModal(props) {
 
           <div className="row mt-2">
             <div className="col-md-12">
-              <label>Upload Event Images</label>
+              <label>Change Event Images</label>
               <MultiImageInput
                 images={eventImages}
                 setImages={setImage}
@@ -297,6 +304,7 @@ export default function CreateEventIconModal(props) {
                   type="checkbox"
                   className="custom-control-input"
                   id="eventCountSwitch"
+                  defaultChecked={activateCountDown}
                   onChange={() => {
                     setActivateCountDown(!activateCountDown);
                   }}
@@ -336,7 +344,7 @@ export default function CreateEventIconModal(props) {
                   className="waves-effect z-depth-1a"
                   size="md"
                 >
-                  Save Event
+                  Edit Event
                   {loader ? (
                     <div
                       className="spinner-grow spinner-grow-sm ml-2"
@@ -351,7 +359,7 @@ export default function CreateEventIconModal(props) {
               </div>
             </div>
           </div>
-        </form>
+        </form> */}
 
         <div className="mt-5 font-small text-center pb-3">
           <div onClick={props.functionName} className="black-text">

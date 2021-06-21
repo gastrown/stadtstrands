@@ -5,41 +5,29 @@ import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import UserStyles from "../../AppStyles/UserStyles.module.css";
 
-export default function UserCart(props) {
+function UserCart() {
   const clientId = localStorage.getItem("clientId");
-  const brandPageId = localStorage.getItem("brandPageId");
   const history = useHistory();
   const [cartList, setCartList] = useState([]);
-  const [loader, setLoader] = useState(false);
+  const [loader] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [finalAmount, setFinalAmount] = useState(0);
+  const [delLoader, setDelLoader] = useState(false);
 
-  const incrementCounter = (cart) => {
-    const cartData = [...cartList];
-    const index = cartData.findIndex((element) => element.id === cart.id);
-    cartData[index].quantity = cart.quantity + 1;
-    setCartList(cartData);
-    total(cartData);
-  };
-
-  const decrementCounter = (cart) => {
-    const cartData = [...cartList];
-    const index = cartData.findIndex((element) => element.id === cart.id);
-    cartData[index].quantity = cart.quantity - 1;
-    if (cart.quantity <= 0) {
-      cartData[index].quantity = 1;
-    }
-    setCartList(cartData);
-    total(cartData);
-  };
-
-  const total = (newCartList) => {
-    let totalAmount = 0;
-    for (let cart of newCartList) {
-      const initial = cart.MenuItem.price * cart.quantity;
-      totalAmount = totalAmount + initial;
-    }
-    setFinalAmount(totalAmount.toFixed(2));
+  const removeItem = (cart) => {
+    setDelLoader(true);
+    const cartId = cart.id;
+    console.log(cartId);
+    Axios.delete(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/cart/${cartId}`
+    )
+      .then((response) => {
+        setDelLoader(false);
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e.response);
+        setDelLoader(false);
+      });
   };
 
   useEffect(() => {
@@ -48,31 +36,14 @@ export default function UserCart(props) {
     )
       .then((response) => {
         setCartList(response.data.data.rows);
-        total(response.data.data.rows);
         setLoading(false);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        setCartList([]);
+      });
 
     return;
   }, [clientId]);
-
-  const checkout = () => {
-    setLoader(true);
-
-    Axios.post("https://stadtstrandapp.ecrdeveloper.website/api/v1/checkout", {
-      brandPageId: brandPageId,
-      clientId: clientId,
-      amount: finalAmount,
-    })
-      .then((response) => {
-        console.log(response);
-        setLoader(false);
-      })
-      .catch((e) => {
-        console.log(e.response);
-        setLoader(false);
-      });
-  };
 
   return (
     <React.Fragment>
@@ -111,6 +82,8 @@ export default function UserCart(props) {
                   <span className="sr-only mt-2">Loading...</span>
                 </div>
               </div>
+            ) : cartList < 1 ? (
+              <span>Cart Empty</span>
             ) : (
               cartList.map((cart) => {
                 return (
@@ -147,21 +120,23 @@ export default function UserCart(props) {
                               {(cart.MenuItem.price * cart.quantity).toFixed(2)}
                             </span>
                           </div>
-                          <div className="col-4 text-center">
-                            <MDBIcon
-                              icon="minus-circle"
-                              className="mt-2 mr-3"
-                              onClick={() => decrementCounter(cart)}
-                            />
-                            {cart.quantity}
-                            <MDBIcon
-                              icon="plus-circle"
-                              className="mt-2 ml-2"
-                              onClick={() => incrementCounter(cart)}
-                            />
-                          </div>
+                          <div className="col-4 text-center"></div>
                           <div className="col-4 text-right">
-                            <MDBIcon icon="trash" className="mt-2 mr-3" />
+                            <MDBIcon
+                              icon="trash"
+                              className="mt-2 mr-3"
+                              onClick={() => removeItem(cart)}
+                            />
+                            {delLoader ? (
+                              <div
+                                className="spinner-grow spinner-grow-sm ml-3"
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            ) : (
+                              <span></span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -174,30 +149,12 @@ export default function UserCart(props) {
 
             <div className="row mt-3">
               <div className="col-12 text-center">
-                <Link to={{ pathname: "/menu/food" }}>
-                  <MDBBtn
-                    type="button"
-                    color="blue"
-                    style={{ borderRadius: "20px" }}
-                    className="waves-effect z-depth-1a"
-                    size="sm"
-                  >
-                    ORDER MORE FOOD
-                  </MDBBtn>
-                </Link>
-              </div>
-            </div>
-
-            <hr />
-            <div className="row mt-3">
-              <div className="col-7 text-center">
-                <h6>TOTAL ORDER CREATED</h6>
-                <span style={{ color: "red" }}>€{finalAmount}</span>
-              </div>
-              <div className="col-5 text-left">
                 <Link
                   to={{
                     pathname: "/checkout",
+                    state: {
+                      cartList: cartList,
+                    },
                   }}
                 >
                   <MDBBtn
@@ -206,7 +163,6 @@ export default function UserCart(props) {
                     style={{ borderRadius: "20px" }}
                     className="waves-effect z-depth-1a"
                     size="sm"
-                    onClick={checkout}
                   >
                     CHECKOUT <MDBIcon icon="chevron-circle-right" />
                     {loader ? (
@@ -223,9 +179,30 @@ export default function UserCart(props) {
                 </Link>
               </div>
             </div>
+
+            <hr />
+
+            <div className="row mt-3">
+              <div className="col-12 text-center">
+                <Link to={{ pathname: "/menu" }}>
+                  <MDBBtn
+                    type="button"
+                    color="blue"
+                    style={{ borderRadius: "20px" }}
+                    className="waves-effect z-depth-1a"
+                    size="sm"
+                    onClick={history.goBack}
+                  >
+                    ORDER MORE
+                  </MDBBtn>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </MDBContainer>
     </React.Fragment>
   );
 }
+
+export default UserCart;

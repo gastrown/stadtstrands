@@ -207,10 +207,9 @@ export default function ContactIconModal(props) {
                     className="form-control"
                     id="exampleFormControlTextarea1"
                     rows="5"
+                    defaultValue={strandort.description}
                     onChange={(e) => setDescription(e.target.value)}
-                  >
-                    {strandort.description}
-                  </textarea>
+                  ></textarea>
                 </div>
               </div>
 

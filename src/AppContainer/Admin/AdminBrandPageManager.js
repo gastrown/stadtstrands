@@ -360,6 +360,7 @@ function AdminBrandPageManager(props) {
               <FoodTruckIconModal
                 constName={modalFoodTruckIcon}
                 functionName={toggleFoodTruckIcon}
+                locationId={locationId}
               />
 
               <ReservationIconModal

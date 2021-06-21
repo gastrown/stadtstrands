@@ -123,7 +123,7 @@ function UserFormPage(props) {
   };
 
   const toggleEvents = () => {
-    window.location = "/brand-page/events";
+    window.location = `/brand-page/events/${brandPageId}`;
   };
 
   const [brandPageIcons] = useState([

@@ -16,6 +16,7 @@ import WaiterHomePage from "./AppContainer/Waiter/WaiterHomePage";
 
 import UserFormPage from "./AppContainer/User/UserFormPage";
 import UserMenu from "./AppContainer/User/UserMenu";
+import AllMenu from "./AppContainer/User/AllMenu";
 import UserSingleMenu from "./AppContainer/User/UserSingleMenu";
 import UserCart from "./AppContainer/User/UserCart";
 import UserCheckout from "./AppContainer/User/UserCheckout";
@@ -83,6 +84,8 @@ const allroutes = () => {
         {/* User Routes */}
         <Route path="/user/form/:Brandpageid" exact component={UserFormPage} />
 
+        <Route path="/menu" exact component={AllMenu} />
+
         <Route path="/menu/:menulist" exact component={UserMenu} />
 
         <Route
@@ -121,7 +124,11 @@ const allroutes = () => {
 
         <Route path="/jobs/apply/:jobId" exact component={JobApplication} />
 
-        <Route path="/brand-page/events" exact component={BrandPageEvent} />
+        <Route
+          path="/brand-page/events/:brandpageid"
+          exact
+          component={BrandPageEvent}
+        />
 
         <Route path="/event/details/:eventId" exact component={EventDetail} />
       </Switch>
