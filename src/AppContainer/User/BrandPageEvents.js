@@ -16,7 +16,6 @@ export default function BrandPageEvents(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
         setEventsList(response.data.data.Events);
         setLoading(false);
       })

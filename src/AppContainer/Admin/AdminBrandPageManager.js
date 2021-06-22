@@ -372,6 +372,7 @@ function AdminBrandPageManager(props) {
               <JobIconModal
                 constName={modalJobIcon}
                 functionName={toggleJobIcon}
+                locationId={locationId}
               />
 
               <DeliveryBoxIconModal

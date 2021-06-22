@@ -114,16 +114,16 @@ function UserFormPage(props) {
     window.location = `/brand-page/feedback/${brandPageId}`;
   };
 
-  const toggleOrders = () => {
-    window.location = "/user/orders";
-  };
-
   const toggleJobs = () => {
-    window.location = "/brand-page/jobs";
+    window.location = `/brand-page/jobs/${brandPageId}`;
   };
 
   const toggleEvents = () => {
     window.location = `/brand-page/events/${brandPageId}`;
+  };
+
+  const toggleOrders = () => {
+    window.location = "/user/orders/";
   };
 
   const [brandPageIcons] = useState([

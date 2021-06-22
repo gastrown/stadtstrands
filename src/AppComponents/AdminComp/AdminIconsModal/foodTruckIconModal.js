@@ -180,6 +180,7 @@ export default function FoodTruckIconModal(props) {
             </div>
           </div>
         )}
+
         <div className="row mt-3">
           {foodTrucks.length < 1 ? (
             <span></span>
@@ -238,6 +239,8 @@ export default function FoodTruckIconModal(props) {
         <CreateFoodTruck
           constName={modalCreateFoodTruck}
           functionName={toogleCreateFoodTruck}
+          brandPageFoodTruckId={brandPageFoodTruckId}
+          brandPageId={brandPageId}
         />
 
         <div className="mt-5 font-small text-center pb-3">

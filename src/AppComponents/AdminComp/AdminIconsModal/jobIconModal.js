@@ -1,116 +1,251 @@
-import React,{ useState } from 'react';
-import { 
-    MDBModal, MDBModalBody, MDBBtn, MDBIcon
-  } from 'mdbreact';
-import DeactivateButton from '../../DeactivateButton';
-import CreateJob from '../../AdminComp/AdminIconsModal/createJobModal';
-
+import React, { useState, useEffect } from "react";
+import { MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBAlert } from "mdbreact";
+import DeactivateButton from "../../DeactivateButton";
+import CreateJob from "../../AdminComp/AdminIconsModal/createJobModal";
+import Axios from "axios";
 
 export default function JobIconModal(props) {
-    const [modalCreateJob, setModalCreateJob] = useState(false);
+  const brandPageId = props.locationId;
+  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [checkJobStatus, setCheckJobStatus] = useState(null);
+  const [modalCreateJob, setModalCreateJob] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [jobs, setJobs] = useState([]);
+  const [brandPageJobId, setBrandPageJobId] = useState("");
+  const [checkloading, setCheckLoading] = useState(true);
 
-    const toogleCreateJob = () => {
-        setModalCreateJob(!modalCreateJob);
-    }
+  useEffect(() => {
+    Axios.get(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob/${brandPageId}`
+    )
+      .then((response) => {
+        setCheckLoading(false);
+        if (response.data.data == null) {
+          setCheckJobStatus(false);
+        } else {
+          setAlert(null);
+          setCheckJobStatus(true);
+          setJobs(response.data.data.Jobs);
+          setDeactivatePage(response.data.data.deactivate);
+          setBrandPageJobId(response.data.data.id);
+        }
+      })
+      .catch((e) => {
+        console.log(e.response);
+      });
+  }, [brandPageId]);
 
-    return (
-        <MDBModal isOpen={props.constName} toggle={props.functionName}  centered >
-            <MDBModalBody>
-            <div className="mt-1 font-small text-left">
-                <div onClick={props.functionName} className="black-text">
-                    <MDBIcon icon="chevron-circle-left" /> Back 
-                </div>
+  const createBrandPageJob = () => {
+    setLoader(!loader);
+    Axios.post(
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob",
+      {
+        brandPageId: brandPageId,
+        deactivate: deactivatePage,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setCheckJobStatus(true);
+        setAlert(true);
+      })
+      .catch((e) => {
+        setLoader(false);
+      });
+  };
+
+  const toogleCreateJob = () => {
+    setModalCreateJob(!modalCreateJob);
+  };
+
+  return (
+    <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
+      <MDBModalBody>
+        <div className="mt-1 font-small text-left">
+          <div onClick={props.functionName} className="black-text">
+            <MDBIcon icon="chevron-circle-left" /> Back
+          </div>
+        </div>
+        <h6 className="mt-2">
+          <strong>Jobs</strong>
+        </h6>
+        <hr />
+
+        {checkloading ? (
+          <div className="col-12 mt-2 mb-2">
+            <div className="spinner-grow fast ml-2" role="status">
+              <span className="sr-only mt-2">Loading...</span>
             </div>
-            <h6 className="mt-2"><strong>Jobs</strong></h6>
-            <hr/>
-
-            <div className="form-group row mt-5">
+          </div>
+        ) : checkJobStatus ? (
+          <div className="row">
+            <div className="col-12">
+              <div className="form-group row">
+                <div className="col-10 offset-1">
+                  {alert ? (
+                    <MDBAlert color="success">
+                      <strong>Congratulation!</strong> your brand page Job
+                      portal has been created successfully. Let's get started
+                      with creating Job offers.
+                    </MDBAlert>
+                  ) : (
+                    <span></span>
+                  )}
+                </div>
+              </div>
+              <div className="form-group row mt-2">
                 <div className="col-md-12 text-center">
-                    <MDBBtn
+                  <MDBBtn
+                    type="button"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="sm"
+                    onClick={toogleCreateJob}
+                  >
+                    Create new job ad
+                  </MDBBtn>
+                </div>
+              </div>
+              <DeactivateButton
+                toggle={() => {
+                  setDeactivatePage(!deactivatePage);
+                }}
+                deactivatePage={deactivatePage}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="row mt-3">
+            <div className="col-md-12">
+              <form>
+                <div className="form-group row mt-2">
+                  <div className="col-10 offset-1 text-center">
+                    <h6>
+                      <b>
+                        Welcome to the Brand Page Job portal. Please click on
+                        the button below to start creating job offers.
+                      </b>
+                    </h6>
+                    <div>
+                      {loader ? (
+                        <MDBBtn
+                          type="button"
+                          color="#39729b"
+                          style={{
+                            borderRadius: "20px",
+                            backgroundColor: "#39729b",
+                            color: "#ffffff",
+                          }}
+                          className="waves-effect z-depth-1a mt-4"
+                          size="md"
+                          disabled
+                        >
+                          Your Job portal will be ready in a seconds
+                          <div
+                            className="spinner-grow spinner-grow-sm ml-3"
+                            role="status"
+                          >
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        </MDBBtn>
+                      ) : (
+                        <MDBBtn
+                          type="button"
+                          color="#39729b"
+                          style={{
+                            borderRadius: "20px",
+                            backgroundColor: "#39729b",
+                            color: "#ffffff",
+                          }}
+                          className="waves-effect z-depth-1a mt-4"
+                          size="md"
+                          onClick={createBrandPageJob}
+                        >
+                          Start Job portal customization
+                        </MDBBtn>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        <div className="row mt-3">
+          {jobs.length < 1 ? (
+            <span></span>
+          ) : (
+            jobs.map((job, index) => {
+              return (
+                <div
+                  className="col-md-3 ml-2"
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    borderRadius: "20px",
+                    background: `url(${job.jobImageUrl}) no-repeat fixed center`,
+                    opacity: "12",
+                  }}
+                  key={job.id}
+                >
+                  <div className="row mt-3" style={{ color: "#ffffff" }}>
+                    <div className="col-md-12">
+                      <MDBBtn
                         type="button"
                         color="#39729b"
-                        style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff'}}
+                        style={{
+                          borderRadius: "20px",
+                          backgroundColor: "#39729b",
+                          color: "#ffffff",
+                          padding: "5px",
+                        }}
                         className="waves-effect z-depth-1a"
                         size="sm"
-                        onClick={toogleCreateJob}
-                        >
-                        Create new job ad
-                    </MDBBtn>
-                </div>
-            </div>
-
-            <div className="row mt-5">
-                <div className="col-md-3 ml-2" style={{width:'120px',height:'120px', borderRadius:'20px',
-                background:'url("/images/others/stadtstrandFeature3.jpeg") no-repeat fixed center',opacity:'12'}}>
-                    <div className="row mt-3" style={{color:'#ffffff'}}>
-                        <div className="col-md-12">
-                            <MDBBtn
-                                type="button"
-                                color="#39729b"
-                                style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff',padding:'5px'}}
-                                className="waves-effect z-depth-1a"
-                                size="sm"
-                                >
-                                Edit
-                            </MDBBtn>
-                             <MDBBtn
-                                type="button"
-                                color="#39729b"
-                                style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff',padding:'5px'}}
-                                className="waves-effect z-depth-1a"
-                                size="sm"
-                                >
-                                Delete
-                            </MDBBtn>
-                        </div>
+                      >
+                        Edit
+                      </MDBBtn>
+                      <MDBBtn
+                        type="button"
+                        color="#39729b"
+                        style={{
+                          borderRadius: "20px",
+                          backgroundColor: "#39729b",
+                          color: "#ffffff",
+                          padding: "5px",
+                        }}
+                        className="waves-effect z-depth-1a"
+                        size="sm"
+                      >
+                        Delete
+                      </MDBBtn>
                     </div>
+                  </div>
                 </div>
-                <div className="col-md-3 ml-2" style={{width:'120px',height:'120px', borderRadius:'20px',
-                background:'url("/images/others/stadtstrandFeature1.jpeg") no-repeat fixed center',opacity:'12'}}>
-                    <div className="row mt-3" style={{color:'#ffffff'}}>
-                        <div className="col-md-12">
-                            <MDBBtn
-                                type="button"
-                                color="#39729b"
-                                style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff',padding:'5px'}}
-                                className="waves-effect z-depth-1a"
-                                size="sm"
-                                >
-                                Edit
-                            </MDBBtn>
-                             <MDBBtn
-                                type="button"
-                                color="#39729b"
-                                style={{borderRadius:'20px', backgroundColor:'#39729b', color:'#ffffff',padding:'5px'}}
-                                className="waves-effect z-depth-1a"
-                                size="sm"
-                                >
-                                Delete
-                            </MDBBtn>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              );
+            })
+          )}
+        </div>
 
-            <div className="row">
-                <div className="col-md-10 offset-md-2">
-                    <DeactivateButton /> 
-                </div>
-            </div>
+        <CreateJob
+          constName={modalCreateJob}
+          functionName={toogleCreateJob}
+          brandPageJobId={brandPageJobId}
+          brandPageId={brandPageId}
+        />
 
-            <CreateJob
-                constName={modalCreateJob}
-                functionName={toogleCreateJob}/>
-
-     
-                
-            <div className="mt-5 font-small text-center pb-3">
-                <div onClick={props.functionName} className="black-text">
-                    <MDBIcon icon="chevron-circle-left" /> Back 
-                </div>
-            </div>
-
-            </MDBModalBody>
-        </MDBModal>
-    )
+        <div className="mt-5 font-small text-center pb-3">
+          <div onClick={props.functionName} className="black-text">
+            <MDBIcon icon="chevron-circle-left" /> Back
+          </div>
+        </div>
+      </MDBModalBody>
+    </MDBModal>
+  );
 }

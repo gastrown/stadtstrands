@@ -14,7 +14,6 @@ export default function StrandorteLocationModel(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagestrandorte/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
         setStrandDetails(response.data.data);
         setLoading(false);
       })

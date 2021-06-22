@@ -120,7 +120,11 @@ const allroutes = () => {
           component={SingleLocation}
         />
 
-        <Route path="/brand-page/jobs" exact component={BrandPageJob} />
+        <Route
+          path="/brand-page/jobs/:brandpageid"
+          exact
+          component={BrandPageJob}
+        />
 
         <Route path="/jobs/apply/:jobId" exact component={JobApplication} />
 
