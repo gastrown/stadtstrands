@@ -47,8 +47,142 @@ function UserFormPage(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
+        console.log(response);
         setScreenLoader(false);
         setBrandPageDetail(response.data.data);
+        setBrandPageIcons([
+          {
+            id: "1",
+            iconName: "heart",
+            iconTitle: "Welcome",
+            iconToggle: toggleWelcome,
+            deactivate: true,
+          },
+          {
+            id: "2",
+            iconName: "comment-alt",
+            iconTitle: "Feedback",
+            iconToggle: toggleFeedBack,
+            deactivate: response.data.data.BrandPageFeedback.deactivatePage,
+          },
+          {
+            id: "3",
+            iconName: "clipboard-list",
+            iconTitle: "Menu",
+            iconToggle: toggleMenu,
+            deactivate: response.data.data.BrandPageMenu.deactivate,
+          },
+          {
+            id: "4",
+            iconName: "camera",
+            iconTitle: "Social Media",
+            iconToggle: toggleSocialMedia,
+            deactivate: response.data.data.BrandPageSocialMedium.deactivate,
+          },
+          {
+            id: "5",
+            iconName: "box-open",
+            iconTitle: "Lost and Found",
+            iconToggle: toggleLostAndFound,
+            deactivate: response.data.data.BrandPageLostAndFound.deactivate,
+          },
+          {
+            id: "6",
+            iconName: "cocktail",
+            iconTitle: "Drink",
+            iconToggle: toggleDrink,
+            deactivate: true,
+          },
+          {
+            id: "7",
+            iconName: "map-marker-alt",
+            iconTitle: "Strandorte",
+            iconToggle: toggleStrandorteLocation,
+            deactivate: response.data.data.BrandPageStrandorte.deactivate,
+          },
+          {
+            id: "8",
+            iconName: "phone-alt",
+            iconTitle: "Contact",
+            iconToggle: toggleContact,
+            deactivate: response.data.data.BrandPageContactU.deactivate,
+          },
+          {
+            id: "9",
+            iconName: "paper-plane",
+            iconTitle: "Free Icon",
+          },
+          {
+            id: "10",
+            iconName: "info-circle",
+            iconTitle: "About Us",
+            iconToggle: toggleAbout,
+            deactivate: response.data.data.BrandPageAbout.deactivate,
+          },
+          {
+            id: "11",
+            iconName: "store",
+            iconTitle: "Shop",
+            iconToggle: toggleShop,
+            deactivate: response.data.data.BrandPageShop.deactivate,
+          },
+          {
+            id: "12",
+            iconName: "users",
+            iconTitle: "Family & Friends",
+            iconToggle: toggleFamilyAndFriends,
+            deactivate: response.data.data.BrandPageFamilyAndFriend.deactivate,
+          },
+          {
+            id: "13",
+            iconName: "taxi",
+            iconTitle: "Taxi",
+            iconToggle: toggleTaxi,
+            deactivate: response.data.data.BrandPageTaxi.deactivate,
+          },
+          {
+            id: "14",
+            iconName: "calendar-alt",
+            iconTitle: "Events",
+            iconToggle: toggleEvents,
+            deactivate: response.data.data.BrandPageEvent.deactivate,
+          },
+          {
+            id: "15",
+            iconName: "truck",
+            iconTitle: "Food Truck",
+            iconToggle: toggleFoodTruck,
+            deactivate: response.data.data.BrandPageFoodTruck.deactivate,
+          },
+
+          {
+            id: "16",
+            iconName: "book-open",
+            iconTitle: "Reservation",
+            iconToggle: toggleReservation,
+            deactivate: response.data.data.BrandPageReservation.deactivate,
+          },
+          {
+            id: "17",
+            iconName: "toolbox",
+            iconTitle: "Jobs",
+            iconToggle: toggleJobs,
+            deactivate: response.data.data.BrandPageJob.deactivate,
+          },
+          {
+            id: "18",
+            iconName: "luggage-cart",
+            iconTitle: "My Orders",
+            iconToggle: toggleOrders,
+            deactivate: true,
+          },
+          {
+            id: "19",
+            iconName: "cloud-download-alt",
+            iconTitle: "Get Icon",
+            deactivate: true,
+          },
+        ]);
       })
       .catch((e) => {
         setScreenLoader(false);
@@ -126,121 +260,7 @@ function UserFormPage(props) {
     window.location = "/user/orders/";
   };
 
-  const [brandPageIcons] = useState([
-    {
-      id: "1",
-      iconName: "heart",
-      iconTitle: "Welcome",
-      iconToggle: toggleWelcome,
-    },
-    {
-      id: "2",
-      iconName: "comment-alt",
-      iconTitle: "Feedback",
-      iconToggle: toggleFeedBack,
-    },
-    {
-      id: "3",
-      iconName: "clipboard-list",
-      iconTitle: "Menu",
-      iconToggle: toggleMenu,
-    },
-    {
-      id: "4",
-      iconName: "camera",
-      iconTitle: "Social Media",
-      iconToggle: toggleSocialMedia,
-    },
-    {
-      id: "5",
-      iconName: "box-open",
-      iconTitle: "Lost and Found",
-      iconToggle: toggleLostAndFound,
-    },
-    {
-      id: "6",
-      iconName: "cocktail",
-      iconTitle: "Drink",
-      iconToggle: toggleDrink,
-    },
-    {
-      id: "7",
-      iconName: "map-marker-alt",
-      iconTitle: "Strandorte",
-      iconToggle: toggleStrandorteLocation,
-    },
-    {
-      id: "8",
-      iconName: "phone-alt",
-      iconTitle: "Contact",
-      iconToggle: toggleContact,
-    },
-    {
-      id: "9",
-      iconName: "paper-plane",
-      iconTitle: "Free Icon",
-    },
-    {
-      id: "10",
-      iconName: "info-circle",
-      iconTitle: "About Us",
-      iconToggle: toggleAbout,
-    },
-    {
-      id: "11",
-      iconName: "store",
-      iconTitle: "Shop",
-      iconToggle: toggleShop,
-    },
-    {
-      id: "12",
-      iconName: "users",
-      iconTitle: "Family & Friends",
-      iconToggle: toggleFamilyAndFriends,
-    },
-    {
-      id: "13",
-      iconName: "taxi",
-      iconTitle: "Taxi",
-      iconToggle: toggleTaxi,
-    },
-    {
-      id: "14",
-      iconName: "calendar-alt",
-      iconTitle: "Events",
-      iconToggle: toggleEvents,
-    },
-    {
-      id: "15",
-      iconName: "truck",
-      iconTitle: "Food Truck",
-      iconToggle: toggleFoodTruck,
-    },
-
-    {
-      id: "16",
-      iconName: "book-open",
-      iconTitle: "Reservation",
-      iconToggle: toggleReservation,
-    },
-    {
-      id: "17",
-      iconName: "toolbox",
-      iconTitle: "Jobs",
-      iconToggle: toggleJobs,
-    },
-    {
-      id: "18",
-      iconName: "luggage-cart",
-      iconTitle: "Order",
-      iconToggle: toggleOrders,
-    },
-    {
-      id: "19",
-      iconName: "cloud-download-alt",
-      iconTitle: "Get Icon",
-    },
-  ]);
+  const [brandPageIcons, setBrandPageIcons] = useState([]);
 
   if (brandPageDetail) {
     return (

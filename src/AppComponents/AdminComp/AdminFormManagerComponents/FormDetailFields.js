@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   MDBRow,
   MDBCol,
@@ -8,13 +8,15 @@ import {
   MDBAlert,
 } from "mdbreact";
 import Axios from "axios";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // import Toggle from 'react-toggle';
 
 function FormDetailFields(props) {
   const LocationDetail = props.location;
+  let displayedFields = null;
 
-  const [fields, setFields] = useState([]);
+  let [fields, setFields] = useState([]);
   const [fieldName, setFieldName] = useState("");
   const [fieldType, setFieldType] = useState("");
   const [fieldAutoFill, setFieldAutoFill] = useState(null);
@@ -127,11 +129,26 @@ function FormDetailFields(props) {
         setFields([]);
         console.log(e.response);
       });
-  }, [LocationDetail.BrandPageForm.id]);
+  }, [setFields]);
 
   const btnStyle = {
     fontSize: "9px",
     borderRadius: "20px",
+  };
+
+  const onDragEnd = (param) => {
+    const sourceIndex = param.source.index;
+    const destinationIndex = param.destination?.index;
+    if (destinationIndex) {
+      const oldFields = [...fields];
+      oldFields.splice(
+        destinationIndex,
+        0,
+        oldFields.splice(sourceIndex, 1)[0]
+      );
+      console.log(oldFields);
+      setFields(oldFields);
+    }
   };
 
   return (
@@ -166,79 +183,97 @@ function FormDetailFields(props) {
         </div>
       </MDBRow>
 
-      {fields.map((field) => {
-        return (
-          <div className="row" key={field.id}>
-            <div className="col-12 col-md-6">
-              <div className="row mt-1">
-                <div className="col-9 mt-2">
-                  <input
-                    className="form-control mb-3 mt-0"
-                    style={{
-                      border: "inset dotted #000000",
-                      borderRadius: "10px",
-                      fontSize: "12px",
-                    }}
-                    type={field.formType}
-                    defaultValue={field.title}
-                    disabled
-                  />
-                </div>
-                <div className="col-3">
-                  <i
-                    className="fa fa-minus-circle mt-3 ml-1"
-                    onClick={() => handleRemove(field.id)}
-                  ></i>
-                  {/* <i className="fa fa-edit mt-3 ml-3" onClick={() => editSingleField(field.id)}></i> */}
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="row">
-                <div className="col-10 mt-2">
-                  <div className="row">
-                    <div className="col-8">
-                      {field.autoFilled ? (
-                        <MDBBtn
-                          type="button"
-                          color="#39729b"
-                          style={btnStyle}
-                          size="sm"
-                          onClick={() => handleAutoFill(field.id)}
-                        >
-                          Add Autofill
-                        </MDBBtn>
-                      ) : (
-                        <MDBBtn
-                          type="button"
-                          color="#39729b"
-                          style={btnStyle}
-                          size="sm"
-                          onClick={() => handleAutoFill(field.id)}
-                        >
-                          Remove Autofill
-                        </MDBBtn>
-                      )}
-                    </div>
-                    <div className="col-4">
-                      <MDBBtn
-                        type="button"
-                        outline
-                        color="blue"
-                        style={btnStyle}
-                        size="sm"
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="form-items">
+          {(provided, snapshot) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {displayedFields = fields}
+              {displayedFields.map((field, i) => {
+                return (
+                  <Draggable key={i} draggableId={"draggable-" + i} index={i}>
+                    {(provided, snapshot) => (
+                      <div
+                        className="row"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                       >
-                        Required
-                      </MDBBtn>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                        <div className="col-12 col-md-6">
+                          <div className="row mt-1">
+                            <div className="col-9 mt-2">
+                              <input
+                                className="form-control mb-3 mt-0"
+                                style={{
+                                  border: "inset dotted #000000",
+                                  borderRadius: "10px",
+                                  fontSize: "12px",
+                                }}
+                                type={field.formType}
+                                defaultValue={field.title}
+                                disabled
+                              />
+                            </div>
+                            <div className="col-3">
+                              <i
+                                className="fa fa-minus-circle mt-3 ml-1"
+                                onClick={() => handleRemove(field.id)}
+                              ></i>
+                              {/* <i className="fa fa-edit mt-3 ml-3" onClick={() => editSingleField(field.id)}></i> */}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-6">
+                          <div className="row">
+                            <div className="col-10 mt-2">
+                              <div className="row">
+                                <div className="col-8">
+                                  {field.autoFilled ? (
+                                    <MDBBtn
+                                      type="button"
+                                      color="#39729b"
+                                      style={btnStyle}
+                                      size="sm"
+                                      onClick={() => handleAutoFill(field.id)}
+                                    >
+                                      Add Autofill
+                                    </MDBBtn>
+                                  ) : (
+                                    <MDBBtn
+                                      type="button"
+                                      color="#39729b"
+                                      style={btnStyle}
+                                      size="sm"
+                                      onClick={() => handleAutoFill(field.id)}
+                                    >
+                                      Remove Autofill
+                                    </MDBBtn>
+                                  )}
+                                </div>
+                                <div className="col-4">
+                                  <MDBBtn
+                                    type="button"
+                                    outline
+                                    color="blue"
+                                    style={btnStyle}
+                                    size="sm"
+                                  >
+                                    Required
+                                  </MDBBtn>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
             </div>
-          </div>
-        );
-      })}
-
+          )}
+        </Droppable>
+      </DragDropContext>
       <div className="row">
         <div className="col-10 offset-1">
           {modalSuccess ? (

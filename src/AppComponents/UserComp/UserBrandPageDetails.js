@@ -69,7 +69,12 @@ const UserBrandPageDetails = (props) => {
                         rel="noreferrer"
                         className="ml-3"
                       >
-                        <MDBIcon fab icon="facebook" style={socialStyle} />
+                        <MDBIcon
+                          className="ml-5"
+                          fab
+                          icon="facebook"
+                          style={socialStyle}
+                        />
                       </a>
                     ) : medialink.title === "Twitter" ? (
                       <a

@@ -48,6 +48,8 @@ export default function FoodTruckIconModal(props) {
       }
     )
       .then((response) => {
+        console.log(response);
+        setBrandPageFoodTruckId(response.data.data.id);
         setLoader(false);
         setCheckTruckStatus(true);
         setAlert(true);

@@ -14,7 +14,6 @@ import { useHistory } from "react-router-dom";
 
 function AdminFormManager(props) {
   const history = useHistory();
-  console.log(props);
   const location = props.location.state.location;
   const logout = () => {
     window.localStorage.clear();

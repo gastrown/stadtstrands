@@ -114,7 +114,7 @@ export default function UserMenu(props) {
                           {subdrinklist.MenuItems.map((drinklist) => {
                             return (
                               <div
-                                className="col-5 col-md-2 offset-1  mt-1 mb-3"
+                                className="col-6 col-md-2 offset-1 mt-1 mb-3"
                                 key={drinklist.id}
                               >
                                 <div className="row">

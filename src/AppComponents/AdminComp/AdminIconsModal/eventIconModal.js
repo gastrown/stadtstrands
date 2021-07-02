@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { MDBModal, MDBModalBody, MDBBtn, MDBIcon, MDBAlert } from "mdbreact";
 import DeactivateButton from "../../DeactivateButton";
 import CreateEvent from "../../AdminComp/AdminIconsModal/createEventIconModal";
-import EditModal from "../../AdminComp/AdminIconsModal/EditEventModal";
 import Axios from "axios";
 
 export default function EventIconModal(props) {
@@ -17,6 +16,10 @@ export default function EventIconModal(props) {
   const [checkloading, setCheckLoading] = useState(true);
   const [singleEvent, setSingleEvent] = useState();
   const [modalEditEvent, setModalEditEvent] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const toogleCreateEvent = () => {
     setModalCreateEvent(!modalCreateEvent);
@@ -53,6 +56,7 @@ export default function EventIconModal(props) {
       }
     )
       .then((response) => {
+        setBrandPageEventId(response.data.data.id);
         setLoader(false);
         setCheckEventStatus(true);
         setAlert(true);
@@ -62,9 +66,29 @@ export default function EventIconModal(props) {
       });
   };
 
-  const toogleEditEvent = (singleEvent) => {
-    setModalEditEvent(!modalEditEvent);
-    setSingleEvent(singleEvent);
+  const deleteEvent = (eventId) => {
+    Axios.delete(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${eventId}`
+    )
+      .then((response) => {
+        Axios.get(
+          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${eventId}`
+        ).then((response) => {
+          const eventResponse = response.data.data;
+          setEvents(eventResponse);
+        });
+        setAlertSuccess(true);
+        setSuccessMessage("Event deleted Successfully");
+      })
+      .catch((e) => {
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+      });
+  };
+
+  const editEvent = (eventId) => {
+    console.log(eventId);
+    window.location = `/admin/edit-event/${eventId}`;
   };
 
   return (
@@ -74,6 +98,20 @@ export default function EventIconModal(props) {
           <strong>Events</strong>
         </h5>
         <hr />
+        <div className="row">
+          <div className="col-10 offset-1">
+            {alertError ? (
+              <MDBAlert color="danger">{errorMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+            {alertSuccess ? (
+              <MDBAlert color="info">{successMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
 
         {checkloading ? (
           <div className="col-12 mt-2 mb-2">
@@ -210,7 +248,7 @@ export default function EventIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
-                        onClick={() => toogleEditEvent(event)}
+                        onClick={() => editEvent(event.id)}
                       >
                         Edit
                       </MDBBtn>
@@ -225,6 +263,7 @@ export default function EventIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
+                        onClick={() => deleteEvent(event.id)}
                       >
                         Delete
                       </MDBBtn>
@@ -235,24 +274,6 @@ export default function EventIconModal(props) {
             })
           )}
         </div>
-
-        {events ? (
-          <div>
-            {/* <DelModal
-                    constName={modalDeleteItem}
-                    functionName={toogleDeleteMenuItem}
-                    event={menuItem}
-                  /> */}
-
-            <EditModal
-              constName={modalEditEvent}
-              functionName={toogleEditEvent}
-              event={singleEvent}
-            />
-          </div>
-        ) : (
-          <div></div>
-        )}
 
         <CreateEvent
           constName={modalCreateEvent}

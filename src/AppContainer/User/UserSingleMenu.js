@@ -69,48 +69,6 @@ export default function UserSingleMenu(props) {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-11 offset-1">
-                {alertError ? (
-                  <MDBAlert color="danger">{errorMessage}</MDBAlert>
-                ) : alertSuccess ? (
-                  <MDBAlert color="info" className="text-center">
-                    {successMessage}
-                    <Link
-                      to={{
-                        pathname: "/cart",
-                        state: {
-                          brandPageId: props.location.state.brandPageId,
-                        },
-                      }}
-                    >
-                      <MDBBtn
-                        type="button"
-                        color="blue"
-                        style={{ borderRadius: "20px" }}
-                        className="waves-effect z-depth-1a"
-                        size="sm"
-                      >
-                        View Cart
-                        {loader ? (
-                          <div
-                            className="spinner-grow spinner-grow-sm ml-3"
-                            role="status"
-                          >
-                            <span className="sr-only">Loading...</span>
-                          </div>
-                        ) : (
-                          <span></span>
-                        )}
-                      </MDBBtn>
-                    </Link>
-                  </MDBAlert>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-
             <div className="row mt-2">
               <div className="col-12 col-md-5 offset-md-1">
                 <img
@@ -122,13 +80,54 @@ export default function UserSingleMenu(props) {
               </div>
               <div className="col-12 col-md-5 offset-md-1 mt-4">
                 <div className="row">
+                  <div className="col-11 offset-1">
+                    {alertError ? (
+                      <MDBAlert color="danger">{errorMessage}</MDBAlert>
+                    ) : alertSuccess ? (
+                      <MDBAlert color="info" className="text-center">
+                        {successMessage}
+                        <Link
+                          to={{
+                            pathname: "/cart",
+                            state: {
+                              brandPageId: props.location.state.brandPageId,
+                            },
+                          }}
+                        >
+                          <MDBBtn
+                            type="button"
+                            color="blue"
+                            style={{ borderRadius: "20px" }}
+                            className="waves-effect z-depth-1a"
+                            size="sm"
+                          >
+                            View Cart
+                            {loader ? (
+                              <div
+                                className="spinner-grow spinner-grow-sm ml-3"
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            ) : (
+                              <span></span>
+                            )}
+                          </MDBBtn>
+                        </Link>
+                      </MDBAlert>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                </div>
+                <div className="row">
                   <div className="col-12 text-left">
                     <h2 style={{ fontWeight: "400" }}>
-                      {singleMenuDetail.name}
+                      {singleMenuDetail.name} -
+                      <span className="ml-4" style={{ color: "red" }}>
+                        €{singleMenuDetail.price}
+                      </span>
                     </h2>
-                    <span style={{ color: "red" }}>
-                      €{singleMenuDetail.price}
-                    </span>
                   </div>
                 </div>
                 <div className="row mt-3">

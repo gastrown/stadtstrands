@@ -16,7 +16,6 @@ import { useHistory } from "react-router-dom";
 function AdminLocationManager(props) {
   const history = useHistory();
   const location = props.location.state.location;
-  //console.log(location);
   const logout = () => {
     window.localStorage.clear();
     window.location.href = "/admin/0/login";

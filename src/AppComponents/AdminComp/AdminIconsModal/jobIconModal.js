@@ -46,6 +46,7 @@ export default function JobIconModal(props) {
       }
     )
       .then((response) => {
+        setBrandPageJobId(response.data.data.id);
         setLoader(false);
         setCheckJobStatus(true);
         setAlert(true);

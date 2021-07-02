@@ -7,9 +7,15 @@ import AdminSignup from "./AppContainer/Admin/AdminSignup";
 import AdminSetLocation from "./AppContainer/Admin/AdminSetLocation";
 import AdminLocationManager from "./AppContainer/Admin/AdminLocationManager";
 import AdminFormManager from "./AppContainer/Admin/AdminFormManager";
+import AdminWaiterManager from "./AppContainer/Admin/AdminWaiterManager";
 import AdminBrandPageManager from "./AppContainer/Admin/AdminBrandPageManager";
 import AdminSubMenuManager from "./AppContainer/Admin/AdminSubMenuManager";
 import AdminEditSubMenu from "./AppContainer/Admin/AdminEditSubMenuItem";
+import AdminEditEvent from "./AppContainer/Admin/AdminEditEvent";
+import AdminReportManager from "./AppContainer/Admin/AdminReportManager";
+
+/**Reports */
+import FormReports from "./AppContainer/Admin/FormReport";
 
 import WaiterLogin from "./AppContainer/Waiter/Waiterlogin";
 import WaiterHomePage from "./AppContainer/Waiter/WaiterHomePage";
@@ -59,6 +65,12 @@ const allroutes = () => {
         />
 
         <Route
+          path="/admin/waiter/manager/:locationId"
+          exact
+          component={AdminWaiterManager}
+        />
+
+        <Route
           path="/admin/brand-page/manager/:locationId"
           exact
           component={AdminBrandPageManager}
@@ -76,10 +88,28 @@ const allroutes = () => {
           component={AdminEditSubMenu}
         />
 
+        <Route
+          path="/admin/edit-event/:eventId"
+          exact
+          component={AdminEditEvent}
+        />
+
+        <Route
+          path="/admin/reporting-view/:locationId"
+          exact
+          component={AdminReportManager}
+        />
+
+        <Route path="/form/reports/:locationId" exact component={FormReports} />
+
         {/* Waiter Routes */}
         <Route path="/waiter/login" exact component={WaiterLogin} />
 
-        <Route path="/waiter/dashboard" exact component={WaiterHomePage} />
+        <Route
+          path="/waiter/dashboard/:waiterId"
+          exact
+          component={WaiterHomePage}
+        />
 
         {/* User Routes */}
         <Route path="/user/form/:Brandpageid" exact component={UserFormPage} />

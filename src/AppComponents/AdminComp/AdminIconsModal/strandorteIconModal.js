@@ -18,6 +18,7 @@ export default function ContactIconModal(props) {
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState(false);
+  const [editButton, setEditButton] = useState(false);
 
   const imageFileStyle = {
     padding: "10px",
@@ -43,6 +44,9 @@ export default function ContactIconModal(props) {
     )
       .then((response) => {
         const brandPageResponse = response.data.data;
+        if (response.status === 200) {
+          setEditButton(true);
+        }
         //console.log(brandPageResponse);
         setDeactivatePage(response.data.data.deactivate);
         setStrandort(brandPageResponse);
@@ -101,6 +105,57 @@ export default function ContactIconModal(props) {
         setAlertError(true);
         setErrorMessage(e.response.data.data);
         console.log(err);
+      });
+  };
+
+  const updateStrandortel = async (e) => {
+    e.preventDefault();
+    setLoader(!loader);
+
+    let response;
+
+    const dataStrandortelImage = new FormData();
+
+    if (dataStrandortelImage) {
+      dataStrandortelImage.append("file", image);
+      dataStrandortelImage.append("upload_preset", "ecrtech");
+      dataStrandortelImage.append("cloud_name", "ecrtechdev");
+
+      try {
+        response = await Axios.post(
+          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          dataStrandortelImage,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } catch (e) {
+        console.log(e.response);
+      }
+    }
+
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagestrandorte/${brandPageId}`,
+      {
+        title: title,
+        description: description,
+        deactivate: deactivatePage,
+        imageUrl: response ? response.data.url : null,
+      }
+    )
+      .then((response) => {
+        console.log(response);
+        setLoader(false);
+        setAlertError(false);
+        setNotificationStatus(true);
+      })
+      .catch((e) => {
+        console.log(e.response);
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+        setLoader(false);
       });
   };
 
@@ -219,30 +274,60 @@ export default function ContactIconModal(props) {
                 }}
                 deactivatePage={deactivatePage}
               />
+
               <div className="mt-2">
-                <MDBBtn
-                  type="submit"
-                  color="#39729b"
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "#39729b",
-                    color: "#ffffff",
-                  }}
-                  className="waves-effect z-depth-1a"
-                  size="md"
-                >
-                  Save
-                  {loader ? (
-                    <div
-                      className="spinner-border spinner-border-sm ml-3"
-                      role="status"
-                    >
-                      <span className="sr-only">Loading...</span>
-                    </div>
-                  ) : (
-                    <span></span>
-                  )}
-                </MDBBtn>
+                {strandort.length < 1 ? (
+                  <div></div>
+                ) : editButton ? (
+                  <MDBBtn
+                    type="button"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                    onClick={updateStrandortel}
+                  >
+                    Update
+                    {loader ? (
+                      <div
+                        className="spinner-border spinner-border-sm ml-3"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
+                ) : (
+                  <MDBBtn
+                    type="submit"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                  >
+                    Save
+                    {loader ? (
+                      <div
+                        className="spinner-border spinner-border-sm ml-3"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
+                )}
               </div>
             </div>
           </div>

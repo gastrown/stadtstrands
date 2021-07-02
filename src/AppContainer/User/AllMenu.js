@@ -77,7 +77,7 @@ export default function AllMenu(props) {
               </div>
             </div>
 
-            <div className="col-12 mt-1 mb-3">
+            <div className="col-12 col-md-11 offset-md-1 mt-1 mb-3">
               <div className="row">
                 {loading ? (
                   <div className="col-12 mt-2 mb-2 text-center">
@@ -91,7 +91,10 @@ export default function AllMenu(props) {
                 ) : (
                   menuList.map((menu) => {
                     return (
-                      <div className="col-3 ml-2 mt-1 mb-3" key={menu.id}>
+                      <div
+                        className="col-5 col-md-3 ml-2 mt-1 mb-3"
+                        key={menu.id}
+                      >
                         <div className="row">
                           <Link
                             to={{

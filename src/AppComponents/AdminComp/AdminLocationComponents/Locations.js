@@ -19,7 +19,7 @@ function Locations(props) {
       .catch((e) => {
         setLocations([]);
       });
-  });
+  }, [props.adminId]);
 
   return (
     <MDBContainer>

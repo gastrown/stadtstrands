@@ -15,8 +15,8 @@ export default function MenuModal(props) {
   const [brandPageMenuId, setBrandPageMenuId] = useState("");
   const [alert, setAlert] = useState(false);
   const [menuName, setMenuName] = useState("");
-  const [menuImg, setMenuImg] = useState("");
-  const [menuImgPreview, setMenuImgPreview] = useState("");
+  const [image, setImage] = useState("");
+  const [imageMenuPreview, setImageMenuPreview] = useState("");
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [modalSubMenu, setModalSubMenu] = useState(false);
@@ -62,10 +62,15 @@ export default function MenuModal(props) {
     fontSize: "12px",
   };
 
-  const onChangeFile = (e) => {
-    setMenuImg(e.target.files[0]);
-    setMenuImgPreview(URL.createObjectURL(e.target.files[0]));
+  const welcomeChangeFile = (e) => {
+    setImage(e.target.files[0]);
+    setImageMenuPreview(URL.createObjectURL(e.target.files[0]));
   };
+
+  // const fileMenu = (e) => {
+  //   setMenuImg(e.target.files[0]);
+  //   setMenuImg2Preview(URL.createObjectURL(e.target.files[0]));
+  // };
 
   const createBrandPageMenu = () => {
     setLoader(!loader);
@@ -90,7 +95,7 @@ export default function MenuModal(props) {
     setLoader(!loader);
 
     const dataImage = new FormData();
-    dataImage.append("file", menuImg);
+    dataImage.append("file", image);
     dataImage.append("upload_preset", "ecrtech");
     dataImage.append("cloud_name", "ecrtechdev");
 
@@ -121,9 +126,6 @@ export default function MenuModal(props) {
             });
             setAlertError(false);
             setLoader(false);
-
-            setMenuImgPreview("");
-            setMenuName("");
           })
           .catch((e) => {
             setAlertError(true);
@@ -218,43 +220,41 @@ export default function MenuModal(props) {
                 />
               </div>
             </div>
-            <div className="form-group row">
-              <div className="col-md-6 offset-md-3 text-center">
-                <input
-                  type="file"
-                  id="file"
-                  style={{ display: "none" }}
-                  onChange={(e) => onChangeFile(e)}
-                />
-                <label htmlFor="file" style={imageFileStyle}>
-                  Upload menu image{" "}
-                  <span
-                    className="fa fa-download"
-                    style={{
-                      backgroundColor: "#39729b",
-                      color: "#ffffff",
-                      padding: "5px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    {" "}
-                  </span>
-                </label>
-              </div>
-            </div>
-            {menuImgPreview ? (
+
+            {imageMenuPreview ? (
               <div className="row">
-                <div className="col-md-6 offset-md-3 text-center">
+                <div className="col-md-10 offset-md-1 text-center">
                   <img
-                    src={menuImgPreview}
+                    src={imageMenuPreview}
                     alt="img preview"
-                    id={AdminStyle.imgBoxed2}
+                    id={AdminStyle.imgBoxed}
                   />
                 </div>
               </div>
             ) : (
               <div></div>
             )}
+            <div className="form-group mt-5">
+              <input
+                type="file"
+                className="form-control"
+                id="file2"
+                style={{ display: "none" }}
+                onChange={welcomeChangeFile}
+              />
+              <label htmlFor="file2" style={imageFileStyle}>
+                Add Menu image <br />
+                <MDBIcon
+                  icon="cloud-download-alt"
+                  style={{
+                    backgroundColor: "#39729b",
+                    color: "#ffffff",
+                    padding: "5px",
+                    borderRadius: "10px",
+                  }}
+                />
+              </label>
+            </div>
 
             <div className="mt-2">
               <MDBBtn

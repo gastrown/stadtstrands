@@ -19,8 +19,9 @@ export default function ContactIconModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagecontactus/${brandPageId}`
     )
       .then((response) => {
+        console.log(response.data.data);
         const brandPageResponse = response.data.data.BrandPageContactUsItems;
-        setDeactivatePage(response.data.data.deactivatePage);
+        setDeactivatePage(response.data.data.deactivate);
         setContactForms(brandPageResponse);
         setContactDescription(response.data.data.description);
       })
@@ -138,7 +139,7 @@ export default function ContactIconModal(props) {
               ) : (
                 contactForms.map((field, index) => {
                   return (
-                    <div className="row form-group mt-1" key={field}>
+                    <div className="row form-group mt-1" key={index}>
                       <div className="col-md-12">
                         <div className="row">
                           <div className="col-4 mt-1">

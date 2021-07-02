@@ -103,7 +103,6 @@ export default function CreateEventIconModal(props) {
 
   const setImage = (value) => {
     setEventImages(value);
-    console.log(value);
   };
 
   const crop = {
@@ -173,7 +172,7 @@ export default function CreateEventIconModal(props) {
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "100% 100%",
                 boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.1)",
-                height: "150px",
+                height: "250px",
                 borderRadius: "20px",
               }}
             >
