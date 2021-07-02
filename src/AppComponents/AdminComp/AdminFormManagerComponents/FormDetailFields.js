@@ -139,16 +139,8 @@ function FormDetailFields(props) {
   const onDragEnd = (param) => {
     const sourceIndex = param.source.index;
     const destinationIndex = param.destination?.index;
-    if (destinationIndex) {
-      const oldFields = [...fields];
-      oldFields.splice(
-        destinationIndex,
-        0,
-        oldFields.splice(sourceIndex, 1)[0]
-      );
-      console.log(oldFields);
-      setFields(oldFields);
-    }
+    if (destinationIndex != null)
+      fields.splice(destinationIndex, 0, fields.splice(sourceIndex, 1)[0]);
   };
 
   return (
@@ -187,8 +179,7 @@ function FormDetailFields(props) {
         <Droppable droppableId="form-items">
           {(provided, snapshot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {displayedFields = fields}
-              {displayedFields.map((field, i) => {
+              {fields.map((field, i) => {
                 return (
                   <Draggable key={i} draggableId={"draggable-" + i} index={i}>
                     {(provided, snapshot) => (
