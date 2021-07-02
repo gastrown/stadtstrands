@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MDBRow,
   MDBCol,
@@ -14,9 +14,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function FormDetailFields(props) {
   const LocationDetail = props.location;
-  let displayedFields = null;
+  // let displayedFields = null;
 
-  let [fields, setFields] = useState([]);
+  const [fields, setFields] = useState([]);
   const [fieldName, setFieldName] = useState("");
   const [fieldType, setFieldType] = useState("");
   const [fieldAutoFill, setFieldAutoFill] = useState(null);
@@ -118,6 +118,7 @@ function FormDetailFields(props) {
   }
 
   useEffect(() => {
+    console.log("useEffect called");
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
     )
@@ -129,7 +130,7 @@ function FormDetailFields(props) {
         setFields([]);
         console.log(e.response);
       });
-  }, [setFields]);
+  }, [LocationDetail.BrandPageForm.id]);
 
   const btnStyle = {
     fontSize: "9px",
@@ -139,8 +140,14 @@ function FormDetailFields(props) {
   const onDragEnd = (param) => {
     const sourceIndex = param.source.index;
     const destinationIndex = param.destination?.index;
-    if (destinationIndex != null)
-      fields.splice(destinationIndex, 0, fields.splice(sourceIndex, 1)[0]);
+    if (destinationIndex) {
+      const oldFields = [...fields];
+      const itemMoved = oldFields[sourceIndex];
+      oldFields.splice(sourceIndex, 1);
+      oldFields.splice(destinationIndex, 0, itemMoved);
+      console.log("changedFields", oldFields);
+      setFields(oldFields);
+    }
   };
 
   return (
@@ -179,7 +186,17 @@ function FormDetailFields(props) {
         <Droppable droppableId="form-items">
           {(provided, snapshot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
+              {fields.map((field) => {
+                return (
+                  <div>
+                    <p>
+                      {field.title}: {field.id}
+                    </p>
+                  </div>
+                );
+              })}
               {fields.map((field, i) => {
+                console.log("sent fields: ", field);
                 return (
                   <Draggable key={i} draggableId={"draggable-" + i} index={i}>
                     {(provided, snapshot) => (
@@ -192,7 +209,7 @@ function FormDetailFields(props) {
                         <div className="col-12 col-md-6">
                           <div className="row mt-1">
                             <div className="col-9 mt-2">
-                              <input
+                              {/* <input
                                 className="form-control mb-3 mt-0"
                                 style={{
                                   border: "inset dotted #000000",
@@ -202,7 +219,8 @@ function FormDetailFields(props) {
                                 type={field.formType}
                                 defaultValue={field.title}
                                 disabled
-                              />
+                              /> */}
+                              <p>{field.title}</p>
                             </div>
                             <div className="col-3">
                               <i
