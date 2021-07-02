@@ -9,12 +9,12 @@ import {
 } from "mdbreact";
 import Axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import ConfirmationModal from "../../../AppComponents/ConfirmationModal";
 
 // import Toggle from 'react-toggle';
 
 function FormDetailFields(props) {
   const LocationDetail = props.location;
-  // let displayedFields = null;
 
   const [fields, setFields] = useState([]);
   const [fieldName, setFieldName] = useState("");
@@ -25,24 +25,24 @@ function FormDetailFields(props) {
 
   const brandPageId = LocationDetail.id;
   const brandPageFormId = LocationDetail.BrandPageForm.id;
-  //console.log(brandPageFormId);
   const [enableAccompanyingPerson, setEnableAccompanyingPerson] =
     useState(true);
   const [requireAccompanyingPerson, setRequireAccompanyingPerson] =
     useState(true);
   const [deactivatePage, setDeactivatePage] = useState(true);
   const [enableNewsLetter, setEnableNewsLetter] = useState(true);
-  //const [enableGetIcon, setEnableGetIcon] = useState(true);
   const [loader, setLoader] = useState(false);
   const [modalAddField, setmodalAddField] = useState(false);
-  //const [modalEditField, setmodalEditField] = useState(false);
-
   const [modalSuccess, setModalSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const toggleModalAddField = () => {
     setmodalAddField(!modalAddField);
+  };
+
+  const SuccessModal = () => {
+    setModalSuccess(!modalSuccess);
   };
 
   const onSubmitFormPage = () => {
@@ -62,10 +62,9 @@ function FormDetailFields(props) {
     )
       .then((response) => {
         setLoader(false);
-        setModalSuccess(!modalSuccess);
+        SuccessModal();
       })
       .catch((e) => {
-        //console.log(e.response)
         setLoader(false);
         setAlertError(!alertError);
         setErrorMessage(e.response.data.data);
@@ -118,17 +117,18 @@ function FormDetailFields(props) {
   }
 
   useEffect(() => {
-    console.log("useEffect called");
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
     )
       .then((response) => {
         const data = response.data.data;
         setFields(data.FormItems);
+        setEnableAccompanyingPerson(data.enableAccompanyingPerson);
+        setEnableNewsLetter(data.enableNewsLetter);
+        setDeactivatePage(data.deactivatePage);
       })
       .catch((e) => {
         setFields([]);
-        console.log(e.response);
       });
   }, [LocationDetail.BrandPageForm.id]);
 
@@ -145,7 +145,6 @@ function FormDetailFields(props) {
       const itemMoved = oldFields[sourceIndex];
       oldFields.splice(sourceIndex, 1);
       oldFields.splice(destinationIndex, 0, itemMoved);
-      console.log("changedFields", oldFields);
       setFields(oldFields);
     }
   };
@@ -186,17 +185,7 @@ function FormDetailFields(props) {
         <Droppable droppableId="form-items">
           {(provided, snapshot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {fields.map((field) => {
-                return (
-                  <div>
-                    <p>
-                      {field.title}: {field.id}
-                    </p>
-                  </div>
-                );
-              })}
               {fields.map((field, i) => {
-                console.log("sent fields: ", field);
                 return (
                   <Draggable key={i} draggableId={"draggable-" + i} index={i}>
                     {(provided, snapshot) => (
@@ -209,18 +198,16 @@ function FormDetailFields(props) {
                         <div className="col-12 col-md-6">
                           <div className="row mt-1">
                             <div className="col-9 mt-2">
-                              {/* <input
-                                className="form-control mb-3 mt-0"
+                              <p
                                 style={{
-                                  border: "inset dotted #000000",
-                                  borderRadius: "10px",
-                                  fontSize: "12px",
+                                  border: "1px solid #000000",
+                                  borderRadius: "15px",
+                                  fontSize: "14px",
+                                  padding: "10px",
                                 }}
-                                type={field.formType}
-                                defaultValue={field.title}
-                                disabled
-                              /> */}
-                              <p>{field.title}</p>
+                              >
+                                {field.title}
+                              </p>
                             </div>
                             <div className="col-3">
                               <i
@@ -285,13 +272,6 @@ function FormDetailFields(props) {
       </DragDropContext>
       <div className="row">
         <div className="col-10 offset-1">
-          {modalSuccess ? (
-            <MDBAlert color="success">
-              Brand Form Page Updated Successfully.
-            </MDBAlert>
-          ) : (
-            <div></div>
-          )}
           {alertError ? (
             <MDBAlert color="danger" dismiss>
               {errorMessage}
@@ -408,6 +388,7 @@ function FormDetailFields(props) {
                   className="custom-control-input"
                   id="customSwitches"
                   readOnly
+                  defaultChecked={enableAccompanyingPerson}
                   onChange={() => {
                     setEnableAccompanyingPerson(!enableAccompanyingPerson);
                   }}
@@ -538,6 +519,13 @@ function FormDetailFields(props) {
             <div></div>
           )}
         </MDBBtn>
+
+        <ConfirmationModal
+          constName={modalSuccess}
+          functionName={SuccessModal}
+          successMessage="Brand Form Page Updated Successfully."
+          redirect={`/admin/form/manager/${brandPageId}`}
+        />
       </div>
     </form>
   );

@@ -15,6 +15,7 @@ export default function JobApplicationForm(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [applicationText, setApplicationText] = useState("");
+  const [modalSuccess, setModalSuccess] = useState(false);
 
   const singleJobDetail = props.location.state.jobDetail;
 
@@ -33,8 +34,6 @@ export default function JobApplicationForm(props) {
     backgroundColor: "#ffffff",
     paddingTop: "20px",
   };
-
-  const [modalSuccess, setModalSuccess] = useState(false);
 
   const submitApplication = () => {
     setModalSuccess(!modalSuccess);
@@ -71,7 +70,6 @@ export default function JobApplicationForm(props) {
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
-        submitApplication();
       });
   };
 

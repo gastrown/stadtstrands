@@ -73,7 +73,7 @@ export default function ReservationModel(props) {
           "Congratulations! We have recieved your reservation."
         );
         setRedirectLoader(true);
-        setInterval(redirect(brandPageId), 3000);
+        setInterval(redirect(brandPageId), 6000);
       })
       .catch((e) => {
         setLoader(false);

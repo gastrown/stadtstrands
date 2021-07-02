@@ -24,7 +24,6 @@ import { UserErrorPage } from "../../AppComponents/UserComp/UserErrorPage";
 function UserFormPage(props) {
   const brandPageId = props.match.params.Brandpageid;
 
-  //console.log(brandPageId);
   const [modalWelcome, setModalWelcome] = useState(false);
   const [modalDrink, setModalDrink] = useState(false);
   const [modalMenu, setModalMenu] = useState(false);
@@ -47,7 +46,6 @@ function UserFormPage(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
         setScreenLoader(false);
         setBrandPageDetail(response.data.data);
         setBrandPageIcons([
