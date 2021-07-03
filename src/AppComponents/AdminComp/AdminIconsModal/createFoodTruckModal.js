@@ -74,12 +74,11 @@ export default function CreateEventIconModal(props) {
             }, 3000);
           })
           .catch((e) => {
-            console.log(e.response);
+            setErrorMessage(e.response.data.data);
             setLoader(false);
           });
       })
       .catch((err) => {
-        console.log(err);
         setLoader(false);
       });
   };
@@ -183,21 +182,6 @@ export default function CreateEventIconModal(props) {
                 defaultValue="Upload Foodtruck information"
                 onChange={(e) => setInformation(e.target.value)}
               ></textarea>
-            </div>
-          </div>
-
-          <div className="row mt-3">
-            <div className="col-10 offset-1">
-              {alertError ? (
-                <MDBAlert color="danger">{errorMessage}</MDBAlert>
-              ) : (
-                <div></div>
-              )}
-              {alertSuccess ? (
-                <MDBAlert color="success">{successMessage}</MDBAlert>
-              ) : (
-                <div></div>
-              )}
             </div>
           </div>
 

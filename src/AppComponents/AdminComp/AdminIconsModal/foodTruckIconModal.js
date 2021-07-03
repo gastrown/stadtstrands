@@ -14,8 +14,10 @@ export default function FoodTruckIconModal(props) {
   const [foodTrucks, setFoodTrucks] = useState([]);
   const [brandPageFoodTruckId, setBrandPageFoodTruckId] = useState("");
   const [checkloading, setCheckLoading] = useState(true);
-  const [singleFoodTruck, setSingleFoodTruck] = useState();
-  const [modalEditFoodTruck, setModalEditFoodTruck] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     Axios.get(
@@ -63,6 +65,24 @@ export default function FoodTruckIconModal(props) {
     setModalCreateFoodTruck(!modalCreateFoodTruck);
   };
 
+  const deleteFoodTruck = (foodtruckId) => {
+    Axios.delete(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${foodtruckId}`
+    )
+      .then((response) => {
+        setAlertSuccess(true);
+        setSuccessMessage("Food Truck deleted successfully");
+      })
+      .catch((e) => {
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+      });
+  };
+
+  const editFoodTruck = (foodtruckId) => {
+    window.location = `/admin/edit-foodtruck/${foodtruckId}`;
+  };
+
   return (
     <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
       <MDBModalBody>
@@ -75,6 +95,20 @@ export default function FoodTruckIconModal(props) {
           <strong>Food Trucks</strong>
         </h6>
         <hr />
+        <div className="row">
+          <div className="col-10 offset-1">
+            {alertError ? (
+              <MDBAlert color="danger">{errorMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+            {alertSuccess ? (
+              <MDBAlert color="info">{successMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
 
         {checkloading ? (
           <div className="col-12 mt-2 mb-2">
@@ -213,6 +247,7 @@ export default function FoodTruckIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
+                        onClick={() => editFoodTruck(foodtruck.id)}
                       >
                         Edit
                       </MDBBtn>
@@ -227,6 +262,7 @@ export default function FoodTruckIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
+                        onClick={() => deleteFoodTruck(foodtruck.id)}
                       >
                         Delete
                       </MDBBtn>

@@ -14,6 +14,10 @@ export default function JobIconModal(props) {
   const [jobs, setJobs] = useState([]);
   const [brandPageJobId, setBrandPageJobId] = useState("");
   const [checkloading, setCheckLoading] = useState(true);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     Axios.get(
@@ -60,6 +64,24 @@ export default function JobIconModal(props) {
     setModalCreateJob(!modalCreateJob);
   };
 
+  const deleteJob = (jobId) => {
+    Axios.delete(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${jobId}`
+    )
+      .then((response) => {
+        setAlertSuccess(true);
+        setSuccessMessage("Job deleted successfully");
+      })
+      .catch((e) => {
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+      });
+  };
+
+  const editJob = (jobId) => {
+    window.location = `/admin/edit-job/${jobId}`;
+  };
+
   return (
     <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
       <MDBModalBody>
@@ -68,10 +90,25 @@ export default function JobIconModal(props) {
             <MDBIcon icon="chevron-circle-left" /> Back
           </div>
         </div>
-        <h6 className="mt-2">
+        <h5 className="mt-2">
           <strong>Jobs</strong>
-        </h6>
+        </h5>
         <hr />
+
+        <div className="row">
+          <div className="col-10 offset-1">
+            {alertError ? (
+              <MDBAlert color="danger">{errorMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+            {alertSuccess ? (
+              <MDBAlert color="info">{successMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
 
         {checkloading ? (
           <div className="col-12 mt-2 mb-2">
@@ -209,6 +246,7 @@ export default function JobIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
+                        onClick={() => editJob(job.id)}
                       >
                         Edit
                       </MDBBtn>
@@ -223,6 +261,7 @@ export default function JobIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="sm"
+                        onClick={() => deleteJob(job.id)}
                       >
                         Delete
                       </MDBBtn>

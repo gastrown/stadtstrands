@@ -5,18 +5,15 @@ import AdminStyle from "../../AppStyles/AdminStyles.module.css";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
-export default function AdminEditEvent(props) {
+export default function AdminEditFoodTruck(props) {
   const history = useHistory();
-  const eventId = props.match.params.eventId;
-  const [event, setEvent] = useState({});
+  const foodtruckId = props.match.params.foodtruckId;
+  const [foodTruck, setFoodTruck] = useState({});
   const [headerImage, setHeaderImage] = useState("");
   const [headerImagePreview, setHeaderImagePreview] = useState("");
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
-  const [date, setDate] = useState("");
-  const [eventLink, setEventLink] = useState("");
   const [information, setInformation] = useState("");
-  const [activateCountDown, setActivateCountDown] = useState(false);
   const [checkloading, setCheckLoading] = useState(true);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -42,42 +39,38 @@ export default function AdminEditEvent(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/event/${eventId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1//brandpagefoodtruck/foodtruck/${foodtruckId}`
     )
       .then((response) => {
         setCheckLoading(false);
+        console.log(response);
         if (response.status === 200) {
-          setEvent(response.data.data);
-          setHeaderImagePreview(response.data.data.headerImage);
+          setFoodTruck(response.data.data);
+          setHeaderImagePreview(response.data.data.imagePath);
         }
       })
       .catch((e) => {
         console.log(e.response);
       });
-  }, [eventId]);
+  }, [foodtruckId]);
 
-  const convertedDate = (eventDate) => {
-    const currentDate = new Date(eventDate);
-    return currentDate.toDateString();
-  };
-
-  const updateEvent = async (e) => {
+  const updateFoodTruck = async (e) => {
     e.preventDefault();
     setLoader(!loader);
 
     let response;
 
-    const dataEventImage = new FormData();
+    const dataFoodImage = new FormData();
 
-    if (dataEventImage) {
-      dataEventImage.append("file", headerImage);
-      dataEventImage.append("upload_preset", "ecrtech");
-      dataEventImage.append("cloud_name", "ecrtechdev");
+    if (dataFoodImage) {
+      dataFoodImage.append("file", headerImage);
+      dataFoodImage.append("upload_preset", "ecrtech");
+      dataFoodImage.append("cloud_name", "ecrtechdev");
 
       try {
         response = await Axios.post(
           "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
-          dataEventImage,
+          dataFoodImage,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -90,26 +83,21 @@ export default function AdminEditEvent(props) {
     }
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${eventId}`,
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${foodtruckId}`,
       {
         address: address,
-        date: date,
         information: information,
         title: title,
-        eventLink: eventLink,
-        headerImage: response ? response.data.url : null,
-        activateCountDown: activateCountDown,
+        imagePath: response ? response.data.url : null,
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setAlertSuccess(true);
         setSuccessMessage("Updated successfully");
       })
       .catch((e) => {
-        console.log(e.response);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
         setLoader(false);
@@ -131,7 +119,7 @@ export default function AdminEditEvent(props) {
               <div className="row mt-3">
                 <div className="col-12">
                   <h3>
-                    <b>Edit Event</b>
+                    <b>Edit Food Truck</b>
                   </h3>
                 </div>
               </div>
@@ -150,7 +138,7 @@ export default function AdminEditEvent(props) {
                       </div>
                     ) : (
                       <div className="col-12 mt-2 mb-2 text-center">
-                        <form onSubmit={updateEvent}>
+                        <form onSubmit={updateFoodTruck}>
                           <div className="row">
                             <div className="col-10 offset-1">
                               {alertError ? (
@@ -192,7 +180,7 @@ export default function AdminEditEvent(props) {
                                     onChange={onChangeFile}
                                   />
                                   <label htmlFor="file" style={imageFileStyle}>
-                                    Upload event header image
+                                    Edit food header image
                                     <span
                                       className="fa fa-download"
                                       style={{
@@ -201,9 +189,7 @@ export default function AdminEditEvent(props) {
                                         padding: "5px",
                                         borderRadius: "10px",
                                       }}
-                                    >
-                                      {" "}
-                                    </span>
+                                    ></span>
                                   </label>
                                 </div>
                               </div>
@@ -214,10 +200,10 @@ export default function AdminEditEvent(props) {
                             <div className="col-10 offset-1 col-md-5 mt-2">
                               <div className="row form-group text-left">
                                 <div className="col-md-12">
-                                  <label>Event Title</label>
+                                  <label>Food Truck Title</label>
                                   <input
                                     type="text"
-                                    defaultValue={event.title}
+                                    defaultValue={foodTruck.title}
                                     className="form-control "
                                     style={{
                                       borderRadius: "20px",
@@ -229,10 +215,10 @@ export default function AdminEditEvent(props) {
                               </div>
                               <div className="row form-group text-left">
                                 <div className="col-md-12 mt-2">
-                                  <label>Event Address</label>
+                                  <label>Food Truck Location</label>
                                   <input
                                     type="text"
-                                    defaultValue={event.address}
+                                    defaultValue={foodTruck.address}
                                     placeholder="Upload Event location"
                                     className="form-control"
                                     style={{
@@ -243,29 +229,12 @@ export default function AdminEditEvent(props) {
                                   />
                                 </div>
                               </div>
-                              <div className="row">
-                                <div className="col-md-12 mt-2 text-left">
-                                  <label>
-                                    Event Date - {convertedDate(event.date)}
-                                  </label>
-                                  <input
-                                    type="date"
-                                    defaultValue={event.date}
-                                    className="form-control"
-                                    style={{
-                                      borderRadius: "20px",
-                                      fontSize: "12px",
-                                    }}
-                                    onChange={(e) => setDate(e.target.value)}
-                                  />
-                                </div>
-                              </div>
                             </div>
 
                             <div className="col-12 col-md-6">
                               <div className="row form-group mt-2">
                                 <div className="col-md-12 text-left">
-                                  <label>Event Description</label>
+                                  <label>Food Truck Description</label>
                                   <textarea
                                     className="form-control text-left"
                                     style={{
@@ -273,57 +242,17 @@ export default function AdminEditEvent(props) {
                                       fontSize: "12px",
                                     }}
                                     rows="3"
-                                    defaultValue={event.information}
+                                    defaultValue={foodTruck.information}
                                     onChange={(e) =>
                                       setInformation(e.target.value)
                                     }
                                   ></textarea>
                                 </div>
                               </div>
-
-                              <div className="row form-group mt-2">
-                                <div className="col-md-12 text-left">
-                                  <label>Event URL</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    defaultValue={event.eventLink}
-                                    style={{
-                                      borderRadius: "20px",
-                                      fontSize: "12px",
-                                    }}
-                                    onChange={(e) =>
-                                      setEventLink(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              </div>
                             </div>
                           </div>
 
                           <hr />
-
-                          <div className="row mt-2">
-                            <div className="col-md-12">
-                              <div className="custom-control custom-switch mt-2">
-                                <input
-                                  type="checkbox"
-                                  className="custom-control-input"
-                                  id="eventCountSwitch"
-                                  defaultChecked={event.activateCountDown}
-                                  onChange={() => {
-                                    setActivateCountDown(!activateCountDown);
-                                  }}
-                                />
-                                <label
-                                  className="custom-control-label"
-                                  htmlFor="eventCountSwitch"
-                                >
-                                  Activate event countdown
-                                </label>
-                              </div>
-                            </div>
-                          </div>
 
                           <div className="form-group row mt-2">
                             <div className="col-md-12 text-center mb-3">
@@ -335,7 +264,7 @@ export default function AdminEditEvent(props) {
                                   className="waves-effect z-depth-1a"
                                   size="md"
                                 >
-                                  Update Event
+                                  Update Food Truck
                                   {loader ? (
                                     <div
                                       className="spinner-grow spinner-grow-sm ml-2"

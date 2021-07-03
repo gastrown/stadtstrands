@@ -12,6 +12,8 @@ import AdminBrandPageManager from "./AppContainer/Admin/AdminBrandPageManager";
 import AdminSubMenuManager from "./AppContainer/Admin/AdminSubMenuManager";
 import AdminEditSubMenu from "./AppContainer/Admin/AdminEditSubMenuItem";
 import AdminEditEvent from "./AppContainer/Admin/AdminEditEvent";
+import AdminEditFoodTruck from "./AppContainer/Admin/AdminEditFoodTruck";
+import AdminEditJob from "./AppContainer/Admin/AdminEditJob";
 import AdminReportManager from "./AppContainer/Admin/AdminReportManager";
 
 /**Reports */
@@ -93,6 +95,14 @@ const allroutes = () => {
           exact
           component={AdminEditEvent}
         />
+
+        <Route
+          path="/admin/edit-foodtruck/:foodtruckId"
+          exact
+          component={AdminEditFoodTruck}
+        />
+
+        <Route path="/admin/edit-job/:jobId" exact component={AdminEditJob} />
 
         <Route
           path="/admin/reporting-view/:locationId"

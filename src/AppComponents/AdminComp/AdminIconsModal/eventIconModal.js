@@ -14,8 +14,6 @@ export default function EventIconModal(props) {
   const [events, setEvents] = useState([]);
   const [brandPageEventId, setBrandPageEventId] = useState("");
   const [checkloading, setCheckLoading] = useState(true);
-  const [singleEvent, setSingleEvent] = useState();
-  const [modalEditEvent, setModalEditEvent] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
@@ -87,7 +85,6 @@ export default function EventIconModal(props) {
   };
 
   const editEvent = (eventId) => {
-    console.log(eventId);
     window.location = `/admin/edit-event/${eventId}`;
   };
 

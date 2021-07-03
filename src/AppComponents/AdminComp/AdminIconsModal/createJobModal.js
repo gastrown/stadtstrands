@@ -71,10 +71,9 @@ export default function CreateJobModal(props) {
             setSuccessMessage("Food Truck created successfully");
             setInterval(function reload() {
               window.location = `/admin/brand-page/manager/${brandPageId}`;
-            }, 3000);
+            }, 8000);
           })
           .catch((e) => {
-            console.log(e.response);
             setLoader(false);
           });
       })
@@ -141,9 +140,7 @@ export default function CreateJobModal(props) {
                         padding: "5px",
                         borderRadius: "10px",
                       }}
-                    >
-                      {" "}
-                    </span>
+                    ></span>
                   </label>
                 </div>
               </div>
