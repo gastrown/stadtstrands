@@ -13,7 +13,6 @@ import { Link, useHistory } from "react-router-dom";
 
 function AdminReportManager(props) {
   const history = useHistory();
-  console.log(props);
   const location = props.location.state.location;
   const logout = () => {
     window.localStorage.clear();
