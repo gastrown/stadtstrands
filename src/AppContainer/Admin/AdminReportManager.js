@@ -33,6 +33,44 @@ function AdminReportManager(props) {
     position: "relative",
   };
 
+  const reportLists = [
+    {
+      id: "1",
+      reportname: "Order Reports",
+      link: `/order/reports/${location.id}`,
+    },
+    {
+      id: "2",
+      reportname: "Form Reports",
+      link: `/form/reports/${location.id}`,
+    },
+    {
+      id: "3",
+      reportname: "Contact Reports",
+      link: `/contact/reports/${location.id}`,
+    },
+    {
+      id: "4",
+      reportname: "Reservation Reports",
+      link: `/reservation/reports/${location.id}`,
+    },
+    {
+      id: "5",
+      reportname: "Family And Friends Reports",
+      link: `/family-friends/reports/${location.id}`,
+    },
+    {
+      id: "6",
+      reportname: "Feed Backs Reports",
+      link: `/feedback/reports/${location.id}`,
+    },
+    {
+      id: "7",
+      reportname: "Lost and Found Reports",
+      link: `/lost-found/reports/${location.id}`,
+    },
+  ];
+
   return (
     <MDBContainer fluid className={AdminStyle.adminbody2}>
       <AdminNavbar />
@@ -49,7 +87,29 @@ function AdminReportManager(props) {
                 <hr />
 
                 <div className="row">
-                  <Link
+                  {reportLists.map((reportlist) => {
+                    return (
+                      <Link
+                        to={reportlist.link}
+                        className="col-8 offset-2 col-md-3 ml-5 mt-3"
+                        style={tabStyle}
+                        key={reportlist.id}
+                      >
+                        <div>
+                          <h6
+                            style={{
+                              textAlign: "center",
+                              padding: "35px 0px 5px 0px",
+                              transform: "skew(170deg)",
+                            }}
+                          >
+                            {reportlist.reportname}
+                          </h6>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                  {/* <Link
                     to={{ pathname: `/order/reports/${location.id}` }}
                     className="col-8 offset-2 col-md-3 ml-3 mt-3"
                     style={tabStyle}
@@ -101,7 +161,7 @@ function AdminReportManager(props) {
                         Contact Reports
                       </h6>
                     </div>
-                  </Link>
+                  </Link> */}
                 </div>
 
                 <div className="row mt-5 font-small text-center pb-3">

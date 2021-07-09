@@ -12,22 +12,22 @@ import {
 } from "mdbreact";
 import AdminStyle from "../../AppStyles/AdminStyles.module.css";
 import AdminNavbar from "../../AppComponents/AdminComp/AdminNavbar";
-import { JsonToExcel } from "react-json-excel";
 
-function FormReport(props) {
+function FamilyAndFriendReport(props) {
   const locationId = props.match.params.locationId;
   const history = useHistory();
-  const [formReports, setFormsReports] = useState([]);
-  const [searchFormReports, setSearchFormReports] = useState([]);
+  const [familyFriendsReports, setFamilyFriendsReports] = useState([]);
+  const [searchFamilyFriendReports, setSearchFamilyFriendReports] = useState(
+    []
+  );
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/client/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/familyfriends/${locationId}`
     )
       .then((response) => {
-        console.log(response);
-        setFormsReports(response.data.data);
-        setSearchFormReports(response.data.data);
+        setFamilyFriendsReports(response.data.data);
+        setSearchFamilyFriendReports(response.data.data);
       })
       .catch((e) => {
         console.log(e.response);
@@ -47,8 +47,8 @@ function FormReport(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/client/${locationId}`
     )
       .then((response) => {
-        setFormsReports(response.data.data);
-        setSearchFormReports(response.data.data);
+        setFamilyFriendsReports(response.data.data);
+        setSearchFamilyFriendReports(response.data.data);
       })
       .catch((e) => {
         console.log(e.response);
@@ -60,44 +60,15 @@ function FormReport(props) {
     const convertedDate = new Date(searchDate);
     const searchArray = [];
 
-    searchFormReports.map((report) => {
+    searchFamilyFriendReports.map((report) => {
       const reportDate = new Date(report.createdAt);
 
       if (reportDate.toDateString() === convertedDate.toDateString()) {
         searchArray.push(report);
       }
     });
-    setFormsReports(searchArray);
+    setFamilyFriendsReports(searchArray);
   };
-
-  const fields = {
-    index: "Index",
-    BrandPage: "BrandPage",
-    Carts: "Carts",
-    Name: "Name",
-  };
-
-  const className = "class-name-for-style",
-    filename = `order_report_${new Date().toDateString()}`,
-    style = {
-      paddingLeft: "15px",
-      paddingRight: "15px",
-      paddingTop: "5px",
-      paddingBottom: "5px",
-      borderRadius: "20px",
-      backgroundColor: "red",
-      color: "white",
-      fontSize: "14px",
-    },
-    data = formReports.map((report, index) => {
-      // report.title;
-      return {
-        index: index,
-        BrandPage: report.BrandPage.id,
-        Carts: report.Carts.id,
-      };
-    }),
-    text = "Download xlx";
 
   return (
     <MDBContainer fluid className={AdminStyle.adminbody2}>
@@ -109,7 +80,10 @@ function FormReport(props) {
               <MDBCardBody className="text-center mt-3">
                 <div className="row">
                   <div className="col-12 text-center">
-                    <h4>{formReports.length} Brand Page Form Reports</h4>
+                    <h4>
+                      {familyFriendsReports.length} Brand Page Family & Friends
+                      Reports
+                    </h4>
                   </div>
                 </div>
                 <hr />
@@ -133,34 +107,6 @@ function FormReport(props) {
                     </form>
                   </div>
                   <div className="col-md-7 col-12 mt-3  text-left">
-                    {console.log(
-                      formReports.map((report, index) => {
-                        return report.ClientDetails.map((field) => {
-                          return { title: field.title, value: field.value };
-                        });
-                      })
-                    )}
-
-                    {formReports ? (
-                      <JsonToExcel
-                        fields={{
-                          index: "Index",
-                          BrandPage: "BrandPage",
-                        }}
-                        data={formReports.map((report, index) => {
-                          return report.ClientDetails.map((field) => {
-                            return { title: field.title, value: field.value };
-                          });
-                        })}
-                        className={className}
-                        filename={filename}
-                        style={style}
-                        text={text}
-                      />
-                    ) : (
-                      <span></span>
-                    )}
-
                     <MDBBtn
                       type="button"
                       color="black"
@@ -176,12 +122,12 @@ function FormReport(props) {
                 <hr />
 
                 <div className="row">
-                  {formReports.length == 0 ? (
+                  {familyFriendsReports.length == 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Report Available</h3>
                     </div>
                   ) : (
-                    formReports.map((report) => {
+                    familyFriendsReports.map((report) => {
                       return (
                         <div className="col-4" key={report.id}>
                           {report.ClientDetails.map((title) => {
@@ -223,4 +169,4 @@ function FormReport(props) {
   );
 }
 
-export default FormReport;
+export default FamilyAndFriendReport;

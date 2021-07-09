@@ -18,6 +18,12 @@ import AdminReportManager from "./AppContainer/Admin/AdminReportManager";
 
 /**Reports */
 import FormReports from "./AppContainer/Admin/FormReport";
+import OrderReports from "./AppContainer/Admin/OrderReport";
+import ContactReports from "./AppContainer/Admin/ContactReport";
+import ReservationReports from "./AppContainer/Admin/ReservationReport";
+import FamilyAndFriendReports from "./AppContainer/Admin/FamilyAndFriendReport";
+import FeedBackReports from "./AppContainer/Admin/FeedBackReport";
+import LostAndFoundReports from "./AppContainer/Admin/LostAndFoundReport";
 
 import WaiterLogin from "./AppContainer/Waiter/Waiterlogin";
 import WaiterHomePage from "./AppContainer/Waiter/WaiterHomePage";
@@ -111,6 +117,42 @@ const allroutes = () => {
         />
 
         <Route path="/form/reports/:locationId" exact component={FormReports} />
+
+        <Route
+          path="/order/reports/:locationId"
+          exact
+          component={OrderReports}
+        />
+
+        <Route
+          path="/family-friends/reports/:locationId"
+          exact
+          component={FamilyAndFriendReports}
+        />
+
+        <Route
+          path="/feedback/reports/:locationId"
+          exact
+          component={FeedBackReports}
+        />
+
+        <Route
+          path="/contact/reports/:locationId"
+          exact
+          component={ContactReports}
+        />
+
+        <Route
+          path="/reservation/reports/:locationId"
+          exact
+          component={ReservationReports}
+        />
+
+        <Route
+          path="/lost-found/reports/:locationId"
+          exact
+          component={LostAndFoundReports}
+        />
 
         {/* Waiter Routes */}
         <Route path="/waiter/login" exact component={WaiterLogin} />
