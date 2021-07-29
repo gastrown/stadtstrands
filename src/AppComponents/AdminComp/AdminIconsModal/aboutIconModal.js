@@ -35,6 +35,7 @@ export default function ContactIconModal(props) {
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [editButton, setEditButton] = useState(false);
+  const [oldImage, setOldImage] = useState("");
 
   useEffect(() => {
     Axios.get(
@@ -54,6 +55,7 @@ export default function ContactIconModal(props) {
         setWeekEndStart(brandPageResponse.weekendStart);
         setWeekEndEnd(brandPageResponse.weekendEnd);
         setAboutImagePreview(brandPageResponse.imageUrl);
+        setOldImage(brandPageResponse.imageUrl);
         //console.log(brandPageResponse.Abouts);
       })
       .catch((e) => {
@@ -105,12 +107,10 @@ export default function ContactIconModal(props) {
     });
 
     const dataAboutImage = new FormData();
-    dataAboutImage.append("file", aboutImage);
-    dataAboutImage.append("upload_preset", "ecrtech");
-    dataAboutImage.append("cloud_name", "ecrtechdev");
+    dataAboutImage.append("image", aboutImage);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       dataAboutImage,
       {
         headers: {
@@ -135,7 +135,6 @@ export default function ContactIconModal(props) {
           }
         )
           .then((response) => {
-            console.log(response);
             setLoader(false);
             setAlertError(false);
             setNotificationStatus(true);
@@ -167,13 +166,12 @@ export default function ContactIconModal(props) {
     const dataAboutImage = new FormData();
 
     if (dataAboutImage) {
-      dataAboutImage.append("file", aboutImage);
-      dataAboutImage.append("upload_preset", "ecrtech");
-      dataAboutImage.append("cloud_name", "ecrtechdev");
+      dataAboutImage.append("image", aboutImage);
+      dataAboutImage.append("imageUrl", oldImage);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataAboutImage,
           {
             headers: {
@@ -316,7 +314,7 @@ export default function ContactIconModal(props) {
           ) : (
             aboutSessions.map((session, index) => {
               return (
-                <div className="mt-4" key={session.id}>
+                <div className="mt-4" key={index}>
                   <div className="row form-group">
                     <div className="col-10 offset-1 text-center">
                       <input
@@ -387,7 +385,6 @@ export default function ContactIconModal(props) {
                 style={inputStyle}
                 defaultValue={weekDayStart}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   setWeekDayStart(e.target.value);
                 }}
               />

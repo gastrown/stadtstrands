@@ -67,7 +67,7 @@ const UserBrandPageDetails = (props) => {
                         href={medialink.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="ml-3"
+                        className="ml-2"
                       >
                         <MDBIcon
                           className="ml-5"
@@ -81,7 +81,7 @@ const UserBrandPageDetails = (props) => {
                         href={medialink.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="ml-3"
+                        className="ml-2"
                       >
                         <MDBIcon
                           className="ml-5"
@@ -95,7 +95,7 @@ const UserBrandPageDetails = (props) => {
                         href={medialink.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="ml-3"
+                        className="ml-2"
                       >
                         <MDBIcon
                           className="ml-5"

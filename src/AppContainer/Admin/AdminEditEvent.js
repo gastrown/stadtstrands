@@ -23,6 +23,7 @@ export default function AdminEditEvent(props) {
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [loader, setLoader] = useState(false);
+  const [oldImage, setOldImage] = useState("");
 
   const imageFileStyle = {
     padding: "10px",
@@ -49,6 +50,7 @@ export default function AdminEditEvent(props) {
         if (response.status === 200) {
           setEvent(response.data.data);
           setHeaderImagePreview(response.data.data.headerImage);
+          setOldImage(response.data.data.headerImage);
         }
       })
       .catch((e) => {
@@ -70,13 +72,12 @@ export default function AdminEditEvent(props) {
     const dataEventImage = new FormData();
 
     if (dataEventImage) {
-      dataEventImage.append("file", headerImage);
-      dataEventImage.append("upload_preset", "ecrtech");
-      dataEventImage.append("cloud_name", "ecrtechdev");
+      dataEventImage.append("image", headerImage);
+      dataEventImage.append("imageUrl", oldImage);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataEventImage,
           {
             headers: {

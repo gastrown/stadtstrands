@@ -12,7 +12,6 @@ export default function SubMenu(props) {
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checkloading, setCheckLoading] = useState(true);
-  const [menuName, setMenuName] = useState(""); //TODO: Naza to bring Menu name to top level on /brandpagemenu/categories/:menuId
 
   useEffect(() => {
     Axios.get(
@@ -21,7 +20,6 @@ export default function SubMenu(props) {
       .then((response) => {
         setCheckLoading(false);
         setCategories(response.data.data);
-        setMenuName(response.data.data[0].Menu.name);
       })
       .catch((e) => {
         console.log(e.response);
@@ -60,7 +58,7 @@ export default function SubMenu(props) {
     <MDBModal isOpen={props.constName} toggle={props.functionName} centered>
       <MDBModalBody>
         <h5>
-          <strong>Create {menuName} sub-category</strong>
+          <strong>Sub Categories</strong>
         </h5>
         <hr />
 
@@ -130,7 +128,8 @@ export default function SubMenu(props) {
           </div>
         ) : categories.length < 1 ? (
           <h4 style={{ color: "red" }}>
-            No categories for {props.menuName} Menu
+            {/* No categories for {props.menuName} Menu */}
+            No Categories
           </h4>
         ) : (
           <SubCategories menuCat={categories} />

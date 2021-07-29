@@ -38,7 +38,7 @@ export default function FoodTruckIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [brandPageId]);
+  });
 
   const createBrandPageFoodTruck = () => {
     setLoader(!loader);

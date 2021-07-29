@@ -12,12 +12,16 @@ export default function ContactIconModal(props) {
   const [notificationStatus, setNotificationStatus] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [editButton, setEditButton] = useState(false);
 
   useEffect(() => {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagetaxi/${brandPageId}`
     )
       .then((response) => {
+        if (response.status === 200) {
+          setEditButton(true);
+        }
         const brandPageResponse = response.data.data.Taxis;
         setDeactivatePage(response.data.data.deactivate);
         const getTaxis = brandPageResponse.map((element) => element.url);
@@ -52,7 +56,6 @@ export default function ContactIconModal(props) {
     e.preventDefault();
     setLoader(!loader);
     const sendTaxis = taxis.map((field) => {
-      //console.log(field);
       return field;
     });
 
@@ -73,6 +76,32 @@ export default function ContactIconModal(props) {
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
+      });
+  };
+
+  const updateTaxiUrl = (e) => {
+    e.preventDefault();
+    setLoader(!loader);
+    const sendTaxis = taxis.map((field) => {
+      return field;
+    });
+
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagetaxi/${brandPageId}`,
+      {
+        deactivate: deactivatePage,
+        taxis: sendTaxis,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setAlertError(false);
+        setNotificationStatus(true);
+      })
+      .catch((e) => {
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+        setLoader(false);
       });
   };
 
@@ -167,7 +196,63 @@ export default function ContactIconModal(props) {
                 }}
                 deactivatePage={deactivatePage}
               />
+
               <div className="mt-2">
+                {taxis.length < 1 ? (
+                  <div></div>
+                ) : editButton ? (
+                  <MDBBtn
+                    type="button"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                    onClick={updateTaxiUrl}
+                  >
+                    Update
+                    {loader ? (
+                      <div
+                        className="spinner-border spinner-border-sm ml-3"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
+                ) : (
+                  <MDBBtn
+                    type="submit"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                  >
+                    Save
+                    {loader ? (
+                      <div
+                        className="spinner-border spinner-border-sm ml-3"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
+                )}
+              </div>
+
+              {/* <div className="mt-2">
                 {taxis.length < 1 ? (
                   <div></div>
                 ) : (
@@ -195,7 +280,7 @@ export default function ContactIconModal(props) {
                     )}
                   </MDBBtn>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </form>

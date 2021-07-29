@@ -40,12 +40,13 @@ function UserFormPage(props) {
   const [screenLoader, setScreenLoader] = useState(true);
 
   const getStatus = localStorage.getItem("formStatus");
-
+  const [brandPageIcons, setBrandPageIcons] = useState([]);
   useEffect(() => {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
+        console.log(response);
         setScreenLoader(false);
         setBrandPageDetail(response.data.data);
         setBrandPageIcons([
@@ -61,28 +62,36 @@ function UserFormPage(props) {
             iconName: "comment-alt",
             iconTitle: "Feedback",
             iconToggle: toggleFeedBack,
-            deactivate: response.data.data.BrandPageFeedback.deactivatePage,
+            deactivate: response.data.data.BrandPageFeedback
+              ? response.data.data.BrandPageFeedback.deactivatePage
+              : "",
           },
           {
             id: "3",
             iconName: "clipboard-list",
             iconTitle: "Menu",
             iconToggle: toggleMenu,
-            deactivate: response.data.data.BrandPageMenu.deactivate,
+            deactivate: response.data.data.BrandPageMenu
+              ? response.data.data.BrandPageMenu.deactivate
+              : "",
           },
           {
             id: "4",
             iconName: "camera",
             iconTitle: "Social Media",
             iconToggle: toggleSocialMedia,
-            deactivate: response.data.data.BrandPageSocialMedium.deactivate,
+            deactivate: response.data.data.BrandPageSocialMedium
+              ? response.data.data.BrandPageSocialMedium.deactivate
+              : "",
           },
           {
             id: "5",
             iconName: "box-open",
             iconTitle: "Lost and Found",
             iconToggle: toggleLostAndFound,
-            deactivate: response.data.data.BrandPageLostAndFound.deactivate,
+            deactivate: response.data.data.BrandPageLostAndFound
+              ? response.data.data.BrandPageLostAndFound.deactivate
+              : "",
           },
           {
             id: "6",
@@ -96,14 +105,27 @@ function UserFormPage(props) {
             iconName: "map-marker-alt",
             iconTitle: "Strandorte",
             iconToggle: toggleStrandorteLocation,
-            deactivate: response.data.data.BrandPageStrandorte.deactivate,
+            deactivate: response.data.data.BrandPageStrandorte
+              ? response.data.data.BrandPageStrandorte.deactivate
+              : "",
           },
           {
             id: "8",
             iconName: "phone-alt",
             iconTitle: "Contact",
             iconToggle: toggleContact,
-            deactivate: response.data.data.BrandPageContactU.deactivate,
+            deactivate: response.data.data.BrandPageContactU
+              ? response.data.data.BrandPageContactU.deactivate
+              : "",
+          },
+          {
+            id: "13",
+            iconName: "taxi",
+            iconTitle: "Taxi",
+            iconToggle: toggleTaxi,
+            deactivate: response.data.data.BrandPageTaxi
+              ? response.data.data.BrandPageTaxi.deactivate
+              : "",
           },
           {
             id: "9",
@@ -115,57 +137,63 @@ function UserFormPage(props) {
             iconName: "info-circle",
             iconTitle: "About Us",
             iconToggle: toggleAbout,
-            deactivate: response.data.data.BrandPageAbout.deactivate,
+            deactivate: response.data.data.BrandPageAbout
+              ? response.data.data.BrandPageAbout.deactivate
+              : "",
           },
           {
             id: "11",
             iconName: "store",
             iconTitle: "Shop",
             iconToggle: toggleShop,
-            deactivate: response.data.data.BrandPageShop.deactivate,
+            deactivate: response.data.data.BrandPageShop
+              ? response.data.data.BrandPageShop.deactivate
+              : "",
           },
           {
             id: "12",
             iconName: "users",
             iconTitle: "Family & Friends",
             iconToggle: toggleFamilyAndFriends,
-            deactivate: response.data.data.BrandPageFamilyAndFriend.deactivate,
-          },
-          {
-            id: "13",
-            iconName: "taxi",
-            iconTitle: "Taxi",
-            iconToggle: toggleTaxi,
-            deactivate: response.data.data.BrandPageTaxi.deactivate,
+            deactivate: response.data.data.BrandPageFamilyAndFriend
+              ? response.data.data.BrandPageFamilyAndFriend.deactivate
+              : "",
           },
           {
             id: "14",
             iconName: "calendar-alt",
             iconTitle: "Events",
             iconToggle: toggleEvents,
-            deactivate: response.data.data.BrandPageEvent.deactivate,
+            deactivate: response.data.data.BrandPageEvent
+              ? response.data.data.BrandPageEvent.deactivate
+              : "",
           },
           {
             id: "15",
             iconName: "truck",
             iconTitle: "Food Truck",
             iconToggle: toggleFoodTruck,
-            deactivate: response.data.data.BrandPageFoodTruck.deactivate,
+            deactivate: response.data.data.BrandPageFoodTruck
+              ? response.data.data.BrandPageFoodTruck.deactivate
+              : "",
           },
-
           {
             id: "16",
             iconName: "book-open",
             iconTitle: "Reservation",
             iconToggle: toggleReservation,
-            deactivate: response.data.data.BrandPageReservation.deactivate,
+            deactivate: response.data.data.BrandPageReservation
+              ? response.data.data.BrandPageReservation.deactivate
+              : "",
           },
           {
             id: "17",
             iconName: "toolbox",
             iconTitle: "Jobs",
             iconToggle: toggleJobs,
-            deactivate: response.data.data.BrandPageJob.deactivate,
+            deactivate: response.data.data.BrandPageJob
+              ? response.data.data.BrandPageJob.deactivate
+              : "",
           },
           {
             id: "18",
@@ -185,7 +213,7 @@ function UserFormPage(props) {
       .catch((e) => {
         setScreenLoader(false);
       });
-  }, [brandPageId, getStatus]);
+  }, [brandPageId]);
 
   useEffect(() => {
     /////Check Form Time Status///////
@@ -258,15 +286,13 @@ function UserFormPage(props) {
     window.location = "/user/orders/";
   };
 
-  const [brandPageIcons, setBrandPageIcons] = useState([]);
-
   if (brandPageDetail) {
     return (
       <React.Fragment>
         <UserNavbar />
         <UserBrandPageDetails pageDetails={brandPageDetail} />
         <MDBRow>
-          <MDBCol className="text-center mt-2">
+          <MDBCol className="text-center">
             <UserBrandPageIcons icons={brandPageIcons} />
           </MDBCol>
         </MDBRow>

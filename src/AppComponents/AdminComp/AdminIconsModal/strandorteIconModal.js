@@ -19,6 +19,7 @@ export default function ContactIconModal(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState(false);
   const [editButton, setEditButton] = useState(false);
+  const [oldImage, setOldImage] = useState("");
 
   const imageFileStyle = {
     padding: "10px",
@@ -51,6 +52,7 @@ export default function ContactIconModal(props) {
         setDeactivatePage(response.data.data.deactivate);
         setStrandort(brandPageResponse);
         setImagePreview(brandPageResponse.imageUrl);
+        setOldImage(brandPageResponse.imageUrl);
       })
       .catch((e) => {
         console.log(e.response);
@@ -62,12 +64,10 @@ export default function ContactIconModal(props) {
     setLoader(!loader);
 
     const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "ecrtech");
-    data.append("cloud_name", "ecrtechdev");
+    data.append("image", image);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -98,7 +98,7 @@ export default function ContactIconModal(props) {
             console.log(e.response);
             setLoader(false);
             setAlertError(true);
-            // setErrorMessage(e.response);
+            setErrorMessage(e.response.data.data);
           });
       })
       .catch((err) => {
@@ -117,13 +117,12 @@ export default function ContactIconModal(props) {
     const dataStrandortelImage = new FormData();
 
     if (dataStrandortelImage) {
-      dataStrandortelImage.append("file", image);
-      dataStrandortelImage.append("upload_preset", "ecrtech");
-      dataStrandortelImage.append("cloud_name", "ecrtechdev");
+      dataStrandortelImage.append("image", image);
+      dataStrandortelImage.append("imageUrl", oldImage);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataStrandortelImage,
           {
             headers: {
@@ -190,10 +189,11 @@ export default function ContactIconModal(props) {
             <div
               className="col-md-10 offset-md-1"
               style={{
-                background: `url("${imagePreview}") no-repeat fixed center`,
+                background: `url("${imagePreview}") no-repeat`,
                 boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.1)",
                 height: "200px",
                 borderRadius: "20px",
+                objectFit: "contain",
               }}
             >
               <div className="form-group row mt-4">
@@ -277,7 +277,29 @@ export default function ContactIconModal(props) {
 
               <div className="mt-2">
                 {strandort.length < 1 ? (
-                  <div></div>
+                  <MDBBtn
+                    type="submit"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                  >
+                    Save
+                    {loader ? (
+                      <div
+                        className="spinner-border spinner-border-sm ml-3"
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
                 ) : editButton ? (
                   <MDBBtn
                     type="button"
@@ -324,7 +346,7 @@ export default function ContactIconModal(props) {
                         <span className="sr-only">Loading...</span>
                       </div>
                     ) : (
-                      <span></span>
+                      <span>hello</span>
                     )}
                   </MDBBtn>
                 )}

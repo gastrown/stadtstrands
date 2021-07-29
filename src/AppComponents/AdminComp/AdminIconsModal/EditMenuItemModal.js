@@ -21,8 +21,11 @@ export default function EditMenuItemModal(props) {
   const [menuItemDescription, setMenuItemDescription] = useState(
     menuItem.description
   );
-  const [itemImg, setItemImg] = useState("");
-  const [itemImgPreview, setItemImgPreview] = useState(menuItem.imageUrl);
+  const [editItemImg, setEditItemImg] = useState("");
+  const [editItemImgPreview, setEditItemImgPreview] = useState(
+    menuItem.imageUrl
+  );
+  const [oldImage] = useState(menuItem.imageUrl);
   const [successMessage, setSuccessMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -32,9 +35,9 @@ export default function EditMenuItemModal(props) {
     window.location = `/admin/menu/${menuCat}`;
   };
 
-  const onChangeFile = (e) => {
-    setItemImg(e.target.files[0]);
-    setItemImgPreview(URL.createObjectURL(e.target.files[0]));
+  const onChangeFileEdit = (e) => {
+    setEditItemImg(e.target.files[0]);
+    setEditItemImgPreview(URL.createObjectURL(e.target.files[0]));
   };
 
   const editMenuItem = async (e, menuItemId) => {
@@ -44,14 +47,13 @@ export default function EditMenuItemModal(props) {
 
     const dataImage = new FormData();
 
-    if (itemImg) {
-      dataImage.append("file", itemImg);
-      dataImage.append("upload_preset", "ecrtech");
-      dataImage.append("cloud_name", "ecrtechdev");
+    if (editItemImg) {
+      dataImage.append("image", editItemImg);
+      dataImage.append("imageUrl", oldImage);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataImage,
           {
             headers: {
@@ -118,15 +120,15 @@ export default function EditMenuItemModal(props) {
             <div className="col-12">
               <input
                 type="file"
-                id="file"
+                id="file2"
                 className={AdminStyle.uploadDiv}
-                onChange={onChangeFile}
+                onChange={onChangeFileEdit}
               />
               <label
-                htmlFor="file"
+                htmlFor="file2"
                 className={AdminStyle.imgInputStyle}
                 style={{
-                  backgroundImage: `url(${itemImgPreview})`,
+                  backgroundImage: `url(${editItemImgPreview})`,
                   boxShadow: "inset 0 0 0 200px rgba(0, 0, 0, 0.0)",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "100% 100%",
@@ -147,7 +149,7 @@ export default function EditMenuItemModal(props) {
                   }}
                 />
                 <h6>
-                  <b>Update item image</b>
+                  <b>Update item image now</b>
                 </h6>
               </label>
             </div>

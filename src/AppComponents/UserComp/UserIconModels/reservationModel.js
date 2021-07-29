@@ -77,8 +77,6 @@ export default function ReservationModel(props) {
       })
       .catch((e) => {
         setLoader(false);
-        setAlertError(true);
-        setErrorMessage(e.response.data.data);
       });
   };
 

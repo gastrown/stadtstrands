@@ -38,7 +38,7 @@ export default function JobIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [brandPageId]);
+  });
 
   const createBrandPageJob = () => {
     setLoader(!loader);

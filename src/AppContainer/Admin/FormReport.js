@@ -176,7 +176,7 @@ function FormReport(props) {
                 <hr />
 
                 <div className="row">
-                  {formReports.length == 0 ? (
+                  {formReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Report Available</h3>
                     </div>

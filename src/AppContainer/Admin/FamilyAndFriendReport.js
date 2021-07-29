@@ -60,13 +60,22 @@ function FamilyAndFriendReport(props) {
     const convertedDate = new Date(searchDate);
     const searchArray = [];
 
-    searchFamilyFriendReports.map((report) => {
+    // searchFamilyFriendReports.map((report) => {
+    //   const reportDate = new Date(report.createdAt);
+
+    //   if (reportDate.toDateString() === convertedDate.toDateString()) {
+    //     searchArray.push(report);
+    //   }
+    // });
+
+    searchFamilyFriendReports.forEach((report) => {
       const reportDate = new Date(report.createdAt);
 
       if (reportDate.toDateString() === convertedDate.toDateString()) {
         searchArray.push(report);
       }
     });
+
     setFamilyFriendsReports(searchArray);
   };
 
@@ -122,7 +131,7 @@ function FamilyAndFriendReport(props) {
                 <hr />
 
                 <div className="row">
-                  {familyFriendsReports.length == 0 ? (
+                  {familyFriendsReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Report Available</h3>
                     </div>

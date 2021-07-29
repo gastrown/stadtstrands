@@ -14,13 +14,14 @@ export default function AdminEditJob(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
-  const [information, setInformation] = useState("");
+  //const [information, setInformation] = useState("");
   const [checkloading, setCheckLoading] = useState(true);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [loader, setLoader] = useState(false);
+  const [oldImage] = useState("");
 
   const imageFileStyle = {
     padding: "10px",
@@ -69,13 +70,12 @@ export default function AdminEditJob(props) {
     const dataJobImage = new FormData();
 
     if (dataJobImage) {
-      dataJobImage.append("file", headerImage);
-      dataJobImage.append("upload_preset", "ecrtech");
-      dataJobImage.append("cloud_name", "ecrtechdev");
+      dataJobImage.append("image", headerImage);
+      dataJobImage.append("imageUrl", oldImage);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataJobImage,
           {
             headers: {

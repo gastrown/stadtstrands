@@ -117,7 +117,7 @@ function OrderReport(props) {
                 <hr />
 
                 <div className="row">
-                  {orderReports.length == 0 ? (
+                  {orderReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Order Report Available</h3>
                     </div>

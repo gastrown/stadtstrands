@@ -42,7 +42,7 @@ export default function EventIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [brandPageId]);
+  });
 
   const createBrandPageEvent = () => {
     setLoader(!loader);
@@ -184,7 +184,7 @@ export default function EventIconModal(props) {
                           size="md"
                           disabled
                         >
-                          Your Menu Page will be ready in a seconds
+                          Your event page will be ready in a seconds
                           <div
                             className="spinner-grow spinner-grow-sm ml-3"
                             role="status"

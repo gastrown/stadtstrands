@@ -6,7 +6,7 @@ import Axios from "axios";
 export default function FoodTruckModel(props) {
   const brandPageId = props.pageDetails.id;
   const [foodTruckDetails, setFoodTruckDetails] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Axios.get(
@@ -14,7 +14,7 @@ export default function FoodTruckModel(props) {
     )
       .then((response) => {
         setFoodTruckDetails(response.data.data.FoodTrucks);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((e) => {});
   }, [brandPageId]);

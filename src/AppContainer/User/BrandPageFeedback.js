@@ -1,39 +1,27 @@
 import React, { useState, useEffect } from "react";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
-import { MDBContainer, MDBIcon, MDBRating, MDBBtn } from "mdbreact";
+import { MDBContainer, MDBIcon, MDBBtn, MDBAlert } from "mdbreact";
 import { Link, useHistory } from "react-router-dom";
 import UserStyles from "../../AppStyles/UserStyles.module.css";
 import Axios from "axios";
+import ReactStars from "react-rating-stars-component";
 
 export default function BrandPageFeedback(props) {
   const brandPageId = props.match.params.brandpageid;
 
   const history = useHistory();
 
-  const [basic] = useState([
-    {
-      tooltip: "Very Bad",
-      choosed: true,
-    },
-    {
-      tooltip: "Poor",
-    },
-    {
-      tooltip: "Ok",
-    },
-    {
-      tooltip: "Good",
-    },
-    {
-      tooltip: "Excellent",
-    },
-  ]);
+  const clientId = localStorage.getItem("clientId");
   const [feedbackQuestions, setFeedbackQuestion] = useState([]);
+  const [feedbackFormData, setFeedbackFormData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const onChangeFile = (event) => {
-    console.log("event.target.files[0]", event.target);
-  };
+  const [loader, setLoader] = useState(false);
+  const [rating, setRating] = useState("");
+  const [description, setDescription] = useState("");
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const imageFileStyle = {
     padding: "10px",
@@ -43,6 +31,24 @@ export default function BrandPageFeedback(props) {
     borderRadius: "10px",
     textAlign: "center",
     fontSize: "12px",
+  };
+
+  const redirect = (brandPageId) => {
+    window.location = `/user/form/${brandPageId}`;
+  };
+
+  const ratingChanged = (newRating) => {
+    if (newRating === 1) {
+      setRating("Very Bad");
+    } else if (newRating === 2) {
+      setRating("Poor");
+    } else if (newRating === 3) {
+      setRating("Ok");
+    } else if (newRating === 4) {
+      setRating("Good");
+    } else {
+      setRating("Excellent");
+    }
   };
 
   useEffect(() => {
@@ -55,6 +61,54 @@ export default function BrandPageFeedback(props) {
       })
       .catch((e) => {});
   }, [brandPageId]);
+
+  const singleFieldInput = (feedback, value) => {
+    const formData = [...feedbackFormData];
+    const index = formData.findIndex(
+      (element) => element.feedbackId === feedback.id
+    );
+    if (index !== -1) {
+      formData[index].answer = value;
+    } else {
+      const data = {
+        feedbackId: feedback.id,
+        answer: value,
+      };
+      formData.push(data);
+    }
+    console.log(formData);
+    setFeedbackFormData(formData);
+  };
+
+  const saveFeedbackResponse = (e) => {
+    e.preventDefault();
+    setLoader(true);
+
+    Axios.post(
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/report",
+      {
+        clientId: clientId,
+        brandPageId: brandPageId,
+        clientFeedBacks: feedbackFormData,
+        description: description,
+        rating: rating,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setAlertError(false);
+        setAlertSuccess(true);
+        setSuccessMessage("Feedback submitted successfully.");
+        setInterval(redirect(brandPageId), 6000);
+      })
+      .catch((e) => {
+        console.log(e.response);
+        setLoader(false);
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+      });
+  };
+
   return (
     <React.Fragment>
       <UserNavbar />
@@ -78,6 +132,18 @@ export default function BrandPageFeedback(props) {
                 <h3>
                   <b>Give Feedback</b>
                 </h3>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-12">
+                {alertError ? (
+                  <MDBAlert color="danger">{errorMessage}</MDBAlert>
+                ) : alertSuccess ? (
+                  <MDBAlert color="info">{successMessage}</MDBAlert>
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
             <div className="row">
@@ -107,65 +173,79 @@ export default function BrandPageFeedback(props) {
               <h4>No Feed back questions</h4>
             ) : (
               <div>
-                <div className="row">
-                  <div className="col-10 offset-1 mt-3 font-small text-left ">
-                    {feedbackQuestions.map((feedback) => {
-                      return (
-                        <div className="mt-2" key={feedback.id}>
-                          <span style={{ fontSize: "14px" }}>
-                            {feedback.question} <br />
-                            <MDBRating data={basic} />
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <form>
-                  <div className="form-group row">
-                    <div className="col-10 offset-1 mt-3 text-left">
-                      <input
-                        type="file"
-                        id="file"
-                        style={{ display: "none" }}
-                        onChange={(e) => onChangeFile(e)}
-                      />
-                      <label htmlFor="file" style={imageFileStyle}>
-                        Add location image
-                        <span className="ml-4">
-                          <MDBIcon
-                            icon="cloud-download-alt"
-                            style={{
-                              backgroundColor: "#39729b",
-                              color: "#ffffff",
-                              padding: "5px",
-                              borderRadius: "10px",
-                            }}
-                          />
-                        </span>
-                      </label>
+                <form onSubmit={saveFeedbackResponse}>
+                  <div className="row">
+                    <div className="col-10 offset-1 mt-3 font-small text-left ">
+                      {feedbackQuestions.map((feedback) => {
+                        return (
+                          <div className="mt-2" key={feedback.id}>
+                            <span style={{ fontSize: "14px" }}>
+                              {feedback.question} <br />
+                              <span>
+                                <input
+                                  type="text"
+                                  className="form-control text-left"
+                                  onChange={(e) =>
+                                    singleFieldInput(feedback, e.target.value)
+                                  }
+                                  style={imageFileStyle}
+                                />
+                              </span>
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-                  <div className="form-group row">
+
+                  <div className="row">
+                    <div className="col-10 offset-1 mt-3 font-small text-left ">
+                      <div className="mt-2">
+                        <span style={{ fontSize: "14px" }}>
+                          Please rate our Strand <br />
+                          <ReactStars
+                            count={5}
+                            onChange={ratingChanged}
+                            size={16}
+                            activeColor="#ffd700"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
                     <div className="col-10 offset-1 mt-3 text-left">
                       <textarea
-                        className="form-control"
+                        className="form-control text-left"
                         style={imageFileStyle}
                         defaultValue="Care to share any personal feedback?"
+                        onChange={(e) => {
+                          setDescription(e.target.value);
+                        }}
                       ></textarea>
                     </div>
                   </div>
-                  <div className="form-group row">
+                  <div className="row">
                     <div className="col-12 text-center">
                       <MDBBtn
-                        type="button"
+                        type="submit"
                         color="blue"
                         style={{ borderRadius: "20px" }}
                         className="waves-effect z-depth-1a"
                         size="md"
                       >
                         Send
+                        {loader ? (
+                          <div
+                            className="spinner-grow spinner-grow-sm ml-3"
+                            role="status"
+                          >
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        ) : (
+                          <span></span>
+                        )}
                       </MDBBtn>
                     </div>
                   </div>

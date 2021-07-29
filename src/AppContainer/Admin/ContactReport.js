@@ -21,7 +21,7 @@ function ContactReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/completed/orders/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/contactus/all/${locationId}`
     )
       .then((response) => {
         setContactReports(response.data.data);
@@ -31,7 +31,7 @@ function ContactReport(props) {
         console.log(e.response);
       });
     return () => {
-      return;
+      setContactReports([]);
     };
   }, [locationId]);
 
@@ -42,7 +42,7 @@ function ContactReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/completed/orders/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/contactus/all/${locationId}`
     )
       .then((response) => {
         setContactReports(response.data.data);
@@ -58,13 +58,14 @@ function ContactReport(props) {
     const convertedDate = new Date(searchDate);
     const searchArray = [];
 
-    searchContactReports.map((report) => {
+    searchContactReports.forEach((report) => {
       const reportDate = new Date(report.createdAt);
 
       if (reportDate.toDateString() === convertedDate.toDateString()) {
         searchArray.push(report);
       }
     });
+
     setContactReports(searchArray);
   };
 
@@ -117,7 +118,7 @@ function ContactReport(props) {
                 <hr />
 
                 <div className="row">
-                  {contactReports.length == 0 ? (
+                  {contactReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Contact Report Available</h3>
                     </div>
@@ -125,13 +126,13 @@ function ContactReport(props) {
                     contactReports.map((report) => {
                       return (
                         <div className="col-4" key={report.id}>
-                          {report.ClientDetails.map((title) => {
+                          {report.ClientContactUs.map((content) => {
                             return (
-                              <div className="text-left" key={title.id}>
+                              <div className="text-left" key={content.id}>
                                 <p style={{ fontSize: "12px" }}>
-                                  <b>{title.title}:</b>
+                                  <b>{content.BrandPageContactUsItem.title}:</b>
                                   <br />
-                                  {title.value}{" "}
+                                  {content.content}
                                 </p>
                               </div>
                             );

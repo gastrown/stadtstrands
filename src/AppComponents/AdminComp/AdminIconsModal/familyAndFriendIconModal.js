@@ -14,13 +14,16 @@ export default function FamilyAndFriendIconModal(props) {
   const [notificationStatus, setNotificationStatus] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [editButton, setEditButton] = useState(false);
 
   useEffect(() => {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
+        if (response.status === 200) {
+          setEditButton(true);
+        }
         const brandPageResponse = response.data.data.FamilyAndFriendsFormItems;
         setDeactivatePage(response.data.data.deactivate);
         setFormItems(brandPageResponse);
@@ -88,6 +91,33 @@ export default function FamilyAndFriendIconModal(props) {
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
+      });
+  };
+
+  const updateFamilyAndFriendField = (e) => {
+    e.preventDefault();
+    setLoader(!loader);
+    const sendFields = formItems.map((field) => {
+      return { title: field.title, formType: field.formType };
+    });
+
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends/${brandPageId}`,
+      {
+        deactivate: deactivatePage,
+        description: familyAndFriendsDescription,
+        formItems: sendFields,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setAlertError(false);
+        setNotificationStatus(true);
+      })
+      .catch((e) => {
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+        setLoader(false);
       });
   };
 
@@ -218,6 +248,61 @@ export default function FamilyAndFriendIconModal(props) {
           />
 
           <div className="mt-2">
+            {formItems.length < 1 ? (
+              <div></div>
+            ) : editButton ? (
+              <MDBBtn
+                type="button"
+                color="#39729b"
+                style={{
+                  borderRadius: "20px",
+                  backgroundColor: "#39729b",
+                  color: "#ffffff",
+                }}
+                className="waves-effect z-depth-1a"
+                size="md"
+                onClick={updateFamilyAndFriendField}
+              >
+                Update
+                {loader ? (
+                  <div
+                    className="spinner-border spinner-border-sm ml-3"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+              </MDBBtn>
+            ) : (
+              <MDBBtn
+                type="submit"
+                color="#39729b"
+                style={{
+                  borderRadius: "20px",
+                  backgroundColor: "#39729b",
+                  color: "#ffffff",
+                }}
+                className="waves-effect z-depth-1a"
+                size="md"
+              >
+                Save
+                {loader ? (
+                  <div
+                    className="spinner-border spinner-border-sm ml-3"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+              </MDBBtn>
+            )}
+          </div>
+
+          {/* <div className="mt-2">
             <MDBBtn
               type="submit"
               color="#39729b"
@@ -241,7 +326,7 @@ export default function FamilyAndFriendIconModal(props) {
                 <span></span>
               )}
             </MDBBtn>
-          </div>
+          </div> */}
 
           <div className="mt-5 font-small text-center pb-3">
             <div onClick={props.functionName} className="black-text">

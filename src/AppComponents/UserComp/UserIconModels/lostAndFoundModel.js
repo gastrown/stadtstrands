@@ -73,7 +73,7 @@ export default function LostAndFoundModel(props) {
           "Sorry to hear about your lost item, we will get back to you as soon as possible."
         );
         setRedirectLoader(true);
-        setInterval(redirect(brandPageId), 3000);
+        setInterval(redirect(brandPageId), 10000);
       })
       .catch((e) => {
         setLoader(false);

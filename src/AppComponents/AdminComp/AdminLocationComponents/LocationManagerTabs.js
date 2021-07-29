@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import LocationManagerTab from "./LocationManagerTab";
-import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
+import { MDBContainer } from "mdbreact";
 import { Link } from "react-router-dom";
 
 function LocationManagerTabs(props) {
   const location = props.location;
-  console.log(location);
 
   const [tabs] = useState([
     {
@@ -37,15 +36,10 @@ function LocationManagerTabs(props) {
 
   return (
     <MDBContainer>
-      <MDBRow center>
+      <div className="row">
         {tabs.map((locationtab) => {
           return (
-            <MDBCol
-              size="5"
-              key={locationtab.id}
-              className="mt-3 ml-1"
-              attribute={false}
-            >
+            <div className="col-6 col-md-3 mt-3 ml-3" key={locationtab.id}>
               <Link
                 to={{
                   pathname: locationtab.tablink,
@@ -60,10 +54,10 @@ function LocationManagerTabs(props) {
                   locationtabtitle={locationtab.locationtabtitle}
                 />
               </Link>
-            </MDBCol>
+            </div>
           );
         })}
-      </MDBRow>
+      </div>
     </MDBContainer>
   );
 }

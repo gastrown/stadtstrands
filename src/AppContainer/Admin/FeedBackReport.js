@@ -21,9 +21,10 @@ function FeedBackReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/reports/brandpage/${locationId}`
     )
       .then((response) => {
+        console.log(response);
         setFeedbackReports(response.data.data);
         setSearchFeedbackReports(response.data.data);
       })
@@ -42,7 +43,7 @@ function FeedBackReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/reports/brandpage/${locationId}`
     )
       .then((response) => {
         setFeedbackReports(response.data.data);
@@ -58,13 +59,22 @@ function FeedBackReport(props) {
     const convertedDate = new Date(searchDate);
     const searchArray = [];
 
-    searchFeedbackReports.map((report) => {
+    // searchFeedbackReports.map((report) => {
+    //   const reportDate = new Date(report.createdAt);
+
+    //   if (reportDate.toDateString() === convertedDate.toDateString()) {
+    //     searchArray.push(report);
+    //   }
+    // });
+
+    searchFeedbackReports.forEach((report) => {
       const reportDate = new Date(report.createdAt);
 
       if (reportDate.toDateString() === convertedDate.toDateString()) {
         searchArray.push(report);
       }
     });
+
     setFeedbackReports(searchArray);
   };
 
@@ -119,29 +129,25 @@ function FeedBackReport(props) {
                 <hr />
 
                 <div className="row">
-                  {feedbackReports.length == 0 ? (
+                  {feedbackReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Report Available</h3>
                     </div>
                   ) : (
-                    feedbackReports.map((report) => {
+                    feedbackReports.map((feedback) => {
                       return (
-                        <div className="col-4" key={report.id}>
-                          {report.ClientDetails.map((title) => {
-                            return (
-                              <div className="text-left" key={title.id}>
-                                <p style={{ fontSize: "12px" }}>
-                                  <b>{title.title}:</b>
-                                  <br />
-                                  {title.value}{" "}
-                                </p>
-                              </div>
-                            );
-                          })}
+                        <div className="col-4" key={feedback.id}>
+                          <div className="text-left" key={feedback.id}>
+                            <p style={{ fontSize: "12px" }}>
+                              <b>{feedback.Feedback.question}:</b>
+                              <br />
+                              {feedback.answer}
+                            </p>
+                          </div>
                           <p className="text-left" style={{ fontSize: "12px" }}>
                             <b>Date:</b>
                             <br />
-                            {report.createdAt}
+                            {feedback.createdAt}
                           </p>
                         </div>
                       );

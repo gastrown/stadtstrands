@@ -15,7 +15,7 @@ export default function FamilyAndFriendsModel(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [modalSuccess, setModalSuccess] = useState(false);
+  //const [modalSuccess, setModalSuccess] = useState(false);
 
   useEffect(() => {
     Axios.get(
@@ -35,9 +35,9 @@ export default function FamilyAndFriendsModel(props) {
     fontSize: "12px",
   };
 
-  const submitApplication = () => {
-    setModalSuccess(!modalSuccess);
-  };
+  // const submitApplication = () => {
+  //   setModalSuccess(!modalSuccess);
+  // };
 
   const singleFieldInput = (field, value) => {
     const formData = [...familyAndFriendsFormData];

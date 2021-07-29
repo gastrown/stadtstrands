@@ -20,6 +20,7 @@ export default function AdminEditFoodTruck(props) {
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [loader, setLoader] = useState(false);
+  const [oldImage] = useState("");
 
   const imageFileStyle = {
     padding: "10px",
@@ -43,7 +44,6 @@ export default function AdminEditFoodTruck(props) {
     )
       .then((response) => {
         setCheckLoading(false);
-        console.log(response);
         if (response.status === 200) {
           setFoodTruck(response.data.data);
           setHeaderImagePreview(response.data.data.imagePath);
@@ -63,13 +63,12 @@ export default function AdminEditFoodTruck(props) {
     const dataFoodImage = new FormData();
 
     if (dataFoodImage) {
-      dataFoodImage.append("file", headerImage);
-      dataFoodImage.append("upload_preset", "ecrtech");
-      dataFoodImage.append("cloud_name", "ecrtechdev");
+      dataFoodImage.append("image", headerImage);
+      dataFoodImage.append("imageUrl", oldImage);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataFoodImage,
           {
             headers: {

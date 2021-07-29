@@ -23,7 +23,7 @@ function LostAndFoundReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/lostandfound/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/lost/item/brandpage/${locationId}`
     )
       .then((response) => {
         setLossAndFoundReports(response.data.data);
@@ -44,7 +44,7 @@ function LostAndFoundReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/client/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/lost/item/brandpage/${locationId}`
     )
       .then((response) => {
         setLossAndFoundReports(response.data.data);
@@ -81,7 +81,7 @@ function LostAndFoundReport(props) {
                 <div className="row">
                   <div className="col-12 text-center">
                     <h4>
-                      {lostAndFoundReports.length} Brand Page Lost $ Found
+                      {lostAndFoundReports.length} Brand Page Lost & Found
                       Reports
                     </h4>
                   </div>
@@ -130,7 +130,7 @@ function LostAndFoundReport(props) {
                     lostAndFoundReports.map((report) => {
                       return (
                         <div className="col-4" key={report.id}>
-                          {report.ClientDetails.map((title) => {
+                          {report.LostItems.map((title) => {
                             return (
                               <div className="text-left" key={title.id}>
                                 <p style={{ fontSize: "12px" }}>

@@ -50,12 +50,10 @@ export default function CreateEventIconModal(props) {
     }
 
     const dataImage = new FormData();
-    dataImage.append("file", headerImage);
-    dataImage.append("upload_preset", "ecrtech");
-    dataImage.append("cloud_name", "ecrtechdev");
+    dataImage.append("image", headerImage);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       dataImage,
       {
         headers: {

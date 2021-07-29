@@ -36,7 +36,12 @@ export default function MenuModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [brandPageId]);
+
+    // return () => {
+    //   setMenus([]);
+    //   setBrandPageMenuId("");
+    // };
+  });
 
   const tabStyle = {
     width: "100px",
@@ -67,11 +72,6 @@ export default function MenuModal(props) {
     setImageMenuPreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  // const fileMenu = (e) => {
-  //   setMenuImg(e.target.files[0]);
-  //   setMenuImg2Preview(URL.createObjectURL(e.target.files[0]));
-  // };
-
   const createBrandPageMenu = () => {
     setLoader(!loader);
     Axios.post(
@@ -95,12 +95,10 @@ export default function MenuModal(props) {
     setLoader(!loader);
 
     const dataImage = new FormData();
-    dataImage.append("file", image);
-    dataImage.append("upload_preset", "ecrtech");
-    dataImage.append("cloud_name", "ecrtechdev");
+    dataImage.append("image", image);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       dataImage,
       {
         headers: {
@@ -160,7 +158,7 @@ export default function MenuModal(props) {
           ) : (
             menus.map((menu, index) => {
               return (
-                <div className="col-4 ml-5" key={menu.id}>
+                <div className="col-3 ml-3 mt-4" key={menu.id}>
                   <div style={tabStyle} onClick={() => toogleSubMenu(menu.id)}>
                     <h6
                       style={{

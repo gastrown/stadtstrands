@@ -16,6 +16,8 @@ export default function DeleteMenuItemModal(props) {
   const menuItemName = menuItem.name;
   const [loader, setLoader] = useState(false);
   const [responseAlert, setResponseAlert] = useState(false);
+  const [itemImg] = useState(menuItem.imageUrl);
+  console.log(menuItem.imageUrl);
 
   const redirectMenuPage = () => {
     window.location = `/admin/menu/${menuCat}`;
@@ -23,14 +25,29 @@ export default function DeleteMenuItemModal(props) {
 
   const deleteMenuItem = (menuItemId) => {
     setLoader(!loader);
+
     Axios.delete(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/menuitem/${menuItemId}`
     )
       .then((response) => {
-        console.log(response);
-        setResponseAlert(true);
-        setLoader(false);
-        setInterval(redirectMenuPage(), 2000);
+        console.log(itemImg);
+
+        Axios.delete(
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/delete/image",
+          {
+            data: {
+              imageUrl: itemImg,
+            },
+          }
+        )
+          .then((response) => {
+            setResponseAlert(true);
+            setLoader(false);
+            setInterval(redirectMenuPage(), 2000);
+          })
+          .catch((e) => {
+            console.log(e.response);
+          });
       })
       .catch((e) => {
         console.log(e.response);

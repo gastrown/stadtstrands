@@ -60,12 +60,10 @@ export default function AdminMenuDrinkManager(props) {
     setErrorMessage("");
 
     const dataImage = new FormData();
-    dataImage.append("file", itemImg);
-    dataImage.append("upload_preset", "ecrtech");
-    dataImage.append("cloud_name", "ecrtechdev");
+    dataImage.append("image", itemImg);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       dataImage,
       {
         headers: {
@@ -97,7 +95,10 @@ export default function AdminMenuDrinkManager(props) {
             setInterval(redirectToLocation(), 2000);
           })
           .catch((e) => {
+            setLoader(false);
             console.log(e.response);
+            setAlertError(true);
+            setErrorMessage(e.response.data.data);
           });
       })
       .catch((err) => {

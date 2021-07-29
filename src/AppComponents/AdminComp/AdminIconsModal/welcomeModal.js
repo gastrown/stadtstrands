@@ -8,6 +8,7 @@ export default function WelcomeModal(props) {
   //console.log(props.locationId);
   //const adminId = props.match.params.adminId;
   const [image, setImage] = useState("");
+  const [oldImage, setOldImage] = useState("");
   const [imageWelcomePreview, setImageWelcomePreview] = useState("");
   const [welcomeText, setWelcomeText] = useState("");
   const [loader, setLoader] = useState(false);
@@ -20,6 +21,7 @@ export default function WelcomeModal(props) {
     )
       .then((response) => {
         const welcomeFile = response.data.data;
+        setOldImage(welcomeFile.imagePath);
         setImageWelcomePreview(welcomeFile.imagePath);
         setWelcomeText(welcomeFile.welcomeText);
       })
@@ -49,12 +51,12 @@ export default function WelcomeModal(props) {
     setLoader(!loader);
 
     const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "ecrtech");
-    data.append("cloud_name", "ecrtechdev");
+    data.append("image", image);
+    data.append("imageUrl", oldImage);
+    // data.append("cloud_name", "ecrtechdev");
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -65,32 +67,46 @@ export default function WelcomeModal(props) {
 
       .then((response) => {
         const url = response.data.url;
-
-        Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome",
-          {
-            brandPageId: brandPageId,
-            welcomeText: welcomeText,
-            imagePath: url,
-          }
-        )
-          .then((response) => {
-            Axios.get(
-              `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${brandPageId}`
-            ).then((response) => {
+        if (oldImage) {
+          Axios.put(
+            `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${brandPageId}`,
+            {
+              welcomeText: welcomeText,
+              imagePath: url,
+            }
+          )
+            .then((response) => {
               const welcomeFile = response.data.data;
               setImageWelcomePreview(welcomeFile.imagePath);
               setWelcomeText(welcomeFile.welcomeText);
+              setNotificationStatus(true);
+              setLoader(false);
+            })
+            .catch((e) => {
+              console.log(e.response);
+              setLoader(false);
             });
-            setNotificationStatus(true);
-            //setModal(!modal);
-            // window.location.reload();
-            setLoader(false);
-          })
-          .catch((e) => {
-            console.log(e.response);
-            setLoader(false);
-          });
+        } else {
+          Axios.post(
+            "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome",
+            {
+              brandPageId: brandPageId,
+              welcomeText: welcomeText,
+              imagePath: url,
+            }
+          )
+            .then((response) => {
+              const welcomeFile = response.data.data;
+              setImageWelcomePreview(welcomeFile.imagePath);
+              setWelcomeText(welcomeFile.welcomeText);
+              setNotificationStatus(true);
+              setLoader(false);
+            })
+            .catch((e) => {
+              console.log(e.response);
+              setLoader(false);
+            });
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -24,6 +24,8 @@ export default function BrandPageFormDetails(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [oldLogo, setOldLogo] = useState("");
+  const [oldImagePreview, setOldImagePreview] = useState("");
 
   const iconStyle = {
     paddingTop: "0px",
@@ -64,14 +66,16 @@ export default function BrandPageFormDetails(props) {
         }
         if (BrandPage.logoPath !== null) {
           setLogoPreview(BrandPage.logoPath);
+          setOldLogo(BrandPage.logoPath);
         }
 
         if (BrandPage.description !== null) {
           setDescription(BrandPage.description);
         }
 
-        if (BrandPage.locationImagePath !== null) {
-          setImagePreview(BrandPage.locationImagePath);
+        if (BrandPage.brandPageImagePath !== null) {
+          setImagePreview(BrandPage.brandPageImagePath);
+          setOldImagePreview(BrandPage.brandPageImagePath);
         }
       })
       .catch((e) => {
@@ -110,12 +114,11 @@ export default function BrandPageFormDetails(props) {
     setLoader(!loader);
 
     const dataLogo = new FormData();
-    dataLogo.append("file", logo);
-    dataLogo.append("upload_preset", "ecrtech");
-    dataLogo.append("cloud_name", "ecrtechdev");
+    dataLogo.append("image", logo);
+    dataLogo.append("imageUrl", oldLogo);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       dataLogo,
       {
         headers: {
@@ -139,12 +142,11 @@ export default function BrandPageFormDetails(props) {
     setLoaderSave(!loaderSave);
 
     const dataBPImage = new FormData();
-    dataBPImage.append("file", brandPageImage);
-    dataBPImage.append("upload_preset", "ecrtech");
-    dataBPImage.append("cloud_name", "ecrtechdev");
+    dataBPImage.append("image", brandPageImage);
+    dataBPImage.append("imageUrl", oldImagePreview);
 
     Axios.post(
-      "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
       dataBPImage,
       {
         headers: {
@@ -155,7 +157,6 @@ export default function BrandPageFormDetails(props) {
 
       .then((response) => {
         setBrandPageImageUrl(response.data.url);
-
         Axios.put(
           `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/manager/${brandPageId}`,
           {
@@ -183,19 +184,17 @@ export default function BrandPageFormDetails(props) {
   const updateBrandPage = async (e) => {
     e.preventDefault();
     setLoaderSave(true);
-    console.log(description);
     let response;
 
     const dataImage = new FormData();
 
     if (brandPageImage) {
-      dataImage.append("file", brandPageImage);
-      dataImage.append("upload_preset", "ecrtech");
-      dataImage.append("cloud_name", "ecrtechdev");
+      dataImage.append("image", brandPageImage);
+      dataImage.append("imageUrl", oldImagePreview);
 
       try {
         response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/ecrtechdev/image/upload",
+          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
           dataImage,
           {
             headers: {
@@ -219,7 +218,9 @@ export default function BrandPageFormDetails(props) {
 
       .then((response) => {
         setLoaderSave(false);
-        console.log(response);
+        setAlertError(false);
+        setAlertSuccess(true);
+        setSuccessMessage("Brand Page details saved successfully");
       })
       .catch((e) => {
         console.log(e.response);
@@ -253,6 +254,20 @@ export default function BrandPageFormDetails(props) {
             <h2>
               <b>{brandPageName}</b>
             </h2>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-10 offset-1">
+            {alertError ? (
+              <MDBAlert color="danger">{errorMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+            {alertSuccess ? (
+              <MDBAlert color="info">{successMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
         {showEditFormBtn ? (
@@ -353,21 +368,6 @@ export default function BrandPageFormDetails(props) {
                     }}
                   ></span>
                 </label>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-10 offset-1">
-                {alertError ? (
-                  <MDBAlert color="danger">{errorMessage}</MDBAlert>
-                ) : (
-                  <div></div>
-                )}
-                {alertSuccess ? (
-                  <MDBAlert color="info">{successMessage}</MDBAlert>
-                ) : (
-                  <div></div>
-                )}
               </div>
             </div>
 

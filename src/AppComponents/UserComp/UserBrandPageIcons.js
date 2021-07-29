@@ -10,22 +10,24 @@ export default function BrandPageIcons(props) {
         {props.icons.map((brandicon) => {
           return (
             <div key={brandicon.id}>
-              {brandicon.deactivate ? (
-                <div className="col-4 col-md-2 mt-3">
-                  <div
-                    onClick={brandicon.iconToggle}
-                    className={UserStyles.iconButton}
-                  >
-                    <BrandPageIcon
-                      key={brandicon.id}
-                      iconName={brandicon.iconName}
-                      iconTitle={brandicon.iconTitle}
-                    />
+              <div className="row">
+                {brandicon.deactivate ? (
+                  <div className="col-3 col-md-2 ml-1 mt-3">
+                    <div
+                      onClick={brandicon.iconToggle}
+                      className={UserStyles.iconButton}
+                    >
+                      <BrandPageIcon
+                        key={brandicon.id}
+                        iconName={brandicon.iconName}
+                        iconTitle={brandicon.iconTitle}
+                      />
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <span></span>
-              )}
+                ) : (
+                  <span></span>
+                )}
+              </div>
             </div>
           );
         })}

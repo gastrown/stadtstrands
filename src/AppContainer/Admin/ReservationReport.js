@@ -21,9 +21,10 @@ function ReservationReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/completed/orders/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/reservations/brandpage/${locationId}`
     )
       .then((response) => {
+        console.log(response);
         setReservationReports(response.data.data);
         setSearchReservationReports(response.data.data);
       })
@@ -42,7 +43,7 @@ function ReservationReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/completed/orders/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/reservations/brandpage/${locationId}`
     )
       .then((response) => {
         setReservationReports(response.data.data);
@@ -58,13 +59,14 @@ function ReservationReport(props) {
     const convertedDate = new Date(searchDate);
     const searchArray = [];
 
-    searchReservationReports.map((report) => {
+    searchReservationReports.forEach((report) => {
       const reportDate = new Date(report.createdAt);
 
       if (reportDate.toDateString() === convertedDate.toDateString()) {
         searchArray.push(report);
       }
     });
+
     setReservationReports(searchArray);
   };
 
@@ -120,7 +122,7 @@ function ReservationReport(props) {
                 <hr />
 
                 <div className="row">
-                  {reservationReports.length == 0 ? (
+                  {reservationReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Reservation Available</h3>
                     </div>
@@ -128,13 +130,16 @@ function ReservationReport(props) {
                     reservationReports.map((report) => {
                       return (
                         <div className="col-4" key={report.id}>
-                          {report.ClientDetails.map((title) => {
+                          {report.Reservations.map((content) => {
                             return (
-                              <div className="text-left" key={title.id}>
+                              <div className="text-left" key={content.id}>
                                 <p style={{ fontSize: "12px" }}>
-                                  <b>{title.title}:</b>
+                                  <b>
+                                    {content.BrandPageReservationFormItem.title}
+                                    :
+                                  </b>
                                   <br />
-                                  {title.value}{" "}
+                                  {content.content}
                                 </p>
                               </div>
                             );
