@@ -23,9 +23,10 @@ function FamilyAndFriendReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/familyfriends/${locationId}`
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/family/friends/brandpage/${locationId}`
     )
       .then((response) => {
+        console.log(response);
         setFamilyFriendsReports(response.data.data);
         setSearchFamilyFriendReports(response.data.data);
       })
@@ -59,14 +60,6 @@ function FamilyAndFriendReport(props) {
     const searchDate = e.target.value;
     const convertedDate = new Date(searchDate);
     const searchArray = [];
-
-    // searchFamilyFriendReports.map((report) => {
-    //   const reportDate = new Date(report.createdAt);
-
-    //   if (reportDate.toDateString() === convertedDate.toDateString()) {
-    //     searchArray.push(report);
-    //   }
-    // });
 
     searchFamilyFriendReports.forEach((report) => {
       const reportDate = new Date(report.createdAt);
@@ -139,13 +132,15 @@ function FamilyAndFriendReport(props) {
                     familyFriendsReports.map((report) => {
                       return (
                         <div className="col-4" key={report.id}>
-                          {report.ClientDetails.map((title) => {
+                          {report.FamilyAndFriends.map((content) => {
                             return (
-                              <div className="text-left" key={title.id}>
+                              <div className="text-left" key={content.id}>
                                 <p style={{ fontSize: "12px" }}>
-                                  <b>{title.title}:</b>
+                                  <b>
+                                    {content.FamilyAndFriendsFormItem.title}:
+                                  </b>
                                   <br />
-                                  {title.value}{" "}
+                                  {content.content}
                                 </p>
                               </div>
                             );

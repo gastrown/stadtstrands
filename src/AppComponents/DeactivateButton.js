@@ -3,7 +3,7 @@ import React from "react";
 export default function DeactivateButton(props) {
   return (
     <div className="row mt-3 text-center">
-      <div className="col-5 offset-2">
+      <div className="col-6 offset-1">
         <h5 className="mt-3 ml-4" style={{ textAlign: "left" }}>
           Deactive Page
         </h5>

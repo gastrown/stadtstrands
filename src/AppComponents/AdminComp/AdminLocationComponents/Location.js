@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 const location = (props) => {
   const locationimgstyle = {
     borderRadius: "15px",
+    height: "100px",
+    weight: "100%",
+    objectFit: "cover",
   };
 
   return (

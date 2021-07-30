@@ -13,15 +13,19 @@ export default function ReservationIconModal(props) {
   const [notificationStatus, setNotificationStatus] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [editButton, setEditButton] = useState(false);
 
   useEffect(() => {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagereservation/${brandPageId}`
     )
       .then((response) => {
+        if (response.status === 200) {
+          setEditButton(true);
+        }
         const brandPageResponse =
-          response.data.data[0].BrandPageReservationFormItems;
-        setDeactivatePage(response.data.data[0].deactivate);
+          response.data.data.BrandPageReservationFormItems;
+        setDeactivatePage(response.data.data.deactivate);
         setFormItems(brandPageResponse);
         setDescription(response.data.data[0].comments);
       })
@@ -87,6 +91,33 @@ export default function ReservationIconModal(props) {
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
+      });
+  };
+
+  const updateReservation = (e) => {
+    e.preventDefault();
+    setLoader(true);
+    const sendFields = formItems.map((field) => {
+      return { title: field.title, formType: field.formType };
+    });
+
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagereservation/${brandPageId}`,
+      {
+        deactivate: deactivatePage,
+        comments: description,
+        formItems: sendFields,
+      }
+    )
+      .then((response) => {
+        setLoader(false);
+        setAlertError(false);
+        setNotificationStatus(true);
+      })
+      .catch((e) => {
+        setAlertError(true);
+        setErrorMessage(e.response.data.data);
+        setLoader(false);
       });
   };
 
@@ -217,29 +248,58 @@ export default function ReservationIconModal(props) {
           />
 
           <div className="mt-2">
-            <MDBBtn
-              type="submit"
-              color="#39729b"
-              style={{
-                borderRadius: "20px",
-                backgroundColor: "#39729b",
-                color: "#ffffff",
-              }}
-              className="waves-effect z-depth-1a"
-              size="md"
-            >
-              Save
-              {loader ? (
-                <div
-                  className="spinner-border spinner-border-sm ml-3"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
-                </div>
-              ) : (
-                <span></span>
-              )}
-            </MDBBtn>
+            {formItems.length < 1 ? (
+              <div></div>
+            ) : editButton ? (
+              <MDBBtn
+                type="button"
+                color="#39729b"
+                style={{
+                  borderRadius: "20px",
+                  backgroundColor: "#39729b",
+                  color: "#ffffff",
+                }}
+                className="waves-effect z-depth-1a"
+                size="md"
+                onClick={updateReservation}
+              >
+                Update
+                {loader ? (
+                  <div
+                    className="spinner-border spinner-border-sm ml-3"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+              </MDBBtn>
+            ) : (
+              <MDBBtn
+                type="submit"
+                color="#39729b"
+                style={{
+                  borderRadius: "20px",
+                  backgroundColor: "#39729b",
+                  color: "#ffffff",
+                }}
+                className="waves-effect z-depth-1a"
+                size="md"
+              >
+                Save
+                {loader ? (
+                  <div
+                    className="spinner-border spinner-border-sm ml-3"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+              </MDBBtn>
+            )}
           </div>
 
           <div className="mt-5 font-small text-center pb-3">

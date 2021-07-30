@@ -99,13 +99,11 @@ export default function LostAndFoundIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
         setLoader(false);
