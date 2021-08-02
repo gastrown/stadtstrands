@@ -10,6 +10,7 @@ import {
   MDBIcon,
   MDBModal,
   MDBModalBody,
+  MDBAlert
 } from "mdbreact";
 import AdminStyle from "../../AppStyles/AdminStyles.module.css";
 import AdminNavbar from "../../AppComponents/AdminComp/AdminNavbar";
@@ -37,6 +38,8 @@ function AdminSetLocation(props) {
   const [imagePreview, setImagePreview] = useState("");
   const [loader, setLoader] = useState(false);
   const [modal, setModal] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const mapStyles = {
     height: "200px",
@@ -55,8 +58,7 @@ function AdminSetLocation(props) {
   const imageFileStyle = {
     padding: "5px",
     border: "1px dotted #000000",
-    marginLeft: "12px",
-    width: "90%",
+    width: "100%",
     borderRadius: "25px",
     textAlign: "center",
   };
@@ -105,11 +107,17 @@ function AdminSetLocation(props) {
           window.location.reload();
         })
         .catch((e) => {
-          console.log(e.response);
-          setLoader(false);
+        console.log(e.response);
+        setLoader(false);
+        setAlertError(!alertError);
+        setErrorMessage(e.response.data.data);
         });
-    });
-    // .catch((err) => console.log(err));
+    })
+    .catch((e) => {
+        setLoader(false);
+        setAlertError(!alertError);
+        setErrorMessage("Please provide location image");
+      })
   };
 
   const handleChange = (address) => {
@@ -129,8 +137,8 @@ function AdminSetLocation(props) {
         setLongitude(latLng.lng);
         setLatitude(latLng.lat);
         setLocationStatus(true);
-      })
-      .catch((error) => console.error("Error", error));
+      });
+      // .catch((error) => console.error("Error", error));
   };
 
   const logout = () => {
@@ -139,7 +147,7 @@ function AdminSetLocation(props) {
   };
 
   const iconStyle = {
-    fontSize: "70px",
+    fontSize: "60px",
     color: "gray",
     marginTop: "5px",
     marginBottom: "5px",
@@ -159,10 +167,8 @@ function AdminSetLocation(props) {
                 <div>
                   <MDBIcon style={iconStyle} icon="map-marker-alt" />
                 </div>
-                <div className="mt-2">
-                  <Locations adminId={adminId} />
-                </div>
-                <div className="text-center mb-3">
+                
+                <div className="text-center mb-2 mt-3">
                   <MDBBtn
                     type="button"
                     color="blue"
@@ -178,6 +184,18 @@ function AdminSetLocation(props) {
                     <MDBModalBody>
                       <h5 className="text-center">Add Location</h5>
                       <form onSubmit={createLocation}>
+                      <div className="row">
+                        <div className="col-10 offset-1">
+                          {alertError ? (
+                            <MDBAlert color="danger" dismiss>
+                              {errorMessage}
+                            </MDBAlert>
+                          ) : (
+                            <div></div>
+                          )}
+                        </div>
+                      </div>
+
                         <div className="form-group row mt-3">
                           <div className="col-md-8 offset-md-2">
                             <input
@@ -212,6 +230,7 @@ function AdminSetLocation(props) {
                                       className: "location-search-input",
                                     })}
                                     className="form-control"
+                                    style={{ borderRadius: "15px" }}
                                   />
                                   <div className="autocomplete-dropdown-container">
                                     {loading && (
@@ -367,6 +386,10 @@ function AdminSetLocation(props) {
                       </form>
                     </MDBModalBody>
                   </MDBModal>
+                </div>
+
+                <div className="mt-2">
+                  <Locations adminId={adminId} />
                 </div>
 
                 <div className="row mt-5 font-small text-center pb-3">

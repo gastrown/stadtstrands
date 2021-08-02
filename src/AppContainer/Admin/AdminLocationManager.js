@@ -29,7 +29,7 @@ function AdminLocationManager(props) {
           <MDBCol className={AdminStyle.cardAlignMiddle}>
             <MDBCard style={{ width: "30rem", borderRadius: "20px" }}>
               <MDBCardBody className="text-center mt-5">
-                <MDBCardTitle cascade className="text-center">
+                <MDBCardTitle cascade="true" className="text-center">
                   Location Manager
                 </MDBCardTitle>
                 <MDBRow className="mt-5">

@@ -6,6 +6,7 @@ import AdminLogin from "./AppContainer/Admin/AdminLogin";
 import AdminSignup from "./AppContainer/Admin/AdminSignup";
 import AdminSetLocation from "./AppContainer/Admin/AdminSetLocation";
 import AdminLocationManager from "./AppContainer/Admin/AdminLocationManager";
+import AdminEditLocationManager from "./AppContainer/Admin/AdminEditLocationManager";
 import AdminFormManager from "./AppContainer/Admin/AdminFormManager";
 import AdminWaiterManager from "./AppContainer/Admin/AdminWaiterManager";
 import AdminBrandPageManager from "./AppContainer/Admin/AdminBrandPageManager";
@@ -64,6 +65,12 @@ const allroutes = () => {
           path="/admin/location/manager/:locationId"
           exact
           component={AdminLocationManager}
+        />
+
+         <Route
+          path="/admin/edit/location/:locationId"
+          exact
+          component={AdminEditLocationManager}
         />
 
         <Route

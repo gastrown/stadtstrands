@@ -76,7 +76,6 @@ export default function BrandPageFeedback(props) {
       };
       formData.push(data);
     }
-    console.log(formData);
     setFeedbackFormData(formData);
   };
 

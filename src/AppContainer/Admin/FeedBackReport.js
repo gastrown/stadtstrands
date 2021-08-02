@@ -20,6 +20,7 @@ function FeedBackReport(props) {
   const [searchFeedbackReports, setSearchFeedbackReports] = useState([]);
 
   useEffect(() => {
+    console.log(locationId);
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/reports/brandpage/${locationId}`
     )
@@ -58,14 +59,6 @@ function FeedBackReport(props) {
     const searchDate = e.target.value;
     const convertedDate = new Date(searchDate);
     const searchArray = [];
-
-    // searchFeedbackReports.map((report) => {
-    //   const reportDate = new Date(report.createdAt);
-
-    //   if (reportDate.toDateString() === convertedDate.toDateString()) {
-    //     searchArray.push(report);
-    //   }
-    // });
 
     searchFeedbackReports.forEach((report) => {
       const reportDate = new Date(report.createdAt);
@@ -137,13 +130,18 @@ function FeedBackReport(props) {
                     feedbackReports.map((feedback) => {
                       return (
                         <div className="col-4" key={feedback.id}>
-                          <div className="text-left" key={feedback.id}>
-                            <p style={{ fontSize: "12px" }}>
-                              <b>{feedback.Feedback.question}:</b>
-                              <br />
-                              {feedback.answer}
-                            </p>
-                          </div>
+                          <p>Questions:</p>
+                          {feedback.FeedbackReportings.map((content) => {
+                            return (
+                              <div className="text-left" key={content.id}>
+                                <p style={{ fontSize: "12px" }}>
+                                  <b>{content.Feedback.question}:</b>
+                                  <br />
+                                  {content.answer}
+                                </p>
+                              </div>
+                            );
+                          })}
                           <p className="text-left" style={{ fontSize: "12px" }}>
                             <b>Date:</b>
                             <br />

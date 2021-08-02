@@ -94,7 +94,7 @@ export default function FamilyAndFriendIconModal(props) {
       });
   };
 
-  const updateFamilyAndFriendField = (e) => {
+  const updateFamily = (e) => {
     e.preventDefault();
     setLoader(!loader);
     const sendFields = formItems.map((field) => {
@@ -110,13 +110,11 @@ export default function FamilyAndFriendIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
         setLoader(false);
@@ -263,7 +261,7 @@ export default function FamilyAndFriendIconModal(props) {
                 }}
                 className="waves-effect z-depth-1a"
                 size="md"
-                onClick={updateFamilyAndFriendField}
+                onClick={updateFamily}
               >
                 Update
                 {loader ? (
