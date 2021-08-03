@@ -45,7 +45,7 @@ export default function ContactIconModal(props) {
     )
       .then((response) => {
         const brandPageResponse = response.data.data;
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         //console.log(brandPageResponse);
@@ -89,13 +89,12 @@ export default function ContactIconModal(props) {
           }
         )
           .then((response) => {
-            console.log(response);
             setLoader(false);
             setAlertError(false);
             setNotificationStatus(true);
+            setEditButton(true);
           })
           .catch((e) => {
-            console.log(e.response);
             setLoader(false);
             setAlertError(true);
             setErrorMessage(e.response.data.data);

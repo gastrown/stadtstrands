@@ -22,7 +22,7 @@ function AdminLocationManager(props) {
   };
 
   return (
-    <MDBContainer fluid className={AdminStyle.adminbody2}>
+    <MDBContainer fluid className={AdminStyle.adminbody}>
       <AdminNavbar />
       <MDBContainer>
         <MDBRow>
@@ -30,7 +30,9 @@ function AdminLocationManager(props) {
             <MDBCard style={{ width: "30rem", borderRadius: "20px" }}>
               <MDBCardBody className="text-center mt-5">
                 <MDBCardTitle cascade="true" className="text-center">
-                  Location Manager
+                  <span onClick={history.goBack}>
+                    <MDBIcon icon="long-arrow-alt-left" />
+                  </span> <span className="ml-5">Location Manager</span>
                 </MDBCardTitle>
                 <MDBRow className="mt-5">
                   <LocationManagerTabs location={location} />

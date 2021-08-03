@@ -15,7 +15,6 @@ import ConfirmationModal from "../../../AppComponents/ConfirmationModal";
 
 function FormDetailFields(props) {
   const LocationDetail = props.location;
-
   const [fields, setFields] = useState([]);
   const [fieldName, setFieldName] = useState("");
   const [fieldType, setFieldType] = useState("");
@@ -28,14 +27,15 @@ function FormDetailFields(props) {
   const [enableAccompanyingPerson, setEnableAccompanyingPerson] =
     useState(true);
   const [requireAccompanyingPerson, setRequireAccompanyingPerson] =
-    useState(true);
-  const [deactivatePage, setDeactivatePage] = useState(true);
+    useState(false);
+  const [deactivatePage, setDeactivatePage] = useState(null);
   const [enableNewsLetter, setEnableNewsLetter] = useState(true);
   const [loader, setLoader] = useState(false);
   const [modalAddField, setmodalAddField] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [iconSwitch, setIconSwitch] = useState(false);
 
   const toggleModalAddField = () => {
     setmodalAddField(!modalAddField);
@@ -47,29 +47,31 @@ function FormDetailFields(props) {
 
   const onSubmitFormPage = () => {
     setLoader(!loader);
-
     Axios.put(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/formItems/${brandPageFormId}`,
       {
         brandPageId: brandPageId,
         enableNewsLetter: enableNewsLetter,
         deactivatePage: deactivatePage,
-        enableGetIcon: true,
+        enableGetIcon: iconSwitch,
         enableAccompanyingPerson: enableAccompanyingPerson,
         requireAccompanyingPerson: requireAccompanyingPerson,
         formItems: fields,
       }
     )
       .then((response) => {
+        console.log(response)
         setLoader(false);
         SuccessModal();
       })
       .catch((e) => {
+        console.log(e.response)
         setLoader(false);
         setAlertError(!alertError);
         setErrorMessage(e.response.data.data);
       });
   };
+  
 
   const saveBtnStyle = {
     fontSize: "12px",
@@ -121,6 +123,7 @@ function FormDetailFields(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
     )
       .then((response) => {
+        console.log(response)
         const data = response.data.data;
         setFields(data.FormItems);
         setEnableAccompanyingPerson(data.enableAccompanyingPerson);
@@ -333,7 +336,6 @@ function FormDetailFields(props) {
                     className="browser-default custom-select"
                     onChange={(e) => {
                       setFieldAutoFill(e.target.value);
-                      console.log(e.target.value);
                     }}
                   >
                     <option>Auto fill option</option>
@@ -457,11 +459,13 @@ function FormDetailFields(props) {
             className="custom-control custom-switch"
             style={{ textAlign: "left" }}
           >
+          {console.log(deactivatePage)}
             <input
               type="checkbox"
               className="custom-control-input"
               id="deactivateSwitchesChecked"
-              defaultChecked
+              
+              defaultChecked={deactivatePage}
               onChange={() => {
                 setDeactivatePage(!deactivatePage);
               }}
@@ -491,7 +495,7 @@ function FormDetailFields(props) {
               id="getIconSwitch"
               defaultChecked
               onChange={() => {
-                setDeactivatePage(!deactivatePage);
+                setIconSwitch(!iconSwitch);
               }}
             />
             <label

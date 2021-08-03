@@ -18,9 +18,9 @@ export default function LostAndFoundIconModal(props) {
     Axios.get(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound/${brandPageId}`
     ).then((response) => {
-      if (response.status === 200) {
-        setEditButton(true);
-      }
+      if (response.data.data !== null) {
+          setEditButton(true);
+        }
       const brandPageResponse = response.data.data.LostAndFounds;
       setDeactivatePage(response.data.data.deactivate);
       setLostAndFoundForms(brandPageResponse);
@@ -76,6 +76,7 @@ export default function LostAndFoundIconModal(props) {
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
+        setEditButton(true);
       })
       .catch((e) => {
         setLoader(false);

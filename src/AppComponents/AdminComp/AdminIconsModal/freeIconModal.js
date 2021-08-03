@@ -28,7 +28,7 @@ export default function FreeIconModal(props) {
     )
       .then((response) => {
         const BrandPage = response.data.data;
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         setIconPreview(BrandPage.iconUrl);
@@ -123,13 +123,12 @@ export default function FreeIconModal(props) {
           }
         )
           .then((response) => {
-            console.log(response);
             setLoader(false);
             setAlertError(false);
             setNotification(true);
+            setEditButton(true);
           })
           .catch((e) => {
-            console.log(e.response);
             setAlertError(true);
             setErrorMessage(e.response.data.data);
             setLoader(false);

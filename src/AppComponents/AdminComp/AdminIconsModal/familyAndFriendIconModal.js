@@ -21,7 +21,7 @@ export default function FamilyAndFriendIconModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends/${brandPageId}`
     )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         const brandPageResponse = response.data.data.FamilyAndFriendsFormItems;
@@ -81,13 +81,12 @@ export default function FamilyAndFriendIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
+        setEditButton(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);

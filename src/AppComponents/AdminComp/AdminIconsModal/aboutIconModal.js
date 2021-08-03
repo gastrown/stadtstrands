@@ -44,7 +44,7 @@ export default function ContactIconModal(props) {
       .then((response) => {
         const brandPageResponse = response.data.data;
         //console.log(response);
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         setSubTitle(brandPageResponse.subTitle);

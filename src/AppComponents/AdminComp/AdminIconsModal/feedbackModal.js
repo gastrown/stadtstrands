@@ -20,7 +20,7 @@ export default function FeedbackModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`
     )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         const brandPageResponse = response.data.data.Feedbacks;
@@ -77,6 +77,7 @@ export default function FeedbackModal(props) {
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
+        setEditButton(true);
       })
       .catch((e) => {
         console.log(e.response);

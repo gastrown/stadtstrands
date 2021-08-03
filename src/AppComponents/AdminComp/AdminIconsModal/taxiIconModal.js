@@ -19,7 +19,7 @@ export default function ContactIconModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagetaxi/${brandPageId}`
     )
       .then((response) => {
-        if (response.status === 200) {
+       if (response.data.data !== null) {
           setEditButton(true);
         }
         const brandPageResponse = response.data.data.Taxis;

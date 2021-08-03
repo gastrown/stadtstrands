@@ -107,15 +107,27 @@ function AdminSetLocation(props) {
           window.location.reload();
         })
         .catch((e) => {
-        console.log(e.response);
-        setLoader(false);
-        setAlertError(!alertError);
+           Axios.delete(
+                  "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/delete/image",
+                  {
+                    data: {
+                      imageUrl: url,
+                    },
+                  }
+                )
+                  .then((response) => {
+                    setLoader(false);
+                  })
+                  .catch((e) => {
+                    console.log(e.response);
+                  });
+        setAlertError(true);
         setErrorMessage(e.response.data.data);
         });
     })
     .catch((e) => {
         setLoader(false);
-        setAlertError(!alertError);
+        setAlertError(true);
         setErrorMessage("Please provide location image");
       })
   };
@@ -127,18 +139,15 @@ function AdminSetLocation(props) {
   const handleSelect = (address) => {
     geocodeByAddress(address)
       .then((results) => {
-        //console.log(results);
         const formatedAddress = results[0].formatted_address;
         setFormattedAddress(formatedAddress);
         return getLatLng(results[0]);
       })
       .then((latLng) => {
-        // console.log(latLng);
         setLongitude(latLng.lng);
         setLatitude(latLng.lat);
         setLocationStatus(true);
       });
-      // .catch((error) => console.error("Error", error));
   };
 
   const logout = () => {

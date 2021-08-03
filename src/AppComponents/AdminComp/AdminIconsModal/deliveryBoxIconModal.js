@@ -20,7 +20,7 @@ export default function DeliveryBoxIconModal(props) {
     )
       .then((response) => {
         const BrandPage = response.data.data;
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         setDeliveryMessage(BrandPage.externalUrl);
@@ -50,7 +50,6 @@ export default function DeliveryBoxIconModal(props) {
         setEditButton(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
         setLoader(false);

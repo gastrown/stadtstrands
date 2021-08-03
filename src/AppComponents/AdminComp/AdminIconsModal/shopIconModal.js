@@ -20,7 +20,7 @@ export default function ShopIconModal(props) {
     )
       .then((response) => {
         const BrandPage = response.data.data;
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         setShopUrl(BrandPage.externalUrl);

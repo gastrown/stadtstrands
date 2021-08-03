@@ -65,7 +65,7 @@ function Location(props) {
           </Link>
         </div>
         <div className="col-12 col-md-5"> 
-          <span onClick={() => toogleDeleteBrandPage()} style={{fontSize:"11px", cursor: "pointer"}}><MDBIcon icon="trash" /> Delete </span>
+          <span onClick={() => toogleDeleteBrandPage()} style={{fontSize:"11px", cursor: "pointer",color:"red"}}><MDBIcon icon="trash" /> Delete </span>
         </div>
       </div>
 

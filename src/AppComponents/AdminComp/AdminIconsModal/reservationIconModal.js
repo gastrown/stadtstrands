@@ -20,7 +20,7 @@ export default function ReservationIconModal(props) {
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagereservation/${brandPageId}`
     )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.data.data !== null) {
           setEditButton(true);
         }
         const brandPageResponse =
@@ -81,13 +81,12 @@ export default function ReservationIconModal(props) {
       }
     )
       .then((response) => {
-        console.log(response);
         setLoader(false);
         setAlertError(false);
         setNotificationStatus(true);
+        setEditButton(true);
       })
       .catch((e) => {
-        console.log(e.response);
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
