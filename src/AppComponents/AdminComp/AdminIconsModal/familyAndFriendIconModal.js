@@ -100,6 +100,8 @@ export default function FamilyAndFriendIconModal(props) {
       return { title: field.title, formType: field.formType };
     });
 
+    console.log(sendFields);
+
     Axios.put(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends/${brandPageId}`,
       {

@@ -150,12 +150,12 @@ export default function JobIconModal(props) {
                   </MDBBtn>
                 </div>
               </div>
-              <DeactivateButton
+              {/* <DeactivateButton
                 toggle={() => {
                   setDeactivatePage(!deactivatePage);
                 }}
                 deactivatePage={deactivatePage}
-              />
+              /> */}
             </div>
           </div>
         ) : (
@@ -279,6 +279,39 @@ export default function JobIconModal(props) {
           brandPageJobId={brandPageJobId}
           brandPageId={brandPageId}
         />
+
+        <form>
+
+        <div className="form-group row">
+          <div className="col-12"> 
+            <DeactivateButton
+                    toggle={() => {
+                      setDeactivatePage(!deactivatePage);
+                    }}
+                    deactivatePage={deactivatePage}
+            />
+          </div>
+        </div>
+
+        <div className="form-group row mt-2">
+                <div className="col-md-12 text-center">
+                  <MDBBtn
+                    type="button"
+                    color="#39729b"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="sm"
+                    onClick={createBrandPageJob}
+                  >
+                    Update Page Status
+                  </MDBBtn>
+                </div>
+              </div>
+        </form>
 
         <div className="mt-5 font-small text-center pb-3">
           <div onClick={props.functionName} className="black-text">

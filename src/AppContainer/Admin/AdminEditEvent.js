@@ -122,7 +122,7 @@ export default function AdminEditEvent(props) {
       <MDBContainer fluid className={AdminStyle.adminbody}>
         <AdminNavbar />
       </MDBContainer>
-      <MDBContainer fluid style={{ height: "100vh", background: "#b5cdd9" }}>
+      <MDBContainer fluid style={{ background: "#b5cdd9" }}>
         <div className="container">
           <div className="row">
             <div
@@ -130,10 +130,15 @@ export default function AdminEditEvent(props) {
               style={{ background: "#ffffff", borderRadius: "10px" }}
             >
               <div className="row mt-3">
-                <div className="col-12">
-                  <h3>
+                <div className="col-2 font-small text-center pb-3">
+                  <div onClick={history.goBack} className="black-text">
+                   <h4> <MDBIcon icon="chevron-circle-left" /> </h4>
+                  </div>
+                </div>
+                <div className="col-8">
+                  <h4>
                     <b>Edit Event</b>
-                  </h3>
+                  </h4>
                 </div>
               </div>
               <hr />
@@ -180,7 +185,7 @@ export default function AdminEditEvent(props) {
                                 backgroundSize: "100% 100%",
                                 boxShadow:
                                   "inset 0 0 0 2000px rgba(0, 0, 0, 0.1)",
-                                height: "200px",
+                                height: "350px",
                                 borderRadius: "20px",
                               }}
                             >

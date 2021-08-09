@@ -177,7 +177,7 @@ export default function CreateEventIconModal(props) {
                 className="form-control text-left"
                 style={{ borderRadius: "10px", fontSize: "10px" }}
                 rows="3"
-                defaultValue="Upload Foodtruck information"
+                placeholder="Upload Foodtruck information"
                 onChange={(e) => setInformation(e.target.value)}
               ></textarea>
             </div>

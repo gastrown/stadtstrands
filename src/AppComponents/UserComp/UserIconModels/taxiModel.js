@@ -47,7 +47,7 @@ export default function TaxiModel(props) {
             </div>
           </div>
           <div className="col-8 text-left">
-            <h4 style={{ fontWeight: "400" }}> Available Stadt Taxi</h4>
+            <h4 style={{ fontWeight: "400" }}> Available Taxi(s)</h4>
           </div>
         </div>
         <hr />

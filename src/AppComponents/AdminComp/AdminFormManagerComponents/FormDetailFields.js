@@ -52,7 +52,7 @@ function FormDetailFields(props) {
       {
         brandPageId: brandPageId,
         enableNewsLetter: enableNewsLetter,
-        deactivatePage: deactivatePage,
+        deactivatePage: false,
         enableGetIcon: iconSwitch,
         enableAccompanyingPerson: enableAccompanyingPerson,
         requireAccompanyingPerson: requireAccompanyingPerson,

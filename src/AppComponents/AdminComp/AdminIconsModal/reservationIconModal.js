@@ -186,6 +186,7 @@ export default function ReservationIconModal(props) {
                           <option defaultValue="number">number</option>
                           <option defaultValue="email">email</option>
                           <option defaultValue="date">date</option>
+                           <option defaultValue="time">time</option>
                           <option defaultValue="textarea">textarea</option>
                         </select>
                       </div>

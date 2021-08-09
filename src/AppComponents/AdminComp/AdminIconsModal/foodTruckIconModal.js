@@ -150,12 +150,7 @@ export default function FoodTruckIconModal(props) {
                   </MDBBtn>
                 </div>
               </div>
-              <DeactivateButton
-                toggle={() => {
-                  setDeactivatePage(!deactivatePage);
-                }}
-                deactivatePage={deactivatePage}
-              />
+              
             </div>
           </div>
         ) : (
@@ -280,6 +275,17 @@ export default function FoodTruckIconModal(props) {
           brandPageFoodTruckId={brandPageFoodTruckId}
           brandPageId={brandPageId}
         />
+
+        <div className="row">
+          <div className="col-12"> 
+            <DeactivateButton
+                    toggle={() => {
+                      setDeactivatePage(!deactivatePage);
+                    }}
+                    deactivatePage={deactivatePage}
+            />
+          </div>
+        </div>
 
         <div className="mt-5 font-small text-center pb-3">
           <div onClick={props.functionName} className="black-text">

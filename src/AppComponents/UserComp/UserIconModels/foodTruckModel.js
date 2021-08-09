@@ -23,7 +23,7 @@ export default function FoodTruckModel(props) {
     borderRadius: "15px",
     width: "300px",
     height: "100px",
-    objectFit: "none",
+    objectFit: "cover",
   };
 
   return (
@@ -35,12 +35,12 @@ export default function FoodTruckModel(props) {
     >
       <MDBModalBody>
         <div className="row">
-          <div className="col-3 text-left">
+          <div className="col-2 text-left">
             <div onClick={props.functionName} className="black-text">
               <MDBIcon icon="chevron-circle-left" />
             </div>
           </div>
-          <div className="col-8 text-left">
+          <div className="col-10 text-left">
             <h4 style={{ fontWeight: "400" }}> Available Food Trucks</h4>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function FoodTruckModel(props) {
             <div className="row">
               {foodTruckDetails.map((truckfood) => {
                 return (
-                  <div className="col-4 text-center mt-2" key={truckfood.id}>
+                  <div className="col-6 text-center mt-2" key={truckfood.id}>
                     <Link
                       to={{
                         pathname: `/food-truck/${truckfood.id}`,

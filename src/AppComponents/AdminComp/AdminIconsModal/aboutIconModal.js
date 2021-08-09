@@ -138,6 +138,7 @@ export default function ContactIconModal(props) {
             setLoader(false);
             setAlertError(false);
             setNotificationStatus(true);
+            setEditButton(true);
           })
           .catch((e) => {
             console.log(e.response);
@@ -251,11 +252,12 @@ export default function ContactIconModal(props) {
               borderRadius: "20px",
               color: "#000000",
               padding: "20px",
+              height: "300px"
             }}
           >
             <div className="row">
               <div className="col-md-10 offset-md-1">
-                <div className="form-group row mt-3">
+                <div className="form-group row mt-5">
                   <div className="col-md-8 offset-md-2 text-center">
                     <input
                       type="file"
