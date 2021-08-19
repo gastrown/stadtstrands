@@ -16,18 +16,20 @@ function UserCart() {
   const removeItem = (cart) => {
     setDelLoader(true);
     const cartId = cart.id;
-    console.log(cartId);
     Axios.delete(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/cart/${cartId}`
     )
       .then((response) => {
-        setDelLoader(false);
-        console.log(response);
+        setInterval(redirect(), 2000);
       })
       .catch((e) => {
         console.log(e.response);
         setDelLoader(false);
       });
+  };
+
+  const redirect = () => {
+    window.location = `/cart`;
   };
 
   useEffect(() => {
@@ -36,10 +38,12 @@ function UserCart() {
     )
       .then((response) => {
         setCartList(response.data.data.rows);
+        console.log(response);
         setLoading(false);
       })
       .catch((e) => {
         setCartList([]);
+        setLoading(false);
       });
 
     return;
@@ -73,6 +77,18 @@ function UserCart() {
             </div>
             <hr />
 
+            {delLoader ? (
+              <div className="row">
+                <div className="col-12 text-center">
+                  <div className="spinner-grow ml-3" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <span></span>
+            )}
+
             {loading ? (
               <div className="col-12 mt-2 mb-2 text-center">
                 <div
@@ -83,7 +99,11 @@ function UserCart() {
                 </div>
               </div>
             ) : cartList < 1 ? (
-              <span>Cart Empty</span>
+              <div className="col-12 mt-2 mb-2 text-center">
+                <h3>
+                  <MDBIcon icon="cart-arrow-down" /> Cart Empty
+                </h3>
+              </div>
             ) : (
               cartList.map((cart) => {
                 return (
@@ -127,16 +147,6 @@ function UserCart() {
                               className="mt-2 mr-3"
                               onClick={() => removeItem(cart)}
                             />
-                            {delLoader ? (
-                              <div
-                                className="spinner-grow spinner-grow-sm ml-3"
-                                role="status"
-                              >
-                                <span className="sr-only">Loading...</span>
-                              </div>
-                            ) : (
-                              <span></span>
-                            )}
                           </div>
                         </div>
                       </div>
@@ -147,38 +157,42 @@ function UserCart() {
               })
             )}
 
-            <div className="row mt-3">
-              <div className="col-12 text-center">
-                <Link
-                  to={{
-                    pathname: "/checkout",
-                    state: {
-                      cartList: cartList,
-                    },
-                  }}
-                >
-                  <MDBBtn
-                    type="button"
-                    color="blue"
-                    style={{ borderRadius: "20px" }}
-                    className="waves-effect z-depth-1a"
-                    size="sm"
+            {cartList < 1 ? (
+              <span></span>
+            ) : (
+              <div className="row mt-3">
+                <div className="col-12 text-center">
+                  <Link
+                    to={{
+                      pathname: "/checkout",
+                      state: {
+                        cartList: cartList,
+                      },
+                    }}
                   >
-                    CHECKOUT <MDBIcon icon="chevron-circle-right" />
-                    {loader ? (
-                      <div
-                        className="spinner-grow spinner-grow-sm ml-3"
-                        role="status"
-                      >
-                        <span className="sr-only">Loading...</span>
-                      </div>
-                    ) : (
-                      <span></span>
-                    )}
-                  </MDBBtn>
-                </Link>
+                    <MDBBtn
+                      type="button"
+                      color="blue"
+                      style={{ borderRadius: "20px" }}
+                      className="waves-effect z-depth-1a"
+                      size="sm"
+                    >
+                      CHECKOUT <MDBIcon icon="chevron-circle-right" />
+                      {loader ? (
+                        <div
+                          className="spinner-grow spinner-grow-sm ml-3"
+                          role="status"
+                        >
+                          <span className="sr-only">Loading...</span>
+                        </div>
+                      ) : (
+                        <span></span>
+                      )}
+                    </MDBBtn>
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
 
             <hr />
 
@@ -191,7 +205,6 @@ function UserCart() {
                     style={{ borderRadius: "20px" }}
                     className="waves-effect z-depth-1a"
                     size="sm"
-                    onClick={history.goBack}
                   >
                     ORDER MORE
                   </MDBBtn>

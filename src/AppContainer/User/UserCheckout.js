@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import UserStyles from "../../AppStyles/UserStyles.module.css";
 import Axios from "axios";
 import { geolocated } from "react-geolocated";
+import StripeCheckout from "react-stripe-checkout";
 
 function UserCart(props) {
   const brandPageId = localStorage.getItem("brandPageId");
@@ -76,24 +77,47 @@ function UserCart(props) {
     setFinalAmount(totalAmount.toFixed(2));
   };
 
-  const checkout = () => {
-    setLoader(true);
+  // const checkout = () => {
+  //   setLoader(true);
 
-    Axios.post("https://stadtstrandapp.ecrdeveloper.website/api/v1/checkout", {
-      brandPageId: brandPageId,
-      clientId: clientId,
-      amount: finalAmount,
-      orderLocLactitude: props.coords.latitude,
-      orderLocLongitude: props.coords.longitude,
+  //   Axios.post("https://stadtstrandapp.ecrdeveloper.website/api/v1/checkout", {
+  //     brandPageId: brandPageId,
+  //     clientId: clientId,
+  //     amount: finalAmount,
+  //     orderLocLactitude: props.coords.latitude,
+  //     orderLocLongitude: props.coords.longitude,
+  //   })
+  //     .then((response) => {
+  //       console.log(response);
+  //       setLoader(false);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e.response);
+  //       setLoader(false);
+  //     });
+  // };
+
+  const makePayment = (token) => {
+    const body = {
+      token,
+      finalAmount,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    return fetch(`http://localhost:5000/api/v1/stripe/checkout/`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
     })
       .then((response) => {
-        console.log(response);
-        setLoader(false);
+        console.log("RESPONSE", response);
+        const { status } = response;
+        console.log("STATUS ", status);
       })
-      .catch((e) => {
-        console.log(e.response);
-        setLoader(false);
-      });
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -176,7 +200,7 @@ function UserCart(props) {
                           <div className="col-4 text-left">
                             <span
                               className="ml-3"
-                              style={{ color: "red", fontSize: "22px" }}
+                              style={{ color: "red", fontSize: "18px" }}
                             >
                               €
                               {(cart.MenuItem.price * cart.quantity).toFixed(2)}
@@ -220,7 +244,7 @@ function UserCart(props) {
                 );
               })
             )}
-            <div className="row">
+            {/* <div className="row">
               <div className="col-10 col-md-10 offset-md-1 mt-2 font-small text-left ">
                 <h6>PAYMENT METHOD</h6>
 
@@ -232,37 +256,35 @@ function UserCart(props) {
                   <option value="3">Google Pay</option>
                 </select>
               </div>
-            </div>
+            </div> 
             <hr />
+            */}
 
             <div className="row mt-3">
-              <div className="col-5 text-center">
+              <div className="col-12 text-center">
                 <h6>TOTAL ORDER CREATED</h6>
                 <span style={{ color: "red" }}>€{finalAmount}</span>
               </div>
-              <div className="col-7 text-center">
+            </div>
+            <div className="row mt-3">
+              <div className="col-12 text-center">
                 {props.coords ? (
-                  <MDBBtn
-                    type="button"
-                    color="blue"
-                    style={{ borderRadius: "20px" }}
-                    className="waves-effect z-depth-1a"
-                    size="sm"
-                    onClick={checkout}
+                  <StripeCheckout
+                    stripeKey="pk_test_U3exqk6VyPl2mcUlle5o3rFw"
+                    token={makePayment}
+                    name="Stripe Payment"
+                    amount={finalAmount * 100}
+                    description="Big Data Stuff" // the pop-in header subtitle
+                    // image="https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png" // the pop-in header image (default none)
+                    allowRememberMe={true}
                   >
-                    Make Payments
-                    <MDBIcon icon="chevron-circle-right" />
-                    {loader ? (
-                      <div
-                        className="spinner-grow spinner-grow-sm ml-3"
-                        role="status"
-                      >
-                        <span className="sr-only">Loading...</span>
-                      </div>
-                    ) : (
-                      <span></span>
-                    )}
-                  </MDBBtn>
+                    <button
+                      className="btn btn-primary btn-sm"
+                      style={{ borderRadius: "20px" }}
+                    >
+                      Make Payments of €{finalAmount}
+                    </button>
+                  </StripeCheckout>
                 ) : (
                   <span></span>
                 )}

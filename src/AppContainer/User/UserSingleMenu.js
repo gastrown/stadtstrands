@@ -69,6 +69,17 @@ export default function UserSingleMenu(props) {
               </div>
             </div>
 
+            <div className="row mt-3">
+              <div className="col-12 text-center">
+                <h4 style={{ fontWeight: "300" }}>
+                  {singleMenuDetail.name} :
+                  <span className="ml-2" style={{ color: "red" }}>
+                    €{singleMenuDetail.price}
+                  </span>
+                </h4>
+              </div>
+            </div>
+
             <div className="row mt-2">
               <div className="col-12 col-md-5 offset-md-1">
                 <img
@@ -80,7 +91,7 @@ export default function UserSingleMenu(props) {
               </div>
               <div className="col-12 col-md-5 offset-md-1 mt-4">
                 <div className="row">
-                  <div className="col-11 offset-1">
+                  <div className="col-12">
                     {alertError ? (
                       <MDBAlert color="danger">{errorMessage}</MDBAlert>
                     ) : alertSuccess ? (
@@ -120,16 +131,7 @@ export default function UserSingleMenu(props) {
                     )}
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-12 text-left">
-                    <h2 style={{ fontWeight: "400" }}>
-                      {singleMenuDetail.name} -
-                      <span className="ml-4" style={{ color: "red" }}>
-                        €{singleMenuDetail.price}
-                      </span>
-                    </h2>
-                  </div>
-                </div>
+
                 <div className="row mt-3">
                   <div
                     className="col-10 offset-1 text-left"
@@ -140,17 +142,17 @@ export default function UserSingleMenu(props) {
                     }}
                   >
                     <div className="row">
-                      <div className="col-7">
+                      <div className="col-12 text-center">
                         <div className="row">
-                          <div className="col-2 ml-2">
+                          <div className="col-2 ml-5">
                             <MDBIcon
                               icon="minus-circle"
                               className="mt-3"
                               onClick={decrementCounter}
                             />
                           </div>
-                          <div className="col-4 text-center mt-1 ml-2">
-                            <p style={{ fontSize: "25px", fontWeight: "bold" }}>
+                          <div className="col-4 text-center mt-2 ml-2">
+                            <p style={{ fontSize: "20px", fontWeight: "bold" }}>
                               {counter}
                             </p>
                           </div>
@@ -163,7 +165,9 @@ export default function UserSingleMenu(props) {
                           </div>
                         </div>
                       </div>
-                      <div className="col-4 text-center mt-2">
+                    </div>
+                    <div className="row">
+                      <div className="col-12 text-center mt-1">
                         <h5>
                           <b>Total:</b>
                           <span className="ml-2" style={{ color: "red" }}>

@@ -7,7 +7,7 @@ import NotificationStatus from "../AdminNotificationStatus";
 export default function FeedbackModal(props) {
   const brandPageId = props.locationId;
   const [feedBackDescription, setFeedBackDescription] = useState("");
-  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [deactivatePage, setDeactivatePage] = useState(null);
   const [loader, setLoader] = useState(false);
   const [feedBackQuestions, setFeedBackQuestions] = useState([]);
   const [notificationStatus, setNotificationStatus] = useState(false);
@@ -25,6 +25,7 @@ export default function FeedbackModal(props) {
         }
         const brandPageResponse = response.data.data.Feedbacks;
         setDeactivatePage(response.data.data.deactivatePage);
+        console.log(response.data.data.deactivatePage);
         setFeedBackQuestions(brandPageResponse);
         setFeedBackDescription(response.data.data.description);
       })
@@ -93,6 +94,8 @@ export default function FeedbackModal(props) {
     const sendQuestions = feedBackQuestions.map((question) => {
       return question.question;
     });
+
+    console.log(deactivatePage);
 
     Axios.put(
       `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`,

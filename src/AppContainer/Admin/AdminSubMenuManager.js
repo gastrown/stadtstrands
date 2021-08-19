@@ -124,7 +124,7 @@ export default function AdminMenuDrinkManager(props) {
       <MDBContainer fluid className={AdminStyle.adminbody}>
         <AdminNavbar />
       </MDBContainer>
-      <MDBContainer fluid style={{ height: "100vh", background: "#b5cdd9" }}>
+      <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
         <div className="container">
           <div className="row">
             <div
@@ -173,6 +173,7 @@ export default function AdminMenuDrinkManager(props) {
                           color: "#000000",
                           padding: "5px",
                           borderRadius: "10px",
+                          objectFit: "scale-down",
                         }}
                       >
                         <MDBIcon
@@ -305,10 +306,11 @@ export default function AdminMenuDrinkManager(props) {
                             src={menulist.imageUrl}
                             style={{
                               width: "150px",
-                              height: "120px",
+                              height: "150px",
                               borderRadius: "15px",
                               border: "1px #c2c2c2 solid",
                               padding: "5px",
+                              objectFit: "scale-down",
                             }}
                             className="img-fluid"
                             alt="image1"

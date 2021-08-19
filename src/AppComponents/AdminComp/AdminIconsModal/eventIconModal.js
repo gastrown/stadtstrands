@@ -6,7 +6,7 @@ import Axios from "axios";
 
 export default function EventIconModal(props) {
   const brandPageId = props.locationId;
-  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [deactivatePage, setDeactivatePage] = useState(null);
   const [checkEventStatus, setCheckEventStatus] = useState(null);
   const [modalCreateEvent, setModalCreateEvent] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -42,7 +42,7 @@ export default function EventIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  });
+  }, [brandPageId]);
 
   const createBrandPageEvent = () => {
     setLoader(!loader);
@@ -86,6 +86,23 @@ export default function EventIconModal(props) {
 
   const editEvent = (eventId) => {
     window.location = `/admin/edit-event/${eventId}`;
+  };
+
+  const updateBrandPageEvent = () => {
+    setLoader(!loader);
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/brandPage/${brandPageId}`,
+      {
+        deactivate: deactivatePage,
+      }
+    )
+      .then((response) => {
+        setAlert(true);
+        setLoader(false);
+      })
+      .catch((e) => {
+        setLoader(false);
+      });
   };
 
   return (
@@ -278,6 +295,31 @@ export default function EventIconModal(props) {
           brandPageEventId={brandPageEventId}
           brandPageId={brandPageId}
         />
+
+        <form>
+          {checkEventStatus ? (
+            <div className="form-group row mt-2">
+              <div className="col-md-12 text-center">
+                <MDBBtn
+                  type="button"
+                  color="#39729b"
+                  style={{
+                    borderRadius: "20px",
+                    backgroundColor: "#39729b",
+                    color: "#ffffff",
+                  }}
+                  className="waves-effect z-depth-1a"
+                  size="sm"
+                  onClick={updateBrandPageEvent}
+                >
+                  Update Page Status
+                </MDBBtn>
+              </div>
+            </div>
+          ) : (
+            <span></span>
+          )}
+        </form>
 
         <div className="mt-5 font-small text-center pb-3">
           <div onClick={props.functionName} className="black-text">

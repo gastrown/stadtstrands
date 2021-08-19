@@ -6,7 +6,7 @@ import Axios from "axios";
 
 export default function JobIconModal(props) {
   const brandPageId = props.locationId;
-  const [deactivatePage, setDeactivatePage] = useState(true);
+  const [deactivatePage, setDeactivatePage] = useState(null);
   const [checkJobStatus, setCheckJobStatus] = useState(null);
   const [modalCreateJob, setModalCreateJob] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -38,7 +38,7 @@ export default function JobIconModal(props) {
       .catch((e) => {
         console.log(e.response);
       });
-  });
+  }, [brandPageId]);
 
   const createBrandPageJob = () => {
     setLoader(!loader);
@@ -54,6 +54,23 @@ export default function JobIconModal(props) {
         setLoader(false);
         setCheckJobStatus(true);
         setAlert(true);
+      })
+      .catch((e) => {
+        setLoader(false);
+      });
+  };
+
+  const updateBrandPageJob = () => {
+    setLoader(!loader);
+    Axios.put(
+      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob/brandPage/${brandPageId}`,
+      {
+        deactivate: deactivatePage,
+      }
+    )
+      .then((response) => {
+        setAlert(true);
+        setLoader(false);
       })
       .catch((e) => {
         setLoader(false);
@@ -150,12 +167,12 @@ export default function JobIconModal(props) {
                   </MDBBtn>
                 </div>
               </div>
-              {/* <DeactivateButton
+              <DeactivateButton
                 toggle={() => {
                   setDeactivatePage(!deactivatePage);
                 }}
                 deactivatePage={deactivatePage}
-              /> */}
+              />
             </div>
           </div>
         ) : (
@@ -281,36 +298,28 @@ export default function JobIconModal(props) {
         />
 
         <form>
-
-        <div className="form-group row">
-          <div className="col-12"> 
-            <DeactivateButton
-                    toggle={() => {
-                      setDeactivatePage(!deactivatePage);
-                    }}
-                    deactivatePage={deactivatePage}
-            />
-          </div>
-        </div>
-
-        <div className="form-group row mt-2">
-                <div className="col-md-12 text-center">
-                  <MDBBtn
-                    type="button"
-                    color="#39729b"
-                    style={{
-                      borderRadius: "20px",
-                      backgroundColor: "#39729b",
-                      color: "#ffffff",
-                    }}
-                    className="waves-effect z-depth-1a"
-                    size="sm"
-                    onClick={createBrandPageJob}
-                  >
-                    Update Page Status
-                  </MDBBtn>
-                </div>
+          {checkJobStatus ? (
+            <div className="form-group row mt-2">
+              <div className="col-md-12 text-center">
+                <MDBBtn
+                  type="button"
+                  color="#39729b"
+                  style={{
+                    borderRadius: "20px",
+                    backgroundColor: "#39729b",
+                    color: "#ffffff",
+                  }}
+                  className="waves-effect z-depth-1a"
+                  size="sm"
+                  onClick={updateBrandPageJob}
+                >
+                  Update Page Status
+                </MDBBtn>
               </div>
+            </div>
+          ) : (
+            <span></span>
+          )}
         </form>
 
         <div className="mt-5 font-small text-center pb-3">
