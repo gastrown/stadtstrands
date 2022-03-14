@@ -41,7 +41,7 @@ export default function ContactIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagestrandorte/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagestrandorte/${brandPageId}`
     )
       .then((response) => {
         const brandPageResponse = response.data.data;
@@ -67,7 +67,7 @@ export default function ContactIconModal(props) {
     data.append("image", image);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -79,7 +79,7 @@ export default function ContactIconModal(props) {
         const url = response.data.url;
 
         Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagestrandorte",
+          "http://stadtstrandapi.ecrapps.website/api/v1/brandpagestrandorte",
           {
             brandPageId: brandPageId,
             title: title,
@@ -121,7 +121,7 @@ export default function ContactIconModal(props) {
 
       try {
         response = await Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataStrandortelImage,
           {
             headers: {
@@ -135,7 +135,7 @@ export default function ContactIconModal(props) {
     }
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagestrandorte/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagestrandorte/${brandPageId}`,
       {
         title: title,
         description: description,

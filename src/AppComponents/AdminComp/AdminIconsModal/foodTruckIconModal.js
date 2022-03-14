@@ -21,7 +21,7 @@ export default function FoodTruckIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/${brandPageId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -43,7 +43,7 @@ export default function FoodTruckIconModal(props) {
   const createBrandPageFoodTruck = () => {
     setLoader(!loader);
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -67,7 +67,7 @@ export default function FoodTruckIconModal(props) {
 
   const deleteFoodTruck = (foodtruckId) => {
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${foodtruckId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/${foodtruckId}`
     )
       .then((response) => {
         setAlertSuccess(true);

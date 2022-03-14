@@ -17,7 +17,7 @@ function UserCart() {
     setDelLoader(true);
     const cartId = cart.id;
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/cart/${cartId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`
     )
       .then((response) => {
         setInterval(redirect(), 2000);
@@ -34,7 +34,7 @@ function UserCart() {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/carts/count/${clientId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/carts/count/${clientId}`
     )
       .then((response) => {
         setCartList(response.data.data.rows);

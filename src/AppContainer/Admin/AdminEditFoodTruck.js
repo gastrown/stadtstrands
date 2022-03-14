@@ -40,7 +40,7 @@ export default function AdminEditFoodTruck(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1//brandpagefoodtruck/foodtruck/${foodtruckId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1//brandpagefoodtruck/foodtruck/${foodtruckId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -68,7 +68,7 @@ export default function AdminEditFoodTruck(props) {
 
       try {
         response = await Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataFoodImage,
           {
             headers: {
@@ -82,7 +82,7 @@ export default function AdminEditFoodTruck(props) {
     }
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${foodtruckId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/${foodtruckId}`,
       {
         address: address,
         information: information,

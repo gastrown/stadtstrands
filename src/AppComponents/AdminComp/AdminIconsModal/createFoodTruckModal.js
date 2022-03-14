@@ -40,7 +40,7 @@ export default function CreateEventIconModal(props) {
     data.append("image", headerImage);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -53,7 +53,7 @@ export default function CreateEventIconModal(props) {
         const url = response.data.url;
 
         Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/foodtruck",
+          "http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/foodtruck",
           {
             brandPageFoodTruckId: brandPageFoodTruckId,
             title: title,

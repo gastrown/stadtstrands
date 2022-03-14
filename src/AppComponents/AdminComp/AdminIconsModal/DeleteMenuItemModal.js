@@ -27,13 +27,13 @@ export default function DeleteMenuItemModal(props) {
     setLoader(!loader);
 
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/menuitem/${menuItemId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menuitem/${menuItemId}`
     )
       .then((response) => {
         console.log(itemImg);
 
         Axios.delete(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/delete/image",
+          "http://stadtstrandapi.ecrapps.website/api/v1/app/delete/image",
           {
             data: {
               imageUrl: itemImg,

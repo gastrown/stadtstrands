@@ -21,7 +21,7 @@ export default function JobIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/${brandPageId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -43,7 +43,7 @@ export default function JobIconModal(props) {
   const createBrandPageJob = () => {
     setLoader(!loader);
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -63,7 +63,7 @@ export default function JobIconModal(props) {
   const updateBrandPageJob = () => {
     setLoader(!loader);
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob/brandPage/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/brandPage/${brandPageId}`,
       {
         deactivate: deactivatePage,
       }
@@ -83,7 +83,7 @@ export default function JobIconModal(props) {
 
   const deleteJob = (jobId) => {
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefoodtruck/${jobId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/${jobId}`
     )
       .then((response) => {
         setAlertSuccess(true);

@@ -53,7 +53,7 @@ export default function BrandPageFeedback(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefeedback/${brandPageId}`
     )
       .then((response) => {
         setFeedbackQuestion(response.data.data.Feedbacks);
@@ -84,7 +84,7 @@ export default function BrandPageFeedback(props) {
     setLoader(true);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/feedback/report",
+      "http://stadtstrandapi.ecrapps.website/api/v1/feedback/report",
       {
         clientId: clientId,
         brandPageId: brandPageId,

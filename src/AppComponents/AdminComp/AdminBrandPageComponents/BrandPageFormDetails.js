@@ -42,7 +42,7 @@ export default function BrandPageFormDetails(props) {
 
   const downloadQrCode = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/qrcode/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/qrcode/${brandPageId}`,
       {
         responseType: "blob",
       }
@@ -57,7 +57,7 @@ export default function BrandPageFormDetails(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/${brandPageId}`
     )
       .then((response) => {
         const BrandPage = response.data.data;
@@ -118,7 +118,7 @@ export default function BrandPageFormDetails(props) {
     dataLogo.append("imageUrl", oldLogo);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       dataLogo,
       {
         headers: {
@@ -146,7 +146,7 @@ export default function BrandPageFormDetails(props) {
     dataBPImage.append("imageUrl", oldImagePreview);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       dataBPImage,
       {
         headers: {
@@ -158,7 +158,7 @@ export default function BrandPageFormDetails(props) {
       .then((response) => {
         setBrandPageImageUrl(response.data.url);
         Axios.put(
-          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/manager/${brandPageId}`,
+          `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/manager/${brandPageId}`,
           {
             description: description,
             logoPath: logoUrl,
@@ -194,7 +194,7 @@ export default function BrandPageFormDetails(props) {
 
       try {
         response = await Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataImage,
           {
             headers: {
@@ -208,7 +208,7 @@ export default function BrandPageFormDetails(props) {
     }
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/manager/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/manager/${brandPageId}`,
       {
         description: description,
         logoPath: logoUrl,

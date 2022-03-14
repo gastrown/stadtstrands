@@ -20,7 +20,7 @@ export default function DrinkIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedrinkmenu/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
     )
       .then((response) => {
         const drinkResponse = response.data.data;
@@ -43,7 +43,7 @@ export default function DrinkIconModal(props) {
     data.append("image", drinkMenuImage);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -55,7 +55,7 @@ export default function DrinkIconModal(props) {
         const url = response.data.url;
 
         Axios.post(
-          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedrinkmenu`,
+          `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu`,
           {
             brandPageId: brandPageId,
             imageUrl: url,
@@ -63,7 +63,7 @@ export default function DrinkIconModal(props) {
         )
           .then((response) => {
             Axios.get(
-              `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedrinkmenu/${brandPageId}`
+              `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
             ).then((response) => {
               const drinkResponse = response.data.data;
               setDrinkComponents(drinkResponse);
@@ -85,11 +85,11 @@ export default function DrinkIconModal(props) {
   const deleteDrink = (drinkId) => {
     console.log(drinkId);
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedrinkmenu/${drinkId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${drinkId}`
     )
       .then((response) => {
         Axios.get(
-          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedrinkmenu/${brandPageId}`
+          `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
         ).then((response) => {
           const drinkResponse = response.data.data;
           setDrinkComponents(drinkResponse);

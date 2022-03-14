@@ -16,7 +16,7 @@ export default function LostAndFoundIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagelostandfound/${brandPageId}`
     ).then((response) => {
       if (response.data.data !== null) {
           setEditButton(true);
@@ -65,7 +65,7 @@ export default function LostAndFoundIconModal(props) {
     });
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagelostandfound",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -93,7 +93,7 @@ export default function LostAndFoundIconModal(props) {
     });
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagelostandfound/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagelostandfound/${brandPageId}`,
       {
         deactivate: deactivatePage,
         lostAndFoundForms: sendFields,

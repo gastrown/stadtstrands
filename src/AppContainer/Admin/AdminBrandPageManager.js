@@ -38,7 +38,7 @@ function AdminBrandPageManager(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagewelcome/${locationId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${locationId}`
     )
       .then((response) => {
         setLocationName(response.data.data.BrandPage.name);

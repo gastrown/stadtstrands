@@ -23,7 +23,7 @@ function FamilyAndFriendReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/family/friends/brandpage/${locationId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/family/friends/brandpage/${locationId}`
     )
       .then((response) => {
         console.log(response);
@@ -45,7 +45,7 @@ function FamilyAndFriendReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/client/${locationId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/client/${locationId}`
     )
       .then((response) => {
         setFamilyFriendsReports(response.data.data);

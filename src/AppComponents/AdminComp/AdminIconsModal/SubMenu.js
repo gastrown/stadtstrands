@@ -15,7 +15,7 @@ export default function SubMenu(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/categories/${menuId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/categories/${menuId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -31,7 +31,7 @@ export default function SubMenu(props) {
     setLoader(true);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/category",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/category",
       {
         menuId: menuId,
         name: catName,
@@ -40,7 +40,7 @@ export default function SubMenu(props) {
       .then((response) => {
         setCatName("");
         Axios.get(
-          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/categories/${menuId}`
+          `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/categories/${menuId}`
         ).then((response) => {
           setCategories(response.data.data);
         });

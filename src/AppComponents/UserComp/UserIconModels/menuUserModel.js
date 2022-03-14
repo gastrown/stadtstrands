@@ -10,7 +10,7 @@ export default function MenuUserModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/menus/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menus/${brandPageId}`
     )
       .then((response) => {
         setMenu(response.data.data);

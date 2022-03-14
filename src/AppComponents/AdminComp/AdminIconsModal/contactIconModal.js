@@ -17,7 +17,7 @@ export default function ContactIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagecontactus/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagecontactus/${brandPageId}`
     )
       .then((response) => {
         if (response.data.data !== null) {
@@ -71,7 +71,7 @@ export default function ContactIconModal(props) {
     });
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagecontactus",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagecontactus",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -99,7 +99,7 @@ export default function ContactIconModal(props) {
     });
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagecontactus/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagecontactus/${brandPageId}`,
       {
         deactivate: deactivatePage,
         description: contactDescription,

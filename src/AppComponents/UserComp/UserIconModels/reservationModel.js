@@ -17,7 +17,7 @@ export default function ReservationModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagereservation/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation/${brandPageId}`
     )
       .then((response) => {
         setFields(response.data.data.BrandPageReservationFormItems);
@@ -58,7 +58,7 @@ export default function ReservationModel(props) {
     setLoader(true);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/reservation",
+      "http://stadtstrandapi.ecrapps.website/api/v1/reservation",
       {
         clientId: clientId,
         brandPageId: brandPageId,

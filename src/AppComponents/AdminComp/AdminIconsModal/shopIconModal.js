@@ -16,7 +16,7 @@ export default function ShopIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageshop/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageshop/${brandPageId}`
     )
       .then((response) => {
         const BrandPage = response.data.data;
@@ -36,7 +36,7 @@ export default function ShopIconModal(props) {
     setLoader(!loader);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageshop",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpageshop",
       {
         brandPageId: brandPageId,
         externalUrl: shopUrl,
@@ -61,7 +61,7 @@ export default function ShopIconModal(props) {
     setLoader(!loader);
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageshop/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageshop/${brandPageId}`,
       {
         externalUrl: shopUrl,
         deactivate: deactivatePage,

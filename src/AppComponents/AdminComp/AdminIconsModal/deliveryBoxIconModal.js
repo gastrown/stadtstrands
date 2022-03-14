@@ -16,7 +16,7 @@ export default function DeliveryBoxIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedeliverymessage/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedeliverymessage/${brandPageId}`
     )
       .then((response) => {
         const BrandPage = response.data.data;
@@ -36,7 +36,7 @@ export default function DeliveryBoxIconModal(props) {
     setLoader(!loader);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedeliverymessage",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagedeliverymessage",
       {
         brandPageId: brandPageId,
         text: deliveryMessage,
@@ -61,7 +61,7 @@ export default function DeliveryBoxIconModal(props) {
     setLoader(!loader);
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagedeliverymessage/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedeliverymessage/${brandPageId}`,
       {
         text: deliveryMessage,
         deactivate: deactivatePage,

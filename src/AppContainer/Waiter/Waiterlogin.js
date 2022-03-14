@@ -29,7 +29,7 @@ function WaiterLogin() {
     setLoader(!loader);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/waiter/login",
+      "http://stadtstrandapi.ecrapps.website/api/v1/waiter/login",
       {
         username: username,
         password: password,

@@ -24,7 +24,7 @@ function UserNavbar() {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/carts/count/${clientId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/carts/count/${clientId}`
     )
       .then((response) => {
         setCartCount(response.data.data.count);

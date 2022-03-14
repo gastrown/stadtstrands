@@ -21,7 +21,7 @@ function ReservationReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/reservations/brandpage/${locationId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/reservations/brandpage/${locationId}`
     )
       .then((response) => {
         console.log(response);
@@ -43,7 +43,7 @@ function ReservationReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/reservations/brandpage/${locationId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/reservations/brandpage/${locationId}`
     )
       .then((response) => {
         setReservationReports(response.data.data);

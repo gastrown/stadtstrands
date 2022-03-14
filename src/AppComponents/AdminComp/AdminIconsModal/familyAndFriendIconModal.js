@@ -18,7 +18,7 @@ export default function FamilyAndFriendIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefamilyandfriends/${brandPageId}`
     )
       .then((response) => {
         if (response.data.data !== null) {
@@ -72,7 +72,7 @@ export default function FamilyAndFriendIconModal(props) {
     });
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagefamilyandfriends",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -103,7 +103,7 @@ export default function FamilyAndFriendIconModal(props) {
     console.log(sendFields);
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefamilyandfriends/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefamilyandfriends/${brandPageId}`,
       {
         deactivate: deactivatePage,
         description: familyAndFriendsDescription,

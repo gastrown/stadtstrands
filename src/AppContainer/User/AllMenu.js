@@ -13,7 +13,7 @@ export default function AllMenu(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagemenu/menuitems`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menuitems`
     )
       .then((response) => {
         console.log(response);

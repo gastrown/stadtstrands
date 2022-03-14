@@ -10,7 +10,7 @@ export default function ShopModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageshop/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageshop/${brandPageId}`
     )
       .then((response) => {
         setShopDetails(response.data.data);

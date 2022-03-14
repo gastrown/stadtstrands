@@ -15,7 +15,7 @@ export default function AboutBrandPage(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageabout/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageabout/${brandPageId}`
     )
       .then((response) => {
         console.log(response);

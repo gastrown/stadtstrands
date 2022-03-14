@@ -34,7 +34,7 @@ function AdminLogin() {
     setLoader(!loader);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/admin/login",
+      "http://stadtstrandapi.ecrapps.website/api/v1/admin/login",
       {
         username: username,
         password: password,
@@ -49,7 +49,7 @@ function AdminLogin() {
         console.log(e.response);
         setLoader(false);
         setAlertError(true);
-        setErrorMessage(e.response.data.data);
+        // setErrorMessage(e.response.data.data);
       });
   };
 

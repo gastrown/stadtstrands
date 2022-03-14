@@ -40,7 +40,7 @@ export default function CreateJobModal(props) {
     data.append("image", headerImage);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -53,7 +53,7 @@ export default function CreateJobModal(props) {
         const url = response.data.url;
 
         Axios.post(
-          "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagejob/job",
+          "http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/job",
           {
             brandPageJobId: brandPageJobId,
             title: title,

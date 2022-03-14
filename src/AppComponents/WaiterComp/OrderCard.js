@@ -19,7 +19,7 @@ export const OrderCard = () => {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/orders/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/orders/${brandPageId}`
     )
       .then((response) => {
         setWaitersOrders(response.data.data);

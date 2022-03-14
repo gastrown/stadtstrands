@@ -17,7 +17,7 @@ export default function FeedbackModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefeedback/${brandPageId}`
     )
       .then((response) => {
         if (response.data.data !== null) {
@@ -66,7 +66,7 @@ export default function FeedbackModal(props) {
     });
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagefeedback",
       {
         brandPageId: brandPageId,
         description: feedBackDescription,
@@ -98,7 +98,7 @@ export default function FeedbackModal(props) {
     console.log(deactivatePage);
 
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpagefeedback/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefeedback/${brandPageId}`,
       {
         description: feedBackDescription,
         deactivatePage: deactivatePage,

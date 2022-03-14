@@ -25,7 +25,7 @@ export default function EventIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${brandPageId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -47,7 +47,7 @@ export default function EventIconModal(props) {
   const createBrandPageEvent = () => {
     setLoader(!loader);
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent",
+      "http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -66,11 +66,11 @@ export default function EventIconModal(props) {
 
   const deleteEvent = (eventId) => {
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${eventId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${eventId}`
     )
       .then((response) => {
         Axios.get(
-          `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/${eventId}`
+          `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${eventId}`
         ).then((response) => {
           const eventResponse = response.data.data;
           setEvents(eventResponse);
@@ -91,7 +91,7 @@ export default function EventIconModal(props) {
   const updateBrandPageEvent = () => {
     setLoader(!loader);
     Axios.put(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpageevent/brandPage/${brandPageId}`,
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/brandPage/${brandPageId}`,
       {
         deactivate: deactivatePage,
       }

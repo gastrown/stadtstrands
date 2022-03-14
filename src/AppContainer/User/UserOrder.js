@@ -13,7 +13,7 @@ export default function UserOrder(props) {
 
   useEffect(() => {
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/client/orders/${clientId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/client/orders/${clientId}`
     )
       .then((response) => {
         console.log(response);

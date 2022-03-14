@@ -76,7 +76,7 @@ function AdminSetLocation(props) {
     data.append("image", image);
 
     Axios.post(
-      "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/upload/image",
+      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -87,7 +87,7 @@ function AdminSetLocation(props) {
       const url = response.data.url;
 
       Axios.post(
-        "https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage",
+        "http://stadtstrandapi.ecrapps.website/api/v1/brandpage",
         {
           name: locationName,
           address: formattedAddress,
@@ -108,7 +108,7 @@ function AdminSetLocation(props) {
         })
         .catch((e) => {
            Axios.delete(
-                  "https://stadtstrandapp.ecrdeveloper.website/api/v1/app/delete/image",
+                  "http://stadtstrandapi.ecrapps.website/api/v1/app/delete/image",
                   {
                     data: {
                       imageUrl: url,

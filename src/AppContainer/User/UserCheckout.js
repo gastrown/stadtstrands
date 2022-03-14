@@ -19,7 +19,7 @@ function UserCart(props) {
     setLoading(false);
     total(props.location.state.cartList);
     Axios.get(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/brandpage/user/${brandPageId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
         setBrandPageDetails(response.data.data);
@@ -56,7 +56,7 @@ function UserCart(props) {
     setDelLoader(true);
     const cartId = cart.id;
     Axios.delete(
-      `https://stadtstrandapp.ecrdeveloper.website/api/v1/cart/${cartId}`
+      `http://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`
     )
       .then((response) => {
         setDelLoader(false);
@@ -80,7 +80,7 @@ function UserCart(props) {
   // const checkout = () => {
   //   setLoader(true);
 
-  //   Axios.post("https://stadtstrandapp.ecrdeveloper.website/api/v1/checkout", {
+  //   Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/checkout", {
   //     brandPageId: brandPageId,
   //     clientId: clientId,
   //     amount: finalAmount,
@@ -107,11 +107,14 @@ function UserCart(props) {
       "Content-Type": "application/json",
     };
 
-    return fetch(`http://localhost:5000/api/v1/stripe/checkout/`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(body),
-    })
+    return fetch(
+      `http://stadtstrandapi.ecrapps.website/api/v1/stripe/checkout/`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+      }
+    )
       .then((response) => {
         console.log("RESPONSE", response);
         const { status } = response;
