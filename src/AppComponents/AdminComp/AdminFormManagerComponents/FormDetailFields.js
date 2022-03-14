@@ -48,7 +48,7 @@ function FormDetailFields(props) {
   const onSubmitFormPage = () => {
     setLoader(!loader);
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageform/formItems/${brandPageFormId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageform/formItems/${brandPageFormId}`,
       {
         brandPageId: brandPageId,
         enableNewsLetter: enableNewsLetter,
@@ -120,7 +120,7 @@ function FormDetailFields(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
     )
       .then((response) => {
         console.log(response)

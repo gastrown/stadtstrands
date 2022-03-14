@@ -30,7 +30,7 @@ function AdminWaiterManager(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/admin/${adminId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/admin/${adminId}`
     )
       .then((response) => {
         console.log(response.data.data[0].Waiters);
@@ -50,7 +50,7 @@ function AdminWaiterManager(props) {
     e.preventDefault();
     setLoader(!loader);
 
-    Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/waiter", {
+    Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/waiter", {
       brandPageId: brandPageId,
       username: username,
       password: password,

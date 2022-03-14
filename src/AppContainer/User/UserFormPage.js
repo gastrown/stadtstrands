@@ -43,7 +43,7 @@ function UserFormPage(props) {
   const [brandPageIcons, setBrandPageIcons] = useState([]);
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/user/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
         console.log(response);

@@ -24,7 +24,7 @@ export default function MenuModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/${brandPageId}`
     )
       .then((response) => {
         setAlert(null);
@@ -75,7 +75,7 @@ export default function MenuModal(props) {
   const createBrandPageMenu = () => {
     setLoader(!loader);
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu",
+      "https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -98,7 +98,7 @@ export default function MenuModal(props) {
     dataImage.append("image", image);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+      "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       dataImage,
       {
         headers: {
@@ -109,7 +109,7 @@ export default function MenuModal(props) {
 
       .then((response) => {
         Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menu",
+          "https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menu",
           {
             brandPageMenuId: brandPageMenuId,
             name: menuName,
@@ -118,7 +118,7 @@ export default function MenuModal(props) {
         )
           .then((response) => {
             Axios.get(
-              `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/${brandPageId}`
+              `https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/${brandPageId}`
             ).then((response) => {
               setMenus(response.data.data.Menus);
             });

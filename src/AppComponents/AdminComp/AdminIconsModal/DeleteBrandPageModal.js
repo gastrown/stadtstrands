@@ -28,11 +28,11 @@ export default function DeleteBrandPageModal(props) {
     setLoader(!loader);
 
     Axios.delete(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/${brandPageId}`
     )
       .then((response) => {
         Axios.delete(
-          "http://stadtstrandapi.ecrapps.website/api/v1/app/delete/image",
+          "https://stadtstrandapi.ecrapps.website/api/v1/app/delete/image",
           {
             data: {
               imageUrl: locationImg,

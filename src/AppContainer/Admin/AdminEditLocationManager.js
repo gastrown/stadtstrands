@@ -112,7 +112,7 @@ function AdminEditLocationManager(props) {
 
       try {
         response = await Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+          "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataLocationImage,
           {
             headers: {
@@ -126,7 +126,7 @@ function AdminEditLocationManager(props) {
     }
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/${brandPageId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/${brandPageId}`,
       {
         name: locationName,
         address: formattedAddress,

@@ -15,7 +15,7 @@ export default function SocialMediaIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagesocialmedia/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagesocialmedia/${brandPageId}`
     )
       .then((response) => {
         const brandPageResponse = response.data.data.SocialMedias;
@@ -65,7 +65,7 @@ export default function SocialMediaIconModal(props) {
     });
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagesocialmedia",
+      "https://stadtstrandapi.ecrapps.website/api/v1/brandpagesocialmedia",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,

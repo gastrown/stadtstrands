@@ -21,7 +21,7 @@ function OrderReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/completed/orders/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/completed/orders/${locationId}`
     )
       .then((response) => {
         setOrderReports(response.data.data);
@@ -42,7 +42,7 @@ function OrderReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/completed/orders/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/completed/orders/${locationId}`
     )
       .then((response) => {
         setOrderReports(response.data.data);

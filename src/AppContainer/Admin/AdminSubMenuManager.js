@@ -30,7 +30,7 @@ export default function AdminMenuDrinkManager(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/subCategory/menuitems/${menuSubCategoryId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/subCategory/menuitems/${menuSubCategoryId}`
     )
       .then((response) => {
         setSubMenuLists(response.data.data.MenuItems);
@@ -63,7 +63,7 @@ export default function AdminMenuDrinkManager(props) {
     dataImage.append("image", itemImg);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+      "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       dataImage,
       {
         headers: {
@@ -74,7 +74,7 @@ export default function AdminMenuDrinkManager(props) {
 
       .then((response) => {
         Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menuitem",
+          "https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menuitem",
           {
             menuSubCategoryId: menuSubCategoryId,
             name: subItemName,
@@ -85,7 +85,7 @@ export default function AdminMenuDrinkManager(props) {
         )
           .then((response) => {
             Axios.get(
-              `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/subCategory/menuitems/${menuSubCategoryId}`
+              `https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/subCategory/menuitems/${menuSubCategoryId}`
             ).then((response) => {
               setSubMenuLists(response.data.data.MenuItems);
             });

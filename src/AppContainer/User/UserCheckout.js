@@ -19,7 +19,7 @@ function UserCart(props) {
     setLoading(false);
     total(props.location.state.cartList);
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/user/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
         setBrandPageDetails(response.data.data);
@@ -56,7 +56,7 @@ function UserCart(props) {
     setDelLoader(true);
     const cartId = cart.id;
     Axios.delete(
-      `http://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`
     )
       .then((response) => {
         setDelLoader(false);
@@ -80,7 +80,7 @@ function UserCart(props) {
   // const checkout = () => {
   //   setLoader(true);
 
-  //   Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/checkout", {
+  //   Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/checkout", {
   //     brandPageId: brandPageId,
   //     clientId: clientId,
   //     amount: finalAmount,
@@ -108,7 +108,7 @@ function UserCart(props) {
     };
 
     return fetch(
-      `http://stadtstrandapi.ecrapps.website/api/v1/stripe/checkout/`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/stripe/checkout/`,
       {
         method: "POST",
         headers,

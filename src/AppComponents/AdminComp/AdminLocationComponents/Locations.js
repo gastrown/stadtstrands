@@ -9,7 +9,7 @@ function Locations(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpage/admin/${props.adminId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/admin/${props.adminId}`
     )
       .then((response) => {
         const data = response.data.data;

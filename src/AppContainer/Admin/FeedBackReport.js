@@ -22,7 +22,7 @@ function FeedBackReport(props) {
   useEffect(() => {
     console.log(locationId);
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/feedback/reports/brandpage/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/feedback/reports/brandpage/${locationId}`
     )
       .then((response) => {
         console.log(response);
@@ -44,7 +44,7 @@ function FeedBackReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/feedback/reports/brandpage/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/feedback/reports/brandpage/${locationId}`
     )
       .then((response) => {
         setFeedbackReports(response.data.data);

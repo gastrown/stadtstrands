@@ -17,7 +17,7 @@ export default function WelcomeModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${brandPageId}`
     )
       .then((response) => {
         const welcomeFile = response.data.data;
@@ -56,7 +56,7 @@ export default function WelcomeModal(props) {
     // data.append("cloud_name", "ecrtechdev");
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+      "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -69,7 +69,7 @@ export default function WelcomeModal(props) {
         const url = response.data.url;
         if (oldImage) {
           Axios.put(
-            `http://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${brandPageId}`,
+            `https://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${brandPageId}`,
             {
               welcomeText: welcomeText,
               imagePath: url,
@@ -88,7 +88,7 @@ export default function WelcomeModal(props) {
             });
         } else {
           Axios.post(
-            "http://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome",
+            "https://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome",
             {
               brandPageId: brandPageId,
               welcomeText: welcomeText,

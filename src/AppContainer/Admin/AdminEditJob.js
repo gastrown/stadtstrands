@@ -41,7 +41,7 @@ export default function AdminEditJob(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/job/${jobId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/job/${jobId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -75,7 +75,7 @@ export default function AdminEditJob(props) {
 
       try {
         response = await Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+          "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataJobImage,
           {
             headers: {
@@ -89,7 +89,7 @@ export default function AdminEditJob(props) {
     }
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/${jobId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/${jobId}`,
       {
         description: description,
         expiryDate: date,

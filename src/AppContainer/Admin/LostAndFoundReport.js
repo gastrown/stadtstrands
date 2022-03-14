@@ -23,7 +23,7 @@ function LostAndFoundReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/lost/item/brandpage/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/lost/item/brandpage/${locationId}`
     )
       .then((response) => {
         setLossAndFoundReports(response.data.data);
@@ -44,7 +44,7 @@ function LostAndFoundReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/lost/item/brandpage/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/lost/item/brandpage/${locationId}`
     )
       .then((response) => {
         setLossAndFoundReports(response.data.data);

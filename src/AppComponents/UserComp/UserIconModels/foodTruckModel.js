@@ -10,7 +10,7 @@ export default function FoodTruckModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagefoodtruck/${brandPageId}`
     )
       .then((response) => {
         setFoodTruckDetails(response.data.data.FoodTrucks);

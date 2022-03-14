@@ -13,7 +13,7 @@ export default function BrandPageJobs(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagejob/${brandPageId}`
     )
       .then((response) => {
         console.log(response);

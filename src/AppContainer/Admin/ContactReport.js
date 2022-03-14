@@ -21,7 +21,7 @@ function ContactReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/contactus/all/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/contactus/all/${locationId}`
     )
       .then((response) => {
         setContactReports(response.data.data);
@@ -42,7 +42,7 @@ function ContactReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/contactus/all/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/contactus/all/${locationId}`
     )
       .then((response) => {
         setContactReports(response.data.data);

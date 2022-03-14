@@ -43,7 +43,7 @@ export default function AdminEditEvent(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/event/${eventId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/event/${eventId}`
     )
       .then((response) => {
         setCheckLoading(false);
@@ -77,7 +77,7 @@ export default function AdminEditEvent(props) {
 
       try {
         response = await Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+          "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataEventImage,
           {
             headers: {
@@ -91,7 +91,7 @@ export default function AdminEditEvent(props) {
     }
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${eventId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${eventId}`,
       {
         address: address,
         date: date,

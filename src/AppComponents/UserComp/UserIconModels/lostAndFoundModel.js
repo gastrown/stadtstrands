@@ -19,7 +19,7 @@ export default function LostAndFoundModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagelostandfound/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagelostandfound/${brandPageId}`
     )
       .then((response) => {
         setModalDetails(response.data.data);
@@ -60,7 +60,7 @@ export default function LostAndFoundModel(props) {
     e.preventDefault();
     setLoader(true);
 
-    Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/lost/item", {
+    Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/lost/item", {
       clientId: clientId,
       brandPageId: brandPageId,
       lostItemFormData: lostItemFormData,

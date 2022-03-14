@@ -16,7 +16,7 @@ export default function ContactIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/${brandPageId}`
     )
       .then((response) => {
        if (response.data.data !== null) {
@@ -60,7 +60,7 @@ export default function ContactIconModal(props) {
     });
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/taxi",
+      "https://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/taxi",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -87,7 +87,7 @@ export default function ContactIconModal(props) {
     });
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/${brandPageId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/${brandPageId}`,
       {
         deactivate: deactivatePage,
         taxis: sendTaxis,

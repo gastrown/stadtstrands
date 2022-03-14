@@ -10,7 +10,7 @@ export default function StrandorteLocationModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagestrandorte/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagestrandorte/${brandPageId}`
     )
       .then((response) => {
         setStrandDetails(response.data.data);

@@ -39,7 +39,7 @@ export default function ContactIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageabout/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageabout/${brandPageId}`
     )
       .then((response) => {
         const brandPageResponse = response.data.data;
@@ -110,7 +110,7 @@ export default function ContactIconModal(props) {
     dataAboutImage.append("image", aboutImage);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+      "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       dataAboutImage,
       {
         headers: {
@@ -121,7 +121,7 @@ export default function ContactIconModal(props) {
 
       .then((response) => {
         Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/brandpageabout",
+          "https://stadtstrandapi.ecrapps.website/api/v1/brandpageabout",
           {
             brandPageId: brandPageId,
             weekDayStart: weekDayStart,
@@ -172,7 +172,7 @@ export default function ContactIconModal(props) {
 
       try {
         response = await Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+          "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataAboutImage,
           {
             headers: {
@@ -186,7 +186,7 @@ export default function ContactIconModal(props) {
     }
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageabout/${brandPageId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageabout/${brandPageId}`,
       {
         weekDayStart: weekDayStart,
         weekDayEnd: weekDayEnd,

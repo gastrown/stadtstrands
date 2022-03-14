@@ -24,7 +24,7 @@ export default function FreeIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefreeicon/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagefreeicon/${brandPageId}`
     )
       .then((response) => {
         const BrandPage = response.data.data;
@@ -112,7 +112,7 @@ export default function FreeIconModal(props) {
         const iconUrl = localStorage.getItem("iconUrl");
 
         Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/brandpagefreeicon",
+          "https://stadtstrandapi.ecrapps.website/api/v1/brandpagefreeicon",
           {
             brandPageId: brandPageId,
             iconUrl: iconUrl,
@@ -167,7 +167,7 @@ export default function FreeIconModal(props) {
     const iconUrl = localStorage.getItem("iconUrl");
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefreeicon/${brandPageId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagefreeicon/${brandPageId}`,
       {
         iconUrl: iconUrl,
         attachmentUrl: response ? response.data.url : null,

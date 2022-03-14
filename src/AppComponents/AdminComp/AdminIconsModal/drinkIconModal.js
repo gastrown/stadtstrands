@@ -20,7 +20,7 @@ export default function DrinkIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
     )
       .then((response) => {
         const drinkResponse = response.data.data;
@@ -43,7 +43,7 @@ export default function DrinkIconModal(props) {
     data.append("image", drinkMenuImage);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+      "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
       data,
       {
         headers: {
@@ -55,7 +55,7 @@ export default function DrinkIconModal(props) {
         const url = response.data.url;
 
         Axios.post(
-          `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu`,
+          `https://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu`,
           {
             brandPageId: brandPageId,
             imageUrl: url,
@@ -63,7 +63,7 @@ export default function DrinkIconModal(props) {
         )
           .then((response) => {
             Axios.get(
-              `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
+              `https://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
             ).then((response) => {
               const drinkResponse = response.data.data;
               setDrinkComponents(drinkResponse);
@@ -85,11 +85,11 @@ export default function DrinkIconModal(props) {
   const deleteDrink = (drinkId) => {
     console.log(drinkId);
     Axios.delete(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${drinkId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${drinkId}`
     )
       .then((response) => {
         Axios.get(
-          `http://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
+          `https://stadtstrandapi.ecrapps.website/api/v1/brandpagedrinkmenu/${brandPageId}`
         ).then((response) => {
           const drinkResponse = response.data.data;
           setDrinkComponents(drinkResponse);

@@ -15,7 +15,7 @@ const UserFormManagerDetails = (props) => {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageform/${brandPageFormId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageform/${brandPageFormId}`
     )
       .then((response) => {
         setBrandPageFormFields(response.data.data.FormItems);
@@ -82,7 +82,7 @@ const UserFormManagerDetails = (props) => {
     e.preventDefault();
     setLoader(!loader);
 
-    Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/client", {
+    Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/client", {
       brandPageId: brandPageId,
       formItems: formItems,
     })

@@ -17,7 +17,7 @@ export default function ReservationIconModal(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation/${brandPageId}`
     )
       .then((response) => {
         if (response.data.data !== null) {
@@ -72,7 +72,7 @@ export default function ReservationIconModal(props) {
     });
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation",
+      "https://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation",
       {
         brandPageId: brandPageId,
         deactivate: deactivatePage,
@@ -101,7 +101,7 @@ export default function ReservationIconModal(props) {
     });
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation/${brandPageId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagereservation/${brandPageId}`,
       {
         deactivate: deactivatePage,
         comments: description,

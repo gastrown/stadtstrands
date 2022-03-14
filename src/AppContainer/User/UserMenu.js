@@ -14,7 +14,7 @@ export default function UserMenu(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/categories/${menuId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/categories/${menuId}`
     )
       .then((response) => {
         setDrinkSubList(response.data.data);

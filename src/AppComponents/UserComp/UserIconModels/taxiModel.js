@@ -11,7 +11,7 @@ export default function TaxiModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagetaxi/${brandPageId}`
     )
       .then((response) => {
         setTaxiDetails(response.data.data);

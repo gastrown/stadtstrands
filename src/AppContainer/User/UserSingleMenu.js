@@ -29,7 +29,7 @@ export default function UserSingleMenu(props) {
   const addToCart = () => {
     setLoader(true);
 
-    Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/cart", {
+    Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/cart", {
       brandPageId: brandPageId,
       clientId: clientId,
       menuItemId: menuItemId,

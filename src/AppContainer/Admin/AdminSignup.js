@@ -38,7 +38,7 @@ function AdminSignup() {
 
     setLoader(!loader);
 
-    Axios.post("http://stadtstrandapi.ecrapps.website/api/v1/admin", {
+    Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/admin", {
       name: name,
       email: email,
       username: username,

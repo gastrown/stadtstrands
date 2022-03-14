@@ -53,7 +53,7 @@ export default function EditMenuItemModal(props) {
 
       try {
         response = await Axios.post(
-          "http://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
+          "https://stadtstrandapi.ecrapps.website/api/v1/app/upload/image",
           dataImage,
           {
             headers: {
@@ -67,7 +67,7 @@ export default function EditMenuItemModal(props) {
     }
 
     Axios.put(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menuitem/${menuItemId}`,
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagemenu/menuitem/${menuItemId}`,
       {
         imageUrl: response ? response.data.url : null,
         description: menuItemDescription,

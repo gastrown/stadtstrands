@@ -19,7 +19,7 @@ export default function FamilyAndFriendsModel(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpagefamilyandfriends/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagefamilyandfriends/${brandPageId}`
     )
       .then((response) => {
         setFields(response.data.data.FamilyAndFriendsFormItems);
@@ -65,7 +65,7 @@ export default function FamilyAndFriendsModel(props) {
     setLoader(true);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/family/friend",
+      "https://stadtstrandapi.ecrapps.website/api/v1/family/friend",
       {
         clientId: clientId,
         brandPageId: brandPageId,

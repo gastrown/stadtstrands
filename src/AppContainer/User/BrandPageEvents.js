@@ -13,7 +13,7 @@ export default function BrandPageEvents(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${brandPageId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpageevent/${brandPageId}`
     )
       .then((response) => {
         setEventsList(response.data.data.Events);

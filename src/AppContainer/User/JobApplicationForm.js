@@ -50,7 +50,7 @@ export default function JobApplicationForm(props) {
     setLoader(true);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/job/application",
+      "https://stadtstrandapi.ecrapps.website/api/v1/job/application",
       {
         jobId: singleJobDetail.id,
         name: name,

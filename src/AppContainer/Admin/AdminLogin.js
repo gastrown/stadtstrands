@@ -34,7 +34,7 @@ function AdminLogin() {
     setLoader(!loader);
 
     Axios.post(
-      "http://stadtstrandapi.ecrapps.website/api/v1/admin/login",
+      "https://stadtstrandapi.ecrapps.website/api/v1/admin/login",
       {
         username: username,
         password: password,

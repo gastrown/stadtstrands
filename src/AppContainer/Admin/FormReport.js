@@ -22,7 +22,7 @@ function FormReport(props) {
 
   useEffect(() => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/client/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/client/${locationId}`
     )
       .then((response) => {
         console.log(response);
@@ -44,7 +44,7 @@ function FormReport(props) {
 
   const refreshReport = () => {
     Axios.get(
-      `http://stadtstrandapi.ecrapps.website/api/v1/client/${locationId}`
+      `https://stadtstrandapi.ecrapps.website/api/v1/client/${locationId}`
     )
       .then((response) => {
         setFormsReports(response.data.data);
