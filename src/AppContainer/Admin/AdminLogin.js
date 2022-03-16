@@ -33,20 +33,26 @@ function AdminLogin() {
     e.preventDefault();
     setLoader(!loader);
 
-    Axios.post(
-      "https://stadtstrandapi.ecrapps.website/api/v1/admin/login",
-      {
+    const instance = Axios.create({
+      withCredentials: false,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      },
+    });
+
+    instance
+      .post("https://stadtstrandapi.ecrapps.website/api/v1/admin/login", {
         username: username,
         password: password,
-      }
-    )
+      })
       .then((response) => {
         const adminid = response.data.data.id;
         setInterval(redirectToLocation(adminid), 1000);
         localStorage.setItem("token", response.data.token);
       })
       .catch((e) => {
-        console.log(e.response);
+        console.log(e);
         setLoader(false);
         setAlertError(true);
         // setErrorMessage(e.response.data.data);
