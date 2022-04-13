@@ -37,8 +37,8 @@ function AdminEditLocationManager(props) {
   const [formattedAddress, setFormattedAddress] = useState("");
   const [locationStatus, setLocationStatus] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [alertError, setAlertError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [ setAlertError] = useState(false);
+  const [ setErrorMessage] = useState("");
   const brandPageId = location.id;
   const adminId = location.Admin.id;
   const [oldImage] = useState("");

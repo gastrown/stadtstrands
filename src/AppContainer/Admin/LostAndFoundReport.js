@@ -67,7 +67,7 @@ function LostAndFoundReport(props) {
         searchArray.push(report);
       }
     });
-    setLossAndFoundReports(searchArray);
+   return  setLossAndFoundReports(searchArray);
   };
 
   return (
@@ -122,7 +122,7 @@ function LostAndFoundReport(props) {
                 <hr />
 
                 <div className="row">
-                  {lostAndFoundReports.length == 0 ? (
+                  {lostAndFoundReports.length === 0 ? (
                     <div className="col-12 text-center mt-2">
                       <h3>No Report Available</h3>
                     </div>

@@ -11,7 +11,7 @@ export default function ReservationModel(props) {
   const [reservationFormData, setReservationFormData] = useState([]);
   const clientId = localStorage.getItem("clientId");
   const [alertError, setAlertError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage] = useState("");
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 

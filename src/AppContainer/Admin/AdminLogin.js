@@ -55,7 +55,8 @@ function AdminLogin() {
         console.log(e);
         setLoader(false);
         setAlertError(true);
-        // setErrorMessage(e.response.data.data);
+        // setErrorMessage(e);
+        console.log(e)
       });
   };
 

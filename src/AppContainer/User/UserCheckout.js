@@ -55,9 +55,7 @@ function UserCart(props) {
   const removeItem = (cart) => {
     setDelLoader(true);
     const cartId = cart.id;
-    Axios.delete(
-      `https://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`
-    )
+    Axios.delete(`https://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`)
       .then((response) => {
         setDelLoader(false);
         console.log(response);
@@ -139,13 +137,26 @@ function UserCart(props) {
                   className="black-text"
                   style={{ fontSize: "25px" }}
                 >
-                  <MDBIcon icon="chevron-circle-left" />
-                  <span
-                    className="ml-5"
-                    style={{ fontSize: "35px", fontWeight: "400" }}
-                  >
-                    Checkout
-                  </span>
+                  <div>
+                    <MDBIcon icon="chevron-circle-left" />
+                    <span
+                      className="ml-5"
+                      style={{ fontSize: "35px", fontWeight: "400" }}
+                    >
+                      Checkout
+                    </span>
+                  </div>
+                  <Link to={{ pathname: "/menu" }}>
+                    <MDBBtn
+                      type="button"
+                      color="blue"
+                      style={{ borderRadius: "20px" }}
+                      className="waves-effect z-depth-1a"
+                      size="sm"
+                    >
+                      ORDER MORE
+                    </MDBBtn>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -271,7 +282,7 @@ function UserCart(props) {
             </div>
             <div className="row mt-3">
               <div className="col-12 text-center">
-                {props.coords ? (
+                {/* {props.coords && ( */}
                   <StripeCheckout
                     stripeKey="pk_test_U3exqk6VyPl2mcUlle5o3rFw"
                     token={makePayment}
@@ -288,27 +299,23 @@ function UserCart(props) {
                       Make Payments of €{finalAmount}
                     </button>
                   </StripeCheckout>
-                ) : (
-                  <span></span>
-                )}
+                {/* )} */}
               </div>
             </div>
             <hr />
-            <div className="row mt-3">
+            {/* <div className="row mt-3">
               <div className="col-12 text-center">
-                <Link to={{ pathname: "/menu" }}>
-                  <MDBBtn
-                    type="button"
-                    color="blue"
-                    style={{ borderRadius: "20px" }}
-                    className="waves-effect z-depth-1a"
-                    size="sm"
-                  >
-                    ORDER MORE
-                  </MDBBtn>
-                </Link>
+                <MDBBtn
+                  type="button"
+                  color="blue"
+                  style={{ borderRadius: "20px" }}
+                  className="waves-effect z-depth-1a"
+                  size="lg"
+                >
+                  Make Payments of €{finalAmount}
+                </MDBBtn>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </MDBContainer>
