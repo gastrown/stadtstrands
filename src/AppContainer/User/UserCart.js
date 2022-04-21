@@ -30,6 +30,7 @@ function UserCart() {
 
   const redirect = () => {
     window.location = `/cart`;
+    
   };
 
   useEffect(() => {

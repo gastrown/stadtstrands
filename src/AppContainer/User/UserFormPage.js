@@ -52,7 +52,7 @@ function UserFormPage(props) {
         setBrandPageIcons([
           {
             id: "1",
-            iconName: "heart",
+            iconName: "willkommen",
             iconTitle: "Welcome",
             iconToggle: toggleWelcome,
             deactivate: true,
@@ -77,7 +77,7 @@ function UserFormPage(props) {
           },
           {
             id: "4",
-            iconName: "camera",
+            iconName: "socialmedia",
             iconTitle: "Social Media",
             iconToggle: toggleSocialMedia,
             deactivate: response.data.data.BrandPageSocialMedium
@@ -86,7 +86,7 @@ function UserFormPage(props) {
           },
           {
             id: "5",
-            iconName: "box-open",
+            iconName: "fundsachen",
             iconTitle: "Lost and Found",
             iconToggle: toggleLostAndFound,
             deactivate: response.data.data.BrandPageLostAndFound
@@ -95,14 +95,14 @@ function UserFormPage(props) {
           },
           {
             id: "6",
-            iconName: "cocktail",
+            iconName: "drink",
             iconTitle: "Drink",
             iconToggle: toggleDrink,
             deactivate: true,
           },
           {
             id: "7",
-            iconName: "map-marker-alt",
+            iconName: "strandorte",
             iconTitle: "Strandorte",
             iconToggle: toggleStrandorteLocation,
             deactivate: response.data.data.BrandPageStrandorte
@@ -134,7 +134,7 @@ function UserFormPage(props) {
           },
           {
             id: "10",
-            iconName: "info-circle",
+            iconName: "info",
             iconTitle: "About Us",
             iconToggle: toggleAbout,
             deactivate: response.data.data.BrandPageAbout
@@ -143,7 +143,7 @@ function UserFormPage(props) {
           },
           {
             id: "11",
-            iconName: "store",
+            iconName: "shop",
             iconTitle: "Shop",
             iconToggle: toggleShop,
             deactivate: response.data.data.BrandPageShop
@@ -152,7 +152,7 @@ function UserFormPage(props) {
           },
           {
             id: "12",
-            iconName: "users",
+            iconName: "friends",
             iconTitle: "Family & Friends",
             iconToggle: toggleFamilyAndFriends,
             deactivate: response.data.data.BrandPageFamilyAndFriend
@@ -161,7 +161,7 @@ function UserFormPage(props) {
           },
           {
             id: "14",
-            iconName: "calendar-alt",
+            iconName: "events",
             iconTitle: "Events",
             iconToggle: toggleEvents,
             deactivate: response.data.data.BrandPageEvent
@@ -170,7 +170,7 @@ function UserFormPage(props) {
           },
           {
             id: "15",
-            iconName: "truck",
+            iconName: "foodtruck",
             iconTitle: "Food Truck",
             iconToggle: toggleFoodTruck,
             deactivate: response.data.data.BrandPageFoodTruck
@@ -179,7 +179,7 @@ function UserFormPage(props) {
           },
           {
             id: "16",
-            iconName: "book-open",
+            iconName: "reserviert",
             iconTitle: "Reservation",
             iconToggle: toggleReservation,
             deactivate: response.data.data.BrandPageReservation
@@ -188,7 +188,7 @@ function UserFormPage(props) {
           },
           {
             id: "17",
-            iconName: "toolbox",
+            iconName: "jobs",
             iconTitle: "Jobs",
             iconToggle: toggleJobs,
             deactivate: response.data.data.BrandPageJob

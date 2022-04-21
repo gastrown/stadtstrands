@@ -64,18 +64,19 @@ function FormReport(props) {
       const reportDate = new Date(report.createdAt);
 
       if (reportDate.toDateString() === convertedDate.toDateString()) {
-        searchArray.push(report);
+         return searchArray.push(report);
       }
+
     });
     setFormsReports(searchArray);
   };
 
-  const fields = {
-    index: "Index",
-    BrandPage: "BrandPage",
-    Carts: "Carts",
-    Name: "Name",
-  };
+  // const fields = {
+  //   index: "Index",
+  //   BrandPage: "BrandPage",
+  //   Carts: "Carts",
+  //   Name: "Name",
+  // };
 
   const className = "class-name-for-style",
     filename = `order_report_${new Date().toDateString()}`,
@@ -89,14 +90,14 @@ function FormReport(props) {
       color: "white",
       fontSize: "14px",
     },
-    data = formReports.map((report, index) => {
-      // report.title;
-      return {
-        index: index,
-        BrandPage: report.BrandPage.id,
-        Carts: report.Carts.id,
-      };
-    }),
+    // data = formReports.map((report, index) => {
+    //   // report.title;
+    //   return {
+    //     index: index,
+    //     BrandPage: report.BrandPage.id,
+    //     Carts: report.Carts.id,
+    //   };
+    // }),
     text = "Download xlx";
 
   return (
