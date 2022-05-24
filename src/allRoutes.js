@@ -44,6 +44,7 @@ import BrandPageJob from "./AppContainer/User/BrandPageJobs";
 import JobApplication from "./AppContainer/User/JobApplicationForm";
 import BrandPageEvent from "./AppContainer/User/BrandPageEvents";
 import EventDetail from "./AppContainer/User/EventDetail";
+import NotFound from "./AppComponents/404";
 
 const allroutes = () => {
   return (
@@ -224,8 +225,11 @@ const allroutes = () => {
         />
 
         <Route path="/event/details/:eventId" exact component={EventDetail} />
+        <Route path="/*" exact component={NotFound} />
       </Switch>
+      
     </Router>
+
   );
 };
 

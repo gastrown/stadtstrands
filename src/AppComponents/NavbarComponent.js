@@ -36,12 +36,15 @@ function NavbarComponent() {
       <Router>
         <MDBNavbar style={{ backgroundColor: "#b5cdd9" }} dark expand="md">
           <MDBNavbarBrand>
+            <a href="/">
+
             <img
               src="/images/others/StSt_logo.png"
               className="img-fluid"
               alt="logo"
               style={{ width: "80px" }}
             />
+            </a>
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={toggleCollapse} />
           <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>

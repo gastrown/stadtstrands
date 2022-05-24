@@ -16,9 +16,7 @@ function UserCart() {
   const removeItem = (cart) => {
     setDelLoader(true);
     const cartId = cart.id;
-    Axios.delete(
-      `https://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`
-    )
+    Axios.delete(`https://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`)
       .then((response) => {
         setInterval(redirect(), 2000);
       })
@@ -30,7 +28,6 @@ function UserCart() {
 
   const redirect = () => {
     window.location = `/cart`;
-    
   };
 
   useEffect(() => {
@@ -49,7 +46,7 @@ function UserCart() {
 
     return;
   }, [clientId]);
-
+  console.log("cart.MenuItem", cartList);
   return (
     <React.Fragment>
       <UserNavbar />
@@ -124,7 +121,12 @@ function UserCart() {
                             <h5 style={{ fontWeight: "400" }}>
                               {cart.MenuItem.name}
                             </h5>
-                            <p>{cart.MenuItem.description.substr(0, 50)}...</p>
+                            <p>
+                              <span>
+                                {cart.MenuItem.description.substr(0, 50)}...{" "}
+                              </span>
+                              <p> <b>Quantity:</b> {cart.quantity}</p>
+                            </p>
                           </div>
                         </div>
                       </div>

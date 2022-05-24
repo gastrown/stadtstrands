@@ -28,7 +28,6 @@ export default function UserSingleMenu(props) {
 
   const addToCart = () => {
     setLoader(true);
-
     Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/cart", {
       brandPageId: brandPageId,
       clientId: clientId,
@@ -44,13 +43,13 @@ export default function UserSingleMenu(props) {
       .catch((e) => {
         setLoader(false);
         setAlertError(true);
-        setErrorMessage(e.response.data.data);
+        setErrorMessage(e.response.data.message);
       });
   };
 
   return (
     <React.Fragment>
-      <UserNavbar />
+      <UserNavbar pseudoCartCount={loader} />
       <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
         <div className="row">
           <div
@@ -229,7 +228,7 @@ export default function UserSingleMenu(props) {
                 <Link to={{ pathname: "/cart" }}>
                   <div className="black-text" style={{ fontSize: "15px" }}>
                     <span className="mr-2" style={{ fontSize: "15px" }}>
-                      Goto Cart
+                      Go to Cart
                     </span>
                     <MDBIcon icon="chevron-circle-right" />
                   </div>

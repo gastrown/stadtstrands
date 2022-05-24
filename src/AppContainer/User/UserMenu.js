@@ -11,6 +11,8 @@ export default function UserMenu(props) {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [drinkSubList, setDrinkSubList] = useState([]);
+  const [isSearching, setIsSearching] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     Axios.get(
@@ -22,6 +24,23 @@ export default function UserMenu(props) {
       })
       .catch((e) => {});
   }, [menuId]);
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value)
+    console.log("searchQuery", searchQuery)
+    if (searchQuery === "" ) setIsSearching(false)
+    setIsSearching(true)
+     
+  };
+
+  const searchResult = drinkSubList.filter((drink) => {
+    return (
+      drink?.name
+        .toLowerCase()
+        .indexOf(searchQuery.toLowerCase()) > -1
+    );
+  });
+
+  const MainData = isSearching ? searchResult : drinkSubList
 
   return (
     <React.Fragment>
@@ -71,6 +90,10 @@ export default function UserMenu(props) {
                     type="text"
                     placeholder="Search for any drink"
                     aria-label="Search for any drink"
+                    onChange={(e) => {
+                      handleSearch(e);
+                    }}
+                    onSubmit={(e) => e.preventDefault}
                   />
                   <MDBIcon icon="search" className="ml-2" />
                 </MDBFormInline>
@@ -89,7 +112,7 @@ export default function UserMenu(props) {
                 </div>
               </div>
             ) : (
-              drinkSubList.map((subdrinklist) => {
+              MainData.map((subdrinklist) => {
                 return (
                   <div className="container" key={subdrinklist.id}>
                     <div className="row mt-1">
@@ -101,7 +124,7 @@ export default function UserMenu(props) {
 
                       <div className="col-4 text-right">
                         <span style={{ fontSize: "12px", fontWeight: "500" }}>
-                          SEE ALL <MDBIcon icon="ellipsis-v" />
+                          {/* SEE ALL <MDBIcon icon="ellipsis-v" /> */}
                         </span>
                       </div>
                     </div>

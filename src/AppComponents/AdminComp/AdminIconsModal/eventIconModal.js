@@ -233,7 +233,7 @@ export default function EventIconModal(props) {
           </div>
         )}
         <div className="row mt-3">
-          {events.length < 1 ? (
+          {events && events.length < 1 ? (
             <span></span>
           ) : (
             events.map((event, index) => {
