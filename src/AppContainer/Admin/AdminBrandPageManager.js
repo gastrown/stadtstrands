@@ -36,17 +36,18 @@ function AdminBrandPageManager(props) {
     window.location.href = "/admin/0/login";
   };
 
-  useEffect(() => {
-    Axios.get(
-      `https://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${locationId}`
-    )
-      .then((response) => {
-        setLocationName(response.data.data.BrandPage.name);
-      })
-      .catch((e) => {
-        console.log(e.response);
-      });
-  }, [locationId]);
+  // useEffect(() => {
+  //   Axios.get(
+  //     `https://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${locationId}`
+  //   )
+  //     .then((response) => {
+  //       setLocationName(response.data.data.BrandPage.name);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e.response);
+  //     });
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const [modalWelcome, setModalWelcome] = useState(false);
   const [modalFeedback, setModalFeedback] = useState(false);

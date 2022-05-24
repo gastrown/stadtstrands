@@ -187,7 +187,7 @@ const UserFormManagerDetails = (props) => {
                         color: "#ffffff",
                       }}
                       className="waves-effect z-depth-1a"
-                      size="md"
+                      size="md" 
                     >
                       FINISH
                       {loader ? (

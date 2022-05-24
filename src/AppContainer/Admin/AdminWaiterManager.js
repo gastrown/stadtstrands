@@ -65,7 +65,8 @@ function AdminWaiterManager(props) {
         setLoader(false);
         setAlertError(true);
         setErrorMessage(e.response.data.data);
-      });
+      })
+      .finally(()=> {setLoader(false)})
   };
 
   return (

@@ -36,6 +36,8 @@ function FormDetailFields(props) {
   const [alertError, setAlertError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [iconSwitch, setIconSwitch] = useState(false);
+  const [required, setRequired] = useState(false);
+  const [nameAvailable, setNameAvailable] = useState(true);
 
   const toggleModalAddField = () => {
     setmodalAddField(!modalAddField);
@@ -60,19 +62,19 @@ function FormDetailFields(props) {
       }
     )
       .then((response) => {
-        console.log(response)
+        console.log(response);
         setLoader(false);
         SuccessModal();
       })
       .catch((e) => {
-        console.log(e.response)
+        console.log(e.response);
         setLoader(false);
         setAlertError(!alertError);
         setErrorMessage(e.response.data.data);
       });
   };
-  
 
+  
   const saveBtnStyle = {
     fontSize: "12px",
     borderRadius: "20px",
@@ -80,17 +82,27 @@ function FormDetailFields(props) {
 
   function handleAdd() {
     const values = [...fields];
-    let id = Math.random(25).toString(36).substring(6);
-    values.push({
-      id: id,
-      title: fieldName,
-      formType: fieldType,
-      autoFilled: fieldAutoFill,
-      enabled: fieldEnabled,
-      required: fieldRequired,
+    fields.map((field) => {
+      if (field.title.toString().toLowerCase() === fieldName.toLowerCase()) {
+        return setNameAvailable(false);
+      } else {
+        setNameAvailable(true);
+      }
     });
-    setFields(values);
-    setmodalAddField(!modalAddField);
+    console.log("nameAvailable", nameAvailable)
+    let id = Math.random(25).toString(36).substring(6);
+    if (nameAvailable) {
+      values.push({
+        id: id,
+        title: fieldName,
+        formType: fieldType,
+        autoFilled: fieldAutoFill,
+        enabled: fieldEnabled,
+        required: fieldRequired,
+      });
+      setFields(values);
+      setmodalAddField(!modalAddField);
+    }
   }
 
   function handleRemove(id) {
@@ -123,7 +135,7 @@ function FormDetailFields(props) {
       `https://stadtstrandapi.ecrapps.website/api/v1/brandpageform/${LocationDetail.BrandPageForm.id}`
     )
       .then((response) => {
-        console.log(response)
+        console.log(response);
         const data = response.data.data;
         setFields(data.FormItems);
         setEnableAccompanyingPerson(data.enableAccompanyingPerson);
@@ -251,10 +263,11 @@ function FormDetailFields(props) {
                                 <div className="col-4">
                                   <MDBBtn
                                     type="button"
-                                    outline
+                                    outline={required}
                                     color="blue"
                                     style={btnStyle}
                                     size="sm"
+                                    onClick={() => setRequired(!required)}
                                   >
                                     Required
                                   </MDBBtn>
@@ -459,12 +472,11 @@ function FormDetailFields(props) {
             className="custom-control custom-switch"
             style={{ textAlign: "left" }}
           >
-          {console.log(deactivatePage)}
+            {console.log(deactivatePage)}
             <input
               type="checkbox"
               className="custom-control-input"
               id="deactivateSwitchesChecked"
-              
               defaultChecked={deactivatePage}
               onChange={() => {
                 setDeactivatePage(!deactivatePage);

@@ -26,6 +26,7 @@ export default function BrandPageFormDetails(props) {
   const [successMessage, setSuccessMessage] = useState("");
   const [oldLogo, setOldLogo] = useState("");
   const [oldImagePreview, setOldImagePreview] = useState("");
+  const [generatedQrCode, setGeneratedQrCode] = useState(false)
 
   const iconStyle = {
     paddingTop: "0px",
@@ -49,6 +50,7 @@ export default function BrandPageFormDetails(props) {
     )
       .then((response) => {
         FileDownload(response.data, `${brandPageId}.png`);
+        setGeneratedQrCode(true)
       })
       .catch((e) => {
         console.log(e.response);
@@ -422,8 +424,10 @@ export default function BrandPageFormDetails(props) {
                 )}
               </div>
               <div className="col-4 text-left">
+
                 <div className="md-form my-0">
                   <span style={iconStyle} onClick={downloadQrCode}>
+                   
                     <MDBIcon icon="cloud-download-alt" className="mt-4" />
                     <br />
                     Download
@@ -452,6 +456,13 @@ export default function BrandPageFormDetails(props) {
           <div>
             <div className="text-center">
               <div className="md-form my-0">
+                {/* {
+                      generatedQrCode &&
+                      <>
+                      Some text
+                      <img src={`${brandPageId}.png`} alt="qr-code" width="300" />
+                      </>
+                    } */}
                 <span style={iconStyle} onClick={downloadQrCode}>
                   <MDBIcon icon="cloud-download-alt" className="mt-4" />
                   <br />

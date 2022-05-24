@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MDBFormInline, MDBBadge, MDBIcon } from "mdbreact";
 import Axios from "axios";
 //import AddToHomescreen from "react-add-to-homescreen";
@@ -17,12 +17,12 @@ const iconStyle = {
   textAlign: "center",
 };
 
-function UserNavbar() {
+function UserNavbar({pseudoCartCount}) {
   const brandPageId = localStorage.getItem("brandPageId");
   const clientId = localStorage.getItem("clientId");
   const [cartCount, setCartCount] = useState(0);
 
-  useEffect(() => {
+  const getCart = useCallback(() => {
     Axios.get(
       `https://stadtstrandapi.ecrapps.website/api/v1/carts/count/${clientId}`
     )
@@ -30,13 +30,19 @@ function UserNavbar() {
         setCartCount(response.data.data.count);
       })
       .catch((e) => {});
-  }, [clientId]);
+  }, [clientId])
+
+  useEffect(() => {
+    getCart()
+  }, [pseudoCartCount]);
 
   // const handleAddToHomescreenClick = () => {
   //   alert(`
   //     1. Open Share menu
   //     2. Tap on "Add to Home Screen" button`);
   // };
+
+  const currentCount = pseudoCartCount ?? 0;
 
   return (
     <div className="container-fluid" style={{ backgroundColor: "#b5cdd9" }}>
@@ -70,6 +76,7 @@ function UserNavbar() {
                   style={{ color: "#000000" }}
                 >
                   <MDBBadge color="danger" style={{ fontSize: "8px" }}>
+                    {/* {window.location.pathname.includes("cart") ?  cartCount : 5} */}
                     {cartCount}
                   </MDBBadge>
                   <MDBIcon icon="shopping-cart" style={{ fontSize: "16px" }} />

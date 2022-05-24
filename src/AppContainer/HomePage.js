@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import VideoComponent from "../AppComponents/VideoComponent";
 import NavbarComponent from "../AppComponents/NavbarComponent";
 import FeatureComponent from "../AppComponents/FeatureComponent";

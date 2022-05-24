@@ -7,7 +7,7 @@ import BrandIcon from "./BrandIcon";
 export default function BrandPageIcons(props) {
   let brandPageIcons = props.icons.map((brandicon) => {
     return (
-      <MDBCol size="4" md="2" className="mt-3" key={brandicon.id}>
+      <MDBCol  size="6" md="2" className="mt-3" key={brandicon.id}>
         <div onClick={brandicon.iconToggle} className={AdminStyles.iconButton}>
           <BrandIcon
             key={brandicon.id}

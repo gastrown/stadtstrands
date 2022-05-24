@@ -144,7 +144,7 @@ export default function ShopIconModal(props) {
                         }}
                         className="waves-effect z-depth-1a"
                         size="md"
-                        onClick={updateShopUrl}
+                        onClick={()=> updateShopUrl()}
                       >
                         Update
                         {loader ? (

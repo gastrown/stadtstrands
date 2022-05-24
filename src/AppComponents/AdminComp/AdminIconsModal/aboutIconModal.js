@@ -233,7 +233,7 @@ export default function ContactIconModal(props) {
         </div>
         <hr />
 
-        <form onSubmit={createAbout}>
+        <form onSubmit={()=>createAbout()}>
           <div className="row">
             <div className="col-10 offset-1">
               {alertError ? (

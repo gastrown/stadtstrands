@@ -69,7 +69,7 @@ export default function JobApplicationForm(props) {
         console.log(e.response);
         setLoader(false);
         setAlertError(true);
-        setErrorMessage(e.response.data.data);
+        setErrorMessage(e.response.data.message);
       });
   };
 
@@ -171,7 +171,7 @@ export default function JobApplicationForm(props) {
               </div>
             </div>
 
-            <div className="row mt-2">
+            {/* <div className="row mt-2">
               <div className="col-10 offset-1 text-center">
                 <img
                   src="/images/others/applyLogo.png"
@@ -180,7 +180,7 @@ export default function JobApplicationForm(props) {
                   alt="Apply logo"
                 />
               </div>
-            </div>
+            </div> */}
 
             <form onSubmit={submitJobApplication}>
               <div className="form-group row mt-3">

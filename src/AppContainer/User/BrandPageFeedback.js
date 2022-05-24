@@ -104,7 +104,7 @@ export default function BrandPageFeedback(props) {
         console.log(e.response);
         setLoader(false);
         setAlertError(true);
-        setErrorMessage(e.response.data.data);
+        setErrorMessage(e.response.data.message);
       });
   };
 

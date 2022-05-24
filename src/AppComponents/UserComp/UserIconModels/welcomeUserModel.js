@@ -51,7 +51,7 @@ export default function WelcomeUserModal(props) {
                 style={{ marginTop: "20px" }}
               >
                 <p style={descriptionStyle}>
-                  {props.pageDetails.BrandPageWelcomeText.welcomeText}
+                  {/* {props.pageDetails.BrandPageWelcomeText.welcomeText} */}
                 </p>
               </div>
             </div>
