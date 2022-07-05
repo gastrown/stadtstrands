@@ -55,8 +55,8 @@ function AdminLogin() {
         console.log(e);
         setLoader(false);
         setAlertError(true);
-        // setErrorMessage(e);
-        console.log(e)
+        setErrorMessage(e.response.data.data);
+        console.log("loigin error " + e.response.data.data)
       });
   };
 

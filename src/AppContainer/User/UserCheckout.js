@@ -1,6 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
-import { MDBContainer, MDBIcon, MDBBtn } from "mdbreact";
+import {
+  MDBContainer,
+  MDBIcon,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBInput,
+  MDBAlert,
+} from "mdbreact";
 import { Link, useHistory } from "react-router-dom";
 import UserStyles from "../../AppStyles/UserStyles.module.css";
 import Axios from "axios";
@@ -15,6 +23,7 @@ function UserCart(props) {
   const [finalAmount, setFinalAmount] = useState(0);
   const [brandPageDetails, setBrandPageDetails] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [showModaol, setShowModal] = useState(false);
 
   useEffect(() => {
     setLoading(false);
@@ -122,7 +131,7 @@ function UserCart(props) {
       .catch((error) => console.log(error));
   };
 
-  useScript("https://static.unzer.com/v1/checkout.js")
+  useScript("https://static.unzer.com/v1/checkout.js");
 
   return (
     <React.Fragment>
@@ -286,25 +295,37 @@ function UserCart(props) {
             <div className="row mt-3">
               <div className="col-12 text-center">
                 {/* {props.coords && ( */}
-                  <StripeCheckout
-                    stripeKey="pk_test_U3exqk6VyPl2mcUlle5o3rFw"
-                    token={makePayment}
-                    name="Stripe Payment"
-                    amount={finalAmount * 100}
-                    description="Big Data Stuff" // the pop-in header subtitle
-                    // image="https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png" // the pop-in header image (default none)
-                    allowRememberMe={true}
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="btn btn-primary btn-sm"
+                  style={{ borderRadius: "20px" }}
+                >
+                  Make Payments of €{finalAmount}
+                </button>
+                {/* <StripeCheckout
+                  stripeKey="pk_test_U3exqk6VyPl2mcUlle5o3rFw"
+                  token={makePayment}
+                  name="Stripe Payment"
+                  amount={finalAmount * 100}
+                  description="Big Data Stuff" // the pop-in header subtitle
+                  image="https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png" // the pop-in header image (default none)
+                  allowRememberMe={true}
+                >
+                  <button
+                    className="btn btn-primary btn-sm"
+                    style={{ borderRadius: "20px" }}
                   >
-                    <button
-                      className="btn btn-primary btn-sm"
-                      style={{ borderRadius: "20px" }}
-                    >
-                      Make Payments of €{finalAmount}
-                    </button>
-                  </StripeCheckout>
+                    Make Payments of €{finalAmount}
+                  </button>
+                </StripeCheckout> */}
                 {/* )} */}
               </div>
             </div>
+            <CustomerInfo
+              showModal={showModaol}
+              setShowModal={setShowModal}
+              cart={cartList}
+            />
             <hr />
             {/* <div className="row mt-3">
               <div className="col-12 text-center">
@@ -330,12 +351,12 @@ function UserCart(props) {
 //   const createCustomer = 'https://api.unzer.com/v1//payments/authorize'
 //   var config = {
 //     method: 'post',
-//     headers: { 
+//     headers: {
 //       'Authorization': 'Basic cy1wcml2LTJhMTBHUG5uYlJ2SzVlNmV3UVNucjVXNG1RTkNvbU45Og=='
 //     },
 //     // data : data
 //   };
-  
+
 //   useEffect(()=> {
 //     axios({...config, url :'https://api.unzer.com/v1//payments/authorize', data: ""})
 //     .then(function (response) {
@@ -386,7 +407,7 @@ function UserCart(props) {
 //       ) : brandPageFormFields ? (
 //         <div className="mt-3">
 //           <form onSubmit={saveForm}>
-        
+
 //                 <div className="form-group row" key={field.id}>
 //                   <div className="col-12 col-md-12">
 //                     <input
@@ -399,7 +420,6 @@ function UserCart(props) {
 //                     />
 //                   </div>
 //                 </div>
-            
 
 //             <div className="form-group row mt-4">
 //               <div className="col-2 col-md-2">
@@ -431,7 +451,7 @@ function UserCart(props) {
 //                       color: "#ffffff",
 //                     }}
 //                     className="waves-effect z-depth-1a"
-//                     size="md" 
+//                     size="md"
 //                   >
 //                     FINISH
 //                     {loader ? (
@@ -466,5 +486,286 @@ function UserCart(props) {
 //   </MDBModal>
 //   )
 // }
+
+const CustomerInfo = ({ showModal, setShowModal, cart }) => {
+  const [loader, setLoader] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState("pending");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  console.log("Cart", cart);
+  const publicKey = process.env.REACT_APP_UNZER_PUBLIC_KEY_BASE64;
+
+  const basketItems = [];
+  let grossPrice = 0;
+
+  cart.map((item) => {
+    // item.MenuItem.price * item.quantity;
+    return basketItems.push({
+      title: item.MenuItem.name,
+      subTitle: item.MenuItem.description,
+      basketItemReferenceId: "7689bght",
+      quantity: item.quantity,
+      amountPerUnitGross: item.MenuItem.price * item.quantity,
+      // vat: 0.2,
+      // type: "goods",
+   
+      // imageUrl: item.MenuItem.imageUrl,
+    });
+  });
+
+  const getPrice = useMemo(()=> basketItems.map((item) => (grossPrice += item.amountGross)) ,[basketItems])
+
+  
+  const createBasket = () => {
+    AxiosUnzer.post("v2/baskets", {
+      currencyCode: "EUR",
+      orderId: "",
+      totalValueGross: getPrice(),
+      // note: "",
+      basketItems,
+    })
+      .then((res) => {
+        console.log("Basket Created", res);
+        setStatus("basketCreated");
+      })
+      .catch((error) => {
+        console.log("Basket error", error);
+        setErrorMessage(
+          "An Error occured while creating Basket, Please try again"
+        );
+      });
+  }
+
+  const createAuthorizeTransaction = () => {
+    AxiosUnzer.post("v2/baskets", {
+      currencyCode: "EUR",
+      orderId: "",
+      totalValueGross: getPrice(),
+      // note: "",
+      basketItems,
+    })
+      .then((res) => {
+        console.log("Basket Created", res);
+        setStatus("basketCreated");
+      })
+      .catch((error) => {
+        console.log("Basket error", error);
+        setErrorMessage(
+          "An Error occured while creating Basket, Please try again"
+        );
+      });
+  }
+
+  const formInputStyle = {
+    borderRadius: "20px",
+    border: "1px dotted #000000",
+    fontSize: "12px",
+  };
+
+  const AxiosUnzer = Axios.create({
+    baseURL: "https://api.unzer.com/",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      Authorization:
+        publicKey,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const saveForm = (e) => {
+    e.preventDefault();
+    setLoader(true);
+    const item = e.target;
+    const firstName = item[0].value.split(" ")[0];
+    const lastName = item[0].value.split(" ")[1] ?? "--";
+    const customerData = {
+      lastname: firstName,
+      firstname: lastName,
+      phone: item[1].value,
+      email: item[2].value,
+    };
+
+    AxiosUnzer.post("v1/customers", { ...customerData })
+      .then((res) => {
+        console.log("Customer created", res);
+        setStatus("customerCreated");
+        setIsFormSubmitted(true);
+        createBasket()
+      })
+      .catch((error) => {
+        console.log("error customer", error);
+        // setErrorMessage(
+        //   "An Error occured while creating Customer, Please try again"
+        // );
+      })
+      .finally(() => setLoader(false));
+  };
+
+  if (submitting) {
+    return (
+      <div className="row mt-5">
+        <div className="col-12 text-center">
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Submitting customer informtion...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <MDBModal
+      isOpen={showModal}
+      // toggle={toggleForm}
+      size="sm"
+      backdrop={false}
+    >
+      <MDBModalBody>
+        <h5 className="text-center">Customer Information</h5>
+        <div className="row">
+          <div className="col-10 offset-1">
+            {errorMessage ? (
+              <MDBAlert color="danger">{errorMessage}</MDBAlert>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
+        <hr />
+
+        {isFormSubmitted ? (
+          <div className="text-center">
+            <p>
+              <MDBIcon
+                far
+                icon="check-circle"
+                style={{ fontSize: "40px", color: "green" }}
+              />
+            </p>
+
+            {status === "pending" ? (
+              <>
+                <div
+                  className="spinner-grow spinner-grow-sm ml-2"
+                  role="status"
+                >
+                  <span className="sr-only">Creating Customer...</span>
+                </div>
+              </>
+            ) : status === "customerCreated" ? (
+              <>
+                <p style={{ fontWeight: "400" }}>Customer Created</p>
+                <div
+                  className="spinner-grow spinner-grow-sm ml-2"
+                  role="status"
+                >
+                  <span className="sr-only">Creating Basket...</span>
+                </div>
+              </>
+            ) : (
+              status === "basketCreated" && (
+                <>
+                  <p style={{ fontWeight: "400" }}>Basket Created</p>
+                  <div
+                    className="spinner-grow spinner-grow-sm ml-2"
+                    role="status"
+                  >
+                    <span className="sr-only">Creating Transaction...</span>
+                  </div>
+                </>
+              )
+            )}
+            <br />
+           {errorMessage && <MDBBtn
+              type="button"
+              color="#39729b"
+              style={{
+                borderRadius: "20px",
+                backgroundColor: "#39729b",
+                color: "#ffffff",
+              }}
+              className="waves-effect z-depth-1a"
+              size="md"
+              onClick={() => setIsFormSubmitted(false)}
+            >
+              Retry
+            </MDBBtn>}
+          </div>
+        ) : (
+          <div className="mt-3">
+            <form onSubmit={saveForm}>
+              <div className="form-group row">
+                <div className="col-12 col-md-12">
+                  <input
+                    name="customerName"
+                    type="text"
+                    className="form-control"
+                    placeholder={"Full Name"}
+                    style={formInputStyle}
+                    required
+                    // onChange={(e) => changefield(field, e)}
+                  />
+                  <br />
+                  <input
+                    name="customerPhone"
+                    type="number"
+                    className="form-control"
+                    placeholder={"Customer Phone number"}
+                    style={formInputStyle}
+                    required
+                    // onChange={(e) => changefield(field, e)}
+                  />
+                  <br />
+                  <input
+                    name="customerEmail"
+                    type="email"
+                    className="form-control"
+                    placeholder={"Customer Email"}
+                    style={formInputStyle}
+                    required={false}
+                    // onChange={(e) => changefield(field, e)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group row text-center mt-3 mb-3">
+                <div className="col-12">
+                  <MDBBtn
+                    type="submit"
+                    color="#39729b"
+                    disabled={loader}
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "#39729b",
+                      color: "#ffffff",
+                    }}
+                    className="waves-effect z-depth-1a"
+                    size="md"
+                  >
+                    CREATE Customer
+                    {loader ? (
+                      <div
+                        className="spinner-grow spinner-grow-sm ml-3"
+                        role="status"
+                      >
+                        <span className="sr-only">Creating Customer...</span>
+                      </div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </MDBBtn>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
+      </MDBModalBody>
+    </MDBModal>
+  );
+};
 
 export default geolocated()(UserCart);
