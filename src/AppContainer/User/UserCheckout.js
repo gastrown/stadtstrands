@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
 import {
   MDBContainer,
@@ -15,6 +15,8 @@ import Axios from "axios";
 import { geolocated } from "react-geolocated";
 import StripeCheckout from "react-stripe-checkout";
 import useScript from "../../hooks/useScript";
+import AxiosUnzer from "../../helpers/AxiosUnzer";
+import { v4 as uuid } from "uuid";
 
 function UserCart(props) {
   const brandPageId = localStorage.getItem("brandPageId");
@@ -24,6 +26,12 @@ function UserCart(props) {
   const [brandPageDetails, setBrandPageDetails] = useState([]);
   const [loader, setLoader] = useState(false);
   const [showModaol, setShowModal] = useState(false);
+  const [payPageId, setPayPageId] = useState("");
+  const history = useHistory();
+  const [loading, setLoading] = useState(true);
+  const [delLoader, setDelLoader] = useState(false);
+
+  const UNZER_URL = "https://static.unzer.com/v1/checkout.js";
 
   useEffect(() => {
     setLoading(false);
@@ -38,10 +46,6 @@ function UserCart(props) {
         console.log(e.response);
       });
   }, [brandPageId, props.location.state.cartList]);
-
-  const history = useHistory();
-  const [loading, setLoading] = useState(true);
-  const [delLoader, setDelLoader] = useState(false);
 
   const incrementCounter = (cart) => {
     const cartData = [...cartList];
@@ -131,7 +135,14 @@ function UserCart(props) {
       .catch((error) => console.log(error));
   };
 
-  useScript("https://static.unzer.com/v1/checkout.js");
+  useScript(UNZER_URL);
+
+  useEffect(() => {
+    var checkout = new window.checkout(`${payPageId}`);
+    if (payPageId === "") return;
+    checkout.init();
+    checkout.open();
+  }, [payPageId]);
 
   return (
     <React.Fragment>
@@ -325,6 +336,7 @@ function UserCart(props) {
               showModal={showModaol}
               setShowModal={setShowModal}
               cart={cartList}
+              setPayPageId={setPayPageId}
             />
             <hr />
             {/* <div className="row mt-3">
@@ -406,7 +418,7 @@ function UserCart(props) {
 //         </div>
 //       ) : brandPageFormFields ? (
 //         <div className="mt-3">
-//           <form onSubmit={saveForm}>
+//           <form onSubmit={handleSubmit}>
 
 //                 <div className="form-group row" key={field.id}>
 //                   <div className="col-12 col-md-12">
@@ -487,96 +499,133 @@ function UserCart(props) {
 //   )
 // }
 
-const CustomerInfo = ({ showModal, setShowModal, cart }) => {
+const CustomerInfo = ({ showModal, setShowModal, cart, setPayPageId }) => {
   const [loader, setLoader] = useState(false);
-  const [showButton, setShowButton] = useState(false);
+  // const [showButton, setShowButton] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState("pending");
   const [errorMessage, setErrorMessage] = useState("");
-
-  console.log("Cart", cart);
-  const publicKey = process.env.REACT_APP_UNZER_PUBLIC_KEY_BASE64;
-
-  const basketItems = [];
-  let grossPrice = 0;
-
-  cart.map((item) => {
-    // item.MenuItem.price * item.quantity;
-    return basketItems.push({
-      title: item.MenuItem.name,
-      subTitle: item.MenuItem.description,
-      basketItemReferenceId: "7689bght",
-      quantity: item.quantity,
-      amountPerUnitGross: item.MenuItem.price * item.quantity,
-      // vat: 0.2,
-      // type: "goods",
-   
-      // imageUrl: item.MenuItem.imageUrl,
-    });
+  const [data, setData] = useState({
+    customerId: "",
+    basketId: "",
   });
+  const [basketItems, setBasketItems] = useState([]);
 
-  const getPrice = useMemo(()=> basketItems.map((item) => (grossPrice += item.amountGross)) ,[basketItems])
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const LOGO_IMAGE =
+    "https://stadstrandapp.herokuapp.com/images/others/StSt_logo.png";
+
+  console.log("cart ", cart);
+
+  const basketItemReferenceId = uuid().slice(0, 7);
+  const initBasketItems = useCallback(() => {
+    cart.map((item) => {
+      // item.MenuItem.price * item.quantity;
+      return setBasketItems([
+        {
+          title: item.MenuItem.name,
+          subTitle: item.MenuItem.description,
+          basketItemReferenceId,
+          quantity: item.quantity,
+          amountPerUnitGross: item.MenuItem.price * item.quantity,
+          vat: 0,
+          // type: "goods",
+
+          // imageUrl: item.MenuItem.imageUrl,
+        },
+      ]);
+      // return basketItems.push();
+    });
+  }, [basketItems]);
+
+  useEffect(() => initBasketItems(), []);
+
+  const [grossPrice, setGrossPrice] = useState(0);
+  let calcGrossPrice = 0;
+
+  useMemo(() => {
+    basketItems.map((item) => (calcGrossPrice += item.amountPerUnitGross));
+    setGrossPrice(calcGrossPrice);
+  }, [basketItems]);
 
   
-  const createBasket = () => {
-    AxiosUnzer.post("v2/baskets", {
-      currencyCode: "EUR",
-      orderId: "",
-      totalValueGross: getPrice(),
-      // note: "",
-      basketItems,
-    })
+  const createCustomer = async (customerData) => {
+    await AxiosUnzer.post("v1/customers", { ...customerData })
       .then((res) => {
-        console.log("Basket Created", res);
-        setStatus("basketCreated");
+        console.log("Customer created", res);
+        setStatus("customerCreated");
+        setIsFormSubmitted(true);
+        setData((prev) => ({ ...prev, customerId: res.data.id }));
+        createBasket();
       })
       .catch((error) => {
-        console.log("Basket error", error);
+        console.log("error customer", error);
         setErrorMessage(
-          "An Error occured while creating Basket, Please try again"
+          "An Error occured while creating Customer, Please try again"
         );
-      });
-  }
-
-  const createAuthorizeTransaction = () => {
-    AxiosUnzer.post("v2/baskets", {
-      currencyCode: "EUR",
-      orderId: "",
-      totalValueGross: getPrice(),
-      // note: "",
-      basketItems,
-    })
-      .then((res) => {
-        console.log("Basket Created", res);
-        setStatus("basketCreated");
       })
-      .catch((error) => {
-        console.log("Basket error", error);
-        setErrorMessage(
-          "An Error occured while creating Basket, Please try again"
-        );
-      });
-  }
-
-  const formInputStyle = {
-    borderRadius: "20px",
-    border: "1px dotted #000000",
-    fontSize: "12px",
+      .finally(() => setLoader(false));
   };
 
-  const AxiosUnzer = Axios.create({
-    baseURL: "https://api.unzer.com/",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-      Authorization:
-        publicKey,
-      "Content-Type": "application/json",
-    },
-  });
+  const orderId = uuid().slice(0, 7);
+  const createBasket = async () => {
+    await AxiosUnzer.post("v2/baskets", {
+      currencyCode: "EUR",
+      orderId,
+      totalValueGross: grossPrice,
+      // note: "",
+      basketItems,
+    })
+      .then((res) => {
+        console.log("Basket Created", res);
+        setStatus("basketCreated");
+        setData((prev) => ({ ...prev, basketId: res.data.id }));
 
-  const saveForm = (e) => {
+        // createChargeTransaction();
+      })
+      .catch((error) => {
+        console.log("Basket error", error);
+        setErrorMessage(
+          "An Error occured while creating Basket, Please try again"
+        );
+      });
+  };
+
+  console.log("customerId " + data.customerId + "basketId " + data.basketId);
+
+  const invoiceId = uuid().slice(0, 7);
+  const authorizeOrderId = uuid().slice(0, 7);
+
+  useEffect(() => {
+    if (data.basketId === "" || data.customerId === "") return;
+    AxiosUnzer.post("v1/paypage/charge", {
+      amount: `${grossPrice}`,
+      currency: "EUR",
+      returnUrl: "https://stadstrandapp.herokuapp.com/",
+      orderId: `Order-${authorizeOrderId}`,
+      invoiceId: `shop-invoice-${invoiceId}`,
+      logoImage: LOGO_IMAGE,
+      shopName: cart[0].BrandPage.name,
+      tagline: "Choose payment method",
+      resources: {
+        customerId: data.customerId,
+        basketId: data.basketId,
+      },
+    })
+      .then((res) => {
+        console.log("Basket Created", res);
+        setStatus("basketCreated");
+        setShowModal(false)
+        setPayPageId(res.data.id);
+      })
+      .catch((error) => {
+        console.log("Basket error", error);
+        setErrorMessage("An Error occured, Please try again");
+      });
+  }, [data.customerId, data.basketId]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoader(true);
     const item = e.target;
@@ -588,21 +637,7 @@ const CustomerInfo = ({ showModal, setShowModal, cart }) => {
       phone: item[1].value,
       email: item[2].value,
     };
-
-    AxiosUnzer.post("v1/customers", { ...customerData })
-      .then((res) => {
-        console.log("Customer created", res);
-        setStatus("customerCreated");
-        setIsFormSubmitted(true);
-        createBasket()
-      })
-      .catch((error) => {
-        console.log("error customer", error);
-        // setErrorMessage(
-        //   "An Error occured while creating Customer, Please try again"
-        // );
-      })
-      .finally(() => setLoader(false));
+    createCustomer({ ...customerData });
   };
 
   if (submitting) {
@@ -680,24 +715,26 @@ const CustomerInfo = ({ showModal, setShowModal, cart }) => {
               )
             )}
             <br />
-           {errorMessage && <MDBBtn
-              type="button"
-              color="#39729b"
-              style={{
-                borderRadius: "20px",
-                backgroundColor: "#39729b",
-                color: "#ffffff",
-              }}
-              className="waves-effect z-depth-1a"
-              size="md"
-              onClick={() => setIsFormSubmitted(false)}
-            >
-              Retry
-            </MDBBtn>}
+            {errorMessage && (
+              <MDBBtn
+                type="button"
+                color="#39729b"
+                style={{
+                  borderRadius: "20px",
+                  backgroundColor: "#39729b",
+                  color: "#ffffff",
+                }}
+                className="waves-effect z-depth-1a"
+                size="md"
+                onClick={() => setIsFormSubmitted(false)}
+              >
+                Retry
+              </MDBBtn>
+            )}
           </div>
         ) : (
           <div className="mt-3">
-            <form onSubmit={saveForm}>
+            <form onSubmit={handleSubmit}>
               <div className="form-group row">
                 <div className="col-12 col-md-12">
                   <input
@@ -766,6 +803,12 @@ const CustomerInfo = ({ showModal, setShowModal, cart }) => {
       </MDBModalBody>
     </MDBModal>
   );
+};
+
+const formInputStyle = {
+  borderRadius: "20px",
+  border: "1px dotted #000000",
+  fontSize: "12px",
 };
 
 export default geolocated()(UserCart);
