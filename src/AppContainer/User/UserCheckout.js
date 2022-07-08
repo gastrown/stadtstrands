@@ -281,7 +281,8 @@ function UserCart(props) {
                 );
               })
             )}
-            {/* <div className="row">
+            {/* 
+            <div className="row">
               <div className="col-10 col-md-10 offset-md-1 mt-2 font-small text-left ">
                 <h6>PAYMENT METHOD</h6>
 
