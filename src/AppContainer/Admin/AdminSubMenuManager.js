@@ -14,6 +14,8 @@ export default function AdminMenuDrinkManager(props) {
 
   const [subItemName, setSubItemName] = useState("");
   const [subItemPrice, setSubItemPrice] = useState("");
+  const [subItemQuantity, setSubItemQuantity] = useState("");
+
   const [description, setDescription] = useState("");
   const [itemImg, setItemImg] = useState("");
   const [itemImgPreview, setItemImgPreview] = useState("");
@@ -79,6 +81,7 @@ export default function AdminMenuDrinkManager(props) {
             menuSubCategoryId: menuSubCategoryId,
             name: subItemName,
             price: subItemPrice,
+            qty: subItemQuantity,
             description: description,
             imageUrl: response.data.url,
           }
@@ -124,7 +127,7 @@ export default function AdminMenuDrinkManager(props) {
       <MDBContainer fluid className={AdminStyle.adminbody}>
         <AdminNavbar />
       </MDBContainer>
-      <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
+      <MDBContainer fluid style={{ height: "100vh", background: "#b5cdd9" }}>
         <div className="container">
           <div className="row">
             <div
@@ -211,13 +214,27 @@ export default function AdminMenuDrinkManager(props) {
                         <div className="col-md-12 mt-4">
                           <input
                             placeholder="Enter price"
-                            type="text"
+                            type="number"
                             className="form-control text-center"
                             style={{
                               border: "1px solid #39729b",
                               borderRadius: "20px",
                             }}
                             onChange={(e) => setSubItemPrice(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="row form-group">
+                        <div className="col-md-12 mt-4">
+                          <input
+                            placeholder="Quantity"
+                            type="number"
+                            className="form-control text-center"
+                            style={{
+                              border: "1px solid #39729b",
+                              borderRadius: "20px",
+                            }}
+                            onChange={(e) => setSubItemQuantity(e.target.value)}
                           />
                         </div>
                       </div>

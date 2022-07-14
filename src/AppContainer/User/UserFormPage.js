@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 //import { usePosition } from "use-position";
 import { MDBRow, MDBCol } from "mdbreact";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
@@ -20,6 +20,9 @@ import ContactModal from "../../AppComponents/UserComp/UserIconModels/contactMod
 import LostAndFoundModal from "../../AppComponents/UserComp/UserIconModels/lostAndFoundModel";
 import Axios from "axios";
 import { UserErrorPage } from "../../AppComponents/UserComp/UserErrorPage";
+import axios from "axios";
+import AxiosUnzer from "../../helpers/AxiosUnzer";
+import AxiosConfig from "../../helpers/AxiosConfig";
 
 function UserFormPage(props) {
   const brandPageId = props.match.params.Brandpageid;
@@ -46,7 +49,7 @@ function UserFormPage(props) {
       `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/user/${brandPageId}`
     )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setScreenLoader(false);
         setBrandPageDetail(response.data.data);
         setBrandPageIcons([
@@ -285,6 +288,55 @@ function UserFormPage(props) {
   const toggleOrders = () => {
     window.location = "/user/orders/";
   };
+
+  const clientId = localStorage.getItem("clientId");
+
+  const [coords, setCoords] = useState({});
+  const [payment, setPayment] = useState({});
+
+  useEffect(() => {
+    const coord = JSON.parse(localStorage.getItem("coords"))
+    setCoords(coord);
+    const paymentInfo = JSON.parse(localStorage.getItem("payment"))
+    setPayment(paymentInfo);
+  }, []);
+
+  console.log("coords", coords, "payment", payment);
+
+  const amount = payment?.amount ?? 0;
+  const paymentId = payment?.id ?? "";
+
+  const createOrder = () => {
+    AxiosConfig
+      .post("https://stadtstrandapi.ecrapps.website/api/v1/checkout", {
+        clientId,
+        brandPageId,
+        amount,
+        orderLocLactitude: coords.latitude,
+        orderLocLongitude: coords.longitude,
+      })
+      .then((res) =>
+        localStorage.setItem(`orderProcessed-${paymentId}`, "true")
+      )
+      .catch((error) => console.log(error));
+  };
+
+  console.log("paymentId", paymentId);
+
+  useEffect(() => {
+    const orderProcessed = localStorage.getItem(`orderProcessed-${paymentId}`);
+
+    if (paymentId === "" || orderProcessed === "true") return;
+
+    AxiosUnzer.get(`v1/payments/${paymentId}`)
+      .then((res) => {
+        console.log("payment status", res);
+        if (res.data.transactions[0].status === "success") {
+          createOrder();
+        }
+      })
+      .catch((error) => console.error(error));
+  }, [paymentId]);
 
   if (brandPageDetail) {
     return (

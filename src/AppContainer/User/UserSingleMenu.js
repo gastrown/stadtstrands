@@ -50,7 +50,7 @@ export default function UserSingleMenu(props) {
   return (
     <React.Fragment>
       <UserNavbar pseudoCartCount={loader} />
-      <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
+      <MDBContainer fluid style={{ height: "100vh", background: "#b5cdd9" }}>
         <div className="row">
           <div
             className="col-10 offset-1 col-md-8 offset-md-2 mt-3 mb-5"

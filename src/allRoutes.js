@@ -229,7 +229,6 @@ const allroutes = () => {
       </Switch>
       
     </Router>
-
   );
 };
 

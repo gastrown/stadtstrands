@@ -17,10 +17,12 @@ const iconStyle = {
   textAlign: "center",
 };
 
-function UserNavbar({pseudoCartCount}) {
+function UserNavbar({ pseudoCartCount }) {
   const brandPageId = localStorage.getItem("brandPageId");
   const clientId = localStorage.getItem("clientId");
   const [cartCount, setCartCount] = useState(0);
+  const [supportsPWA, setSupportsPWA] = useState(false);
+  const [promptInstall, setPromptInstall] = useState(null);
 
   const getCart = useCallback(() => {
     Axios.get(
@@ -30,10 +32,10 @@ function UserNavbar({pseudoCartCount}) {
         setCartCount(response.data.data.count);
       })
       .catch((e) => {});
-  }, [clientId])
+  }, [clientId]);
 
   useEffect(() => {
-    getCart()
+    getCart();
   }, [pseudoCartCount]);
 
   // const handleAddToHomescreenClick = () => {
@@ -41,6 +43,26 @@ function UserNavbar({pseudoCartCount}) {
   //     1. Open Share menu
   //     2. Tap on "Add to Home Screen" button`);
   // };
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      console.log("we are being triggered :D");
+      setSupportsPWA(true);
+      setPromptInstall(e);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+
+    return () => window.removeEventListener("transitionend", handler);
+  }, []);
+
+  const installPWA = (evt) => {
+    evt.preventDefault();
+    if (!promptInstall) {
+      return;
+    }
+    promptInstall.prompt();
+  };
 
   const currentCount = pseudoCartCount ?? 0;
 
@@ -95,20 +117,24 @@ function UserNavbar({pseudoCartCount}) {
                 </Link>
               </div>
               <div className="col-5 text-center">
-                <MDBFormInline waves>
-                  <div
-                    className="md-form my-0"
-                    // onAddToHomescreenClick={handleAddToHomescreenClick}
-                  >
-                    <span style={iconStyle} href="#contact">
+                <div
+                  className="md-form my-0"
+                  // onAddToHomescreenClick={handleAddToHomescreenClick}
+                >
+                  <MDBFormInline waves>
+                    <span
+                      onClick={installPWA}
+                      style={iconStyle}
+                      href="#contact"
+                    >
                       <MDBIcon className="mt-3" icon="cloud-download-alt" />
                       <br />
                       Download
                       <br />
                       Icon
                     </span>
-                  </div>
-                </MDBFormInline>
+                  </MDBFormInline>
+                </div>
               </div>
             </div>
           </div>

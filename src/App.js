@@ -11,7 +11,11 @@ dotenv.config();
 
 class App extends Component {
   render() {
-    return <AllRoutes />;
+    return (
+      
+        <AllRoutes />
+      
+    )
   }
 }
 
