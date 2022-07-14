@@ -20,7 +20,6 @@ import ContactModal from "../../AppComponents/UserComp/UserIconModels/contactMod
 import LostAndFoundModal from "../../AppComponents/UserComp/UserIconModels/lostAndFoundModel";
 import Axios from "axios";
 import { UserErrorPage } from "../../AppComponents/UserComp/UserErrorPage";
-import paymentContext from "../../context/paymentContext";
 import axios from "axios";
 import AxiosUnzer from "../../helpers/AxiosUnzer";
 import AxiosConfig from "../../helpers/AxiosConfig";
@@ -291,7 +290,7 @@ function UserFormPage(props) {
   };
 
   const clientId = localStorage.getItem("clientId");
-  // const [paymentId, coords, amount] = useContext(paymentContext)
+
   const [coords, setCoords] = useState({});
   const [payment, setPayment] = useState({});
 
