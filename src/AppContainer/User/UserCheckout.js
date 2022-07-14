@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useMemo,
   useCallback,
-  useContext,
 } from "react";
 import UserNavbar from "../../AppComponents/UserComp/UserNavbar";
 import {
@@ -12,7 +11,6 @@ import {
   MDBBtn,
   MDBModal,
   MDBModalBody,
-  MDBInput,
   MDBAlert,
 } from "mdbreact";
 import { Link, useHistory } from "react-router-dom";
@@ -22,7 +20,6 @@ import { geolocated } from "react-geolocated";
 import useScript from "../../hooks/useScript";
 import AxiosUnzer from "../../helpers/AxiosUnzer";
 import { v4 as uuid } from "uuid";
-import paymentContext from "../../context/paymentContext";
 
 function UserCart(props) {
   const brandPageId = localStorage.getItem("brandPageId");
@@ -30,13 +27,13 @@ function UserCart(props) {
   const [cartList, setCartList] = useState(props.location.state.cartList);
   const [finalAmount, setFinalAmount] = useState(0);
   const [brandPageDetails, setBrandPageDetails] = useState([]);
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
   const [showModaol, setShowModal] = useState(false);
   const [payPageId, setPayPageId] = useState("");
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [delLoader, setDelLoader] = useState(false);
-  const [coords, setCoords] = useContext(paymentContext);
+
 
   const UNZER_URL = "https://static.unzer.com/v1/checkout.js";
 
@@ -532,7 +529,6 @@ const CustomerInfo = ({
     basketId: "",
   });
   const [basketItems, setBasketItems] = useState([]);
-  const [setPaymentId, setAmount] = useContext(paymentContext);
   const REDIRECT_URL = `https://stadstrandapp.herokuapp.com/user/form/${brandPageId}`
   // const REDIRECT_URL = `127.0.0.1:3000/user/form/${brandPageId}`;
 
