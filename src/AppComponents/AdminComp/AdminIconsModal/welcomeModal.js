@@ -42,6 +42,7 @@ export default function WelcomeModal(props) {
   };
 
   const welcomeChangeFile = (e) => {
+    if (!e.target.files[0]) return;
     setImage(e.target.files[0]);
     setImageWelcomePreview(URL.createObjectURL(e.target.files[0]));
   };

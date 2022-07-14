@@ -7,6 +7,7 @@ import Axios from "axios";
 export default function EventIconModal(props) {
   const brandPageId = props.locationId;
   const [deactivatePage, setDeactivatePage] = useState(null);
+  // const [deactivatePage, setDeactivatePage] = useState(null);
   const [checkEventStatus, setCheckEventStatus] = useState(null);
   const [modalCreateEvent, setModalCreateEvent] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -46,13 +47,10 @@ export default function EventIconModal(props) {
 
   const createBrandPageEvent = () => {
     setLoader(!loader);
-    Axios.post(
-      "https://stadtstrandapi.ecrapps.website/api/v1/brandpageevent",
-      {
-        brandPageId: brandPageId,
-        deactivate: deactivatePage,
-      }
-    )
+    Axios.post("https://stadtstrandapi.ecrapps.website/api/v1/brandpageevent", {
+      brandPageId: brandPageId,
+      deactivate: deactivatePage ?? false,
+    })
       .then((response) => {
         setBrandPageEventId(response.data.data.id);
         setLoader(false);
@@ -210,20 +208,22 @@ export default function EventIconModal(props) {
                           </div>
                         </MDBBtn>
                       ) : (
-                        <MDBBtn
-                          type="button"
-                          color="#39729b"
-                          style={{
-                            borderRadius: "20px",
-                            backgroundColor: "#39729b",
-                            color: "#ffffff",
-                          }}
-                          className="waves-effect z-depth-1a mt-4"
-                          size="md"
-                          onClick={createBrandPageEvent}
-                        >
-                          Start Event customization
-                        </MDBBtn>
+                        <>
+                          <MDBBtn
+                            type="button"
+                            color="#39729b"
+                            style={{
+                              borderRadius: "20px",
+                              backgroundColor: "#39729b",
+                              color: "#ffffff",
+                            }}
+                            className="waves-effect z-depth-1a mt-4"
+                            size="md"
+                            onClick={createBrandPageEvent}
+                          >
+                            Start Event customization
+                          </MDBBtn>
+                        </>
                       )}
                     </div>
                   </div>

@@ -32,7 +32,7 @@ export default function AboutBrandPage(props) {
   return (
     <React.Fragment>
       <UserNavbar />
-      <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
+      <MDBContainer fluid style={{ height: "100vh", background: "#b5cdd9" }}>
         <div className="row">
           <div
             className="col-10 offset-1 col-md-6 offset-md-3 mt-3 mb-5"

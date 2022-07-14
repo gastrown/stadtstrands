@@ -1,9 +1,13 @@
-import React from "react";
-import { MDBIcon } from "mdbreact";
+import React, { useState } from "react";
+import { MDBBtn, MDBIcon } from "mdbreact";
 import { useHistory } from "react-router-dom";
-import OrderCard from "../WaiterComp/OrderCard";
+import PendingOrders from "./PendingOrders";
+import CompletedOrders from "./CompletedOrders";
+import AllOrders from "./allOrders";
 
 export default function WaiterOrderList() {
+  const [view, setView] = useState("all");
+
   const history = useHistory();
 
   const logout = () => {
@@ -31,15 +35,67 @@ export default function WaiterOrderList() {
         <div className="row">
           <div className="col-md-10 offset-md-1">
             <div className="mt-3">
-              <h3 className="black-text">Today Orders</h3>
+              <h3 className="black-text">
+                {view === "all"
+                  ? "All Orders"
+                  : view === "pending"
+                  ? "Pending Orders"
+                  : "Completed Orders"}
+              </h3>
             </div>
           </div>
         </div>
         <hr />
         <div className="row">
+          <div className="row mb-4 text-center" style={{ overflowX: "auto" }}>
+            <div
+              className="col-12 col-md-12 text-center"
+              style={{ overflowX: "auto" }}
+            >
+              <MDBBtn
+                type="button"
+                color={view === "all" ? "blue" : "white"}
+                style={{ borderRadius: "20px" }}
+                className="waves-effect z-depth-1a"
+                size="sm"
+                onClick={() => setView("all")}
+              >
+                All
+              </MDBBtn>
+              <MDBBtn
+                type="button"
+                color={view === "pending" ? "blue" : "white"}
+                style={{ borderRadius: "20px" }}
+                className="waves-effect z-depth-1a"
+                size="sm"
+                onClick={() => setView("pending")}
+              >
+                Pending 
+              </MDBBtn>
+
+              <MDBBtn
+                type="button"
+                color={view === "completed" ? "blue" : "white"}
+                style={{
+                  borderRadius: "20px",
+                }}
+                className="waves-effect z-depth-1a"
+                size="sm"
+                onClick={() => setView("completed")}
+              >
+                Completed 
+              </MDBBtn>
+            </div>
+          </div>
           <div className="col-md-10 offset-md-1">
             <div className="row">
-              <OrderCard />
+              {view === "all" ? (
+                <AllOrders />
+              ) : view === "pending" ? (
+                <PendingOrders />
+              ) : (
+                <CompletedOrders />
+              )}
             </div>
           </div>
         </div>

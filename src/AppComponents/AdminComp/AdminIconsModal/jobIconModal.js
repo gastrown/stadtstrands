@@ -46,7 +46,7 @@ export default function JobIconModal(props) {
       "https://stadtstrandapi.ecrapps.website/api/v1/brandpagejob",
       {
         brandPageId: brandPageId,
-        deactivate: deactivatePage,
+        deactivate: deactivatePage ?? false,
       }
     )
       .then((response) => {

@@ -13,9 +13,9 @@ function UserCart() {
   const [loading, setLoading] = useState(true);
   const [delLoader, setDelLoader] = useState(false);
 
-  const removeItem = (cart) => {
+  const removeItem = (cartId) => {
     setDelLoader(true);
-    const cartId = cart.id;
+    // const cartId = cart.id;
     Axios.delete(`https://stadtstrandapi.ecrapps.website/api/v1/cart/${cartId}`)
       .then((response) => {
         setInterval(redirect(), 2000);
@@ -50,7 +50,7 @@ function UserCart() {
   return (
     <React.Fragment>
       <UserNavbar />
-      <MDBContainer fluid style={{ height: "100%", background: "#b5cdd9" }}>
+      <MDBContainer fluid style={{ height: "100vh", background: "#b5cdd9" }}>
         <div className="row">
           <div
             className="col-10 offset-1 col-md-6 offset-md-3 mt-3 mb-5"
@@ -148,7 +148,7 @@ function UserCart() {
                             <MDBIcon
                               icon="trash"
                               className="mt-2 mr-3"
-                              onClick={() => removeItem(cart)}
+                              onClick={() => removeItem(cart.id)}
                             />
                           </div>
                         </div>

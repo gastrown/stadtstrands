@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WaiterStyle from "../../AppStyles/WaiterStyles.module.css";
-import { MDBIcon, MDBBtn, MDBModal, MDBModalBody } from "mdbreact";
-import MapContainer from "../../AppComponents/MapContainer";
+import { MDBIcon, MDBBtn, MDBModal, MDBModalBody, MDBAlert } from "mdbreact";
+import MapContainer from "../MapContainer";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import AxiosConfig from "../../helpers/AxiosConfig";
 
-export const OrderCard = () => {
-  const [singleListModal, setSingleListModal] = useState(false);
-  const [waiterModal, setWaiterModal] = useState();
+export const CompletedOrders = () => {
+  const [showModal, setShowModal] = useState(false);
+  // const [waiterOrder, setWaiterModal] = useState();
   const brandPageId = localStorage.getItem("brandPageId");
   const [waitersOrders, setWaitersOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showRoute, setShowRoute] = useState(false);
+  const [orderCompleted, setOrderCompleted] = useState(false);
+  const [conpletingOrder, setCompletingOrder] = useState(false)
 
-  const toggleList = (waiterOrder) => {
-    setWaiterModal(waiterOrder);
-    setSingleListModal(!singleListModal);
-  };
+  // const toggleList = (waiterOrder) => {
+  //   setWaiterModal(waiterOrder);
+  //   setSingleListModal(!singleListModal);
+  // };
 
-  useEffect(() => {
-    Axios.get(
-      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/orders/${brandPageId}`
+  const getOrder = useCallback(() => {
+    AxiosConfig.get(
+      `https://stadtstrandapi.ecrapps.website/api/v1/brandpage/completed/orders/${brandPageId}`
     )
       .then((response) => {
+        console.log("waiter", response.data.data);
         setWaitersOrders(response.data.data);
         setLoading(false);
       })
@@ -30,6 +36,23 @@ export const OrderCard = () => {
       });
   }, [brandPageId]);
 
+  useEffect(() => getOrder(), []);
+
+  const completeOrder = useCallback((id) => {
+    setCompletingOrder(true)
+    AxiosConfig.put(
+      `https://stadtstrandapi.ecrapps.website/api/v1/confirm/order/${id}`
+    )
+      .then((res) => {
+        setOrderCompleted(true)
+        setTimeout(()=> setShowModal(false), 2000)
+      })
+      .catch((error) => console.log(error))
+      .finally(()=> setCompletingOrder(false))
+  }, []);
+
+  const createRoute = () => null;
+  const completed = () => null;
   //   const waitersOrders = [
   //     {
   //       id: "1",
@@ -73,7 +96,7 @@ export const OrderCard = () => {
   //       ],
   //     },
   //   ];
-
+  // if (1) return<></>
   return (
     <div className="col-md-12">
       {loading ? (
@@ -82,7 +105,7 @@ export const OrderCard = () => {
             <span className="sr-only mt-2">Loading...</span>
           </div>
         </div>
-      ) : waitersOrders < 1 ? (
+      ) : waitersOrders.length < 1 ? (
         <div className="row">
           <div className="col-12 text-center mt-2 mb-2">
             <h2>No Order found</h2>
@@ -109,48 +132,61 @@ export const OrderCard = () => {
             <div
               className="row shadow-sm bg-light mt-3"
               key={waiterOrder.id}
-              id={WaiterStyle.listCard}
+              id={WaiterStyle.id}
             >
               <div className="col-12 col-md-12">
-                <div className="row">
+                <div className="row py-2">
                   <div className="col-8 col-md-8">
-                    <h5>{waiterOrder.fullname}</h5>
+                    <h5>{waiterOrder.BrandPage?.name}</h5>
                   </div>
                   <div className="col-4 col-md-4 text-right">
-                    <MDBIcon
+                    {/* <MDBIcon
                       icon="cog"
-                      onClick={() => toggleList(waiterOrder)}
+                      onClick={() => setShowModal(true)}
                       style={{ fontSize: "25px" }}
-                    />
-                    <MDBModal isOpen={singleListModal} toggle={toggleList}>
+                    /> */}
+                    <MDBModal
+                      isOpen={showModal}
+                      toggle={() => setShowModal(!showModal)}
+                    >
                       <MDBModalBody>
-                        {waiterModal ? (
+                        {waiterOrder ? (
                           <div>
                             <div className="row">
-                              <div className="col-3 col-md-3 text-left">
+                              <div className="col-9 col-md-9 text-left">
+                                <div className="black-text">
+                                  <h5>{waiterOrder.BrandPage.name}</h5>
+                                </div>
+                              </div>
+                              <div className="col-3 col-md-3 text-right">
                                 <div
-                                  onClick={() => toggleList(null)}
+                                  onClick={() => setShowModal(null)}
                                   className="black-text"
                                 >
                                   <MDBIcon icon="chevron-circle-left" /> Close
                                 </div>
                               </div>
-                              <div className="col-8 col-md-8 text-right">
-                                <div className="black-text">
-                                  <h5>{waiterModal.fullname}</h5>
-                                </div>
-                              </div>
                             </div>
+                            {orderCompleted && (
+                              <div className="row">
+                                <MDBAlert color="success">
+
+                                </MDBAlert>
+                              </div>
+                            )}
                             <hr />
                             <div className="row">
                               <div className="col-md-12">
-                                {waiterModal.order.map((order) => {
+                                {waiterOrder.CompletedOrders.map((order) => {
                                   return (
                                     <div className="row" key={order.id}>
                                       <div className="col-3 col-md-3">
                                         <img
-                                          src={order.menuImg}
-                                          id={WaiterStyle.listCardImg}
+                                          src={
+                                            order.MenuItem?.imageUrl ??
+                                            "https://cdn-icons-png.flaticon.com/128/7296/7296951.png"
+                                          }
+                                          id={order.id}
                                           className="img-fluid"
                                           alt="orderList"
                                         />
@@ -161,33 +197,39 @@ export const OrderCard = () => {
                                             <p>
                                               <span
                                                 style={{
-                                                  fontSize: "14px",
+                                                  fontSize: "18px",
                                                   fontWeight: "bold",
                                                 }}
                                               >
-                                                Order
+                                                {/* Order */}
+                                                {order.MenuItem?.name}
                                               </span>{" "}
                                               <br />
-                                              {order.menu}
+                                              <b>
+                                                Quantity {order.MenuItem?.qty}
+                                              </b>
                                               <br />
                                               <span
-                                                style={{ fontSize: "10px" }}
+                                                style={{
+                                                  fontSize: "10px",
+                                                  marginTop: "1rem",
+                                                }}
                                               >
-                                                {order.dateTime}
+                                                {dayjs(order.createdAt).format(
+                                                  "DD/MM/YYYY"
+                                                )}
                                               </span>
                                             </p>
                                           </div>
 
                                           <div className="col-5 col-md-5">
-                                            <div className="row mt-5">
+                                            <div className="row">
                                               <div className="col-6 col-md-6 mt-1">
-                                                <h6>
-                                                  <b>{order.quantity}</b>
-                                                </h6>
+                                                <h6></h6>
                                               </div>
                                               <div className="col-6 col-md-6">
                                                 <h5 style={{ color: "red" }}>
-                                                  ${order.price}
+                                                  ${order.MenuItem?.price}
                                                 </h5>
                                               </div>
                                             </div>
@@ -199,11 +241,17 @@ export const OrderCard = () => {
                                 })}
                               </div>
                             </div>
-                            {/* <h5>{waiterModal.fullname}</h5>  */}
+                            {/* <h5>{waiterOrder.fullname}</h5>  */}
                             <hr />
                             <div className="row">
                               <div className="col-12 col-md-12">
-                                <MapContainer />
+                                <MapContainer
+                                  showRoute={showRoute}
+                                  destinationRoute={{
+                                    lat: waiterOrder.waiterOrderLocLactitude,
+                                    lng: waiterOrder.orderLocLongitude,
+                                  }}
+                                />
                               </div>
                             </div>
                             <div className="row mt-5">
@@ -214,6 +262,7 @@ export const OrderCard = () => {
                                   style={{ borderRadius: "20px" }}
                                   className="waves-effect z-depth-1a"
                                   size="sm"
+                                  onClick={() => setShowRoute(!showRoute)}
                                 >
                                   Create Route
                                 </MDBBtn>
@@ -227,6 +276,8 @@ export const OrderCard = () => {
                                   }}
                                   className="waves-effect z-depth-1a"
                                   size="sm"
+                                  loading={conpletingOrder}
+                                  onClick={() => completeOrder(waiterOrder.id)}
                                 >
                                   Completed
                                 </MDBBtn>
@@ -238,13 +289,16 @@ export const OrderCard = () => {
                     </MDBModal>
                   </div>
                 </div>
-                {waiterOrder.order.map((order) => {
+                {waiterOrder.CompletedOrders.map((order) => {
                   return (
                     <div className="row" key={order.id}>
                       <div className="col-3 col-md-3">
                         <img
-                          src={order.menuImg}
-                          id={WaiterStyle.listCardImg}
+                          src={
+                            order.MenuItem?.imageUrl ??
+                            "https://cdn-icons-png.flaticon.com/128/7296/7296951.png"
+                          }
+                          id={order.id}
                           className="img-fluid"
                           alt="orderList"
                         />
@@ -254,15 +308,15 @@ export const OrderCard = () => {
                           <div className="col-7 col-md-7">
                             <p>
                               <span
-                                style={{ fontSize: "14px", fontWeight: "bold" }}
+                                style={{ fontSize: "18px", fontWeight: "bold" }}
                               >
-                                Order
+                                {order.MenuItem?.name}
                               </span>{" "}
+                              <b>Quantity: {order.MenuItem?.qty}</b>
                               <br />
-                              {order.menu}
                               <br />
                               <span style={{ fontSize: "10px" }}>
-                                {order.dateTime}
+                                {dayjs(order.createdAt).format("DD/MM/YYYY")}
                               </span>
                             </p>
                           </div>
@@ -271,18 +325,18 @@ export const OrderCard = () => {
                             <div className="row mt-5">
                               <div className="col-4 col-md-4 mt-1">
                                 <h6>
-                                  <b>{order.quantity}</b>
+                                  {/* <b>{order.MenuItem?.qty}</b> */}
                                 </h6>
                               </div>
                               <div className="col-5 col-md-5">
                                 <span
                                   style={{
-                                    fontSize: "14px",
+                                    fontSize: "20px",
                                     fontWeight: "bold",
                                     color: "red",
                                   }}
                                 >
-                                  ${order.price}
+                                  ${order.MenuItem?.price}
                                 </span>
                               </div>
                             </div>
@@ -301,4 +355,4 @@ export const OrderCard = () => {
   );
 };
 
-export default OrderCard;
+export default CompletedOrders;
