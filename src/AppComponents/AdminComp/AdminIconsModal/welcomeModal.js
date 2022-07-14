@@ -68,6 +68,7 @@ export default function WelcomeModal(props) {
 
       .then((response) => {
         const url = response.data.url;
+        console.log(response);
         if (oldImage) {
           Axios.put(
             `https://stadtstrandapi.ecrapps.website/api/v1/brandpagewelcome/${brandPageId}`,
