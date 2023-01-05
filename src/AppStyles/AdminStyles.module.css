@@ -1,14 +1,14 @@
 .adminbody {
   background-color: #b5cdd9 !important;
-  /* height: 20%;
-  min-height: 20vh; */
+  height: 100vh;
+  min-height: 100%;
   padding-bottom: 0rem;
 }
 
 .adminbody2 {
   background-color: #b5cdd9 !important;
-  height: 50vh;
-  min-height: 50vh;
+  height: 100vh;
+  min-height: 100%;
   padding-bottom: 3rem;
 }
 
